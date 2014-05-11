@@ -1,0 +1,55 @@
+{% extends 'cs109/base.twig' %}
+
+{% block content %}
+		<h1 class='title'>Assignment 5, Aggregation, GROUP BY, and HAVING</h1>
+
+		{% include 'cs109/assignments/tile_summary.twig' %}
+
+		<h2>Questions</h2>
+		<ol class='assignment_questions'>
+			
+			<li>Provide a brief description of why you cannot combine aggregate functions and non-agreggate fields or functions without using grouping.</li>
+
+			<li>Explain in your own words how grouping works and what situations it works well in.</li>
+
+			<li>What is the difference between the WHERE and HAVING clauses? When should HAVING be used?</li>
+
+			<li>Present a potential case for using more than one column in the GROUP BY clause.</li>
+
+			<li>Why do aggregate functions ignore nulls? Why does GROUP BY not ignore them?</li>
+
+			<li>What do some databases (other than MS SQL) do when they encounter a field that is neither an aggregate function nor in the GROUP BY clause? Why is this a bad thing?</li>
+
+			<li>Can you use HAVING without a GROUP BY clause? Why/why not?</li>
+
+			<p>
+				<img src='/images/Resultset3.png' style='width: 300px;' />
+				<img src='/images/Resultset2.png' style='width: 300px;' />
+			</p>
+
+			<p>For the next few questions, reference the tables above for your queries. (Note that grade.student_id is a foreign key for the person table in this example)</p>
+
+			<li>Write a query that lists the lowest score for each assignment. Hint: There should be a single row for every assignment.</li>
+
+			<li>Write a query to display the number of addresses for each surname (last name) that falls below 'R' in the alphabet.</li>
+
+			<li>Write a query to display the number of addresses for each surname having the number of addresses being greater than 1.</li>
+
+			<li>Your professor (yours truly) would like to know if a person's last name might have a bearing on their performance in school. Write a query that would provide this data, comparing each last name against their average score.</li>
+
+			<p>All subsequent questions use the example database linked to at the top of this page. The questions expect only the information already present in the database; no additional information needs to be inserted to provide an answer.</p>
+
+			<li>Write a query to list the names of all classes and the names of all students that are registered for them.
+				<br/>Note: This is a review on Joins which are heavily used in GROUP BY queries. It does not require anything from Units 4 or 5.</li>
+
+			<li>Write a query displaying the number of classes listed under each major.</li>
+
+			<li>Write a query displaying the oldest person's date of birth in each state, ordered by the state's abbreviation.</li>
+
+			<li>Write a query to list all classes with at least 10 students and the number of students that are registered for each of them.</li>
+
+			<li>Write a query that displays the gender distribution for faculty in each department. It should have the number of males and the number of females that belong to each department.</li>
+
+			<li>Write a query to display a top 10 list containing the names of the people registered for the highest amount of classes.</li>
+		</ol>
+{% endblock %}

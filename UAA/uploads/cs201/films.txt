@@ -1,0 +1,52 @@
+Top Grossing Films of All Time
+Order	Title	Worldwide Gross	Year
+1 	Avatar	$2,782,275,172 	2009
+2 	Titanic	$2,185,372,302 	1997
+3 	The Avengers	$1,511,757,910 	2012
+4 	Harry Potter and the Deathly Hallows – Part 2	$1,328,111,219 	2011
+5 	Transformers: Dark of the Moon 	$1,123,746,996 	2011
+6 	The Lord of the Rings: The Return of the King 	$1,119,929,521 	2003
+7 	Skyfall 	$1,108,058,404 	2012
+8 	The Dark Knight Rises 	 $1,081,041,287 	2012
+9 	Pirates of the Caribbean: Dead Man's Chest 	$1,066,179,725 	2006
+10 	Toy Story 3 	$1,063,171,911 	2010
+11 	Pirates of the Caribbean: On Stranger Tides 	$1,043,871,802 	2011
+12 	Star Wars Episode I: The Phantom Menace 	$1,027,044,677 	1999
+13 	Alice in Wonderland 	$1,024,299,904 	2010
+14 	The Dark Knight 	$1,004,558,444 	2008
+15 	Harry Potter and the Philosopher's Stone 	$974,755,371 	2001
+16 	Pirates of the Caribbean: At World's End 	$963,420,425 	2007
+17 	Harry Potter and the Deathly Hallows – Part 1 	$956,399,711 	2010
+18 	The Hobbit: An Unexpected Journey 	$955,830,000 	2012
+19 	The Lion King 	$951,583,777 	1994
+20 	Harry Potter and the Order of the Phoenix 	$939,885,929 	2007
+21 	Harry Potter and the Half-Blood Prince 	$934,416,487 	2009
+22 	The Lord of the Rings: The Two Towers 	$926,047,111 	2002
+23 	Finding Nemo 	$921,743,261 	2003
+24 	Shrek 2 	$919,838,758 	2004
+25 	Jurassic Park 	$914,691,118 	1993
+26 	Harry Potter and the Goblet of Fire 	$896,911,078 	2005
+27 	Spider-Man 3 	$890,871,626 	2007
+28 	Ice Age: Dawn of the Dinosaurs 	$886,686,817 	2009
+29 	Harry Potter and the Chamber of Secrets 	$878,979,634 	2002
+30 	Ice Age: Continental Drift 	$875,348,606 	2012
+31 	The Lord of the Rings: The Fellowship of the Ring 	$871,530,324 	2001
+32 	Star Wars Episode III: Revenge of the Sith 	$848,754,768 	2005
+33 	Transformers: Revenge of the Fallen 	$836,303,693 	2009
+34 	The Twilight Saga: Breaking Dawn – Part 2 	$827,754,955 	2012
+35 	Inception 	$825,532,764 	2010
+36 	Spider-Man 	$821,708,551 	2002
+37 	Independence Day 	$817,400,891 	1996
+38 	Shrek the Third 	$798,958,162 	2007
+39 	Harry Potter and the Prisoner of Azkaban 	$796,688,549 	2004
+40 	E.T. the Extra-Terrestrial 	$792,910,554 	1982
+41 	Indiana Jones and the Kingdom of the Crystal Skull 	$786,636,033 	2008
+42 	Spider-Man 2 	$783,766,341 	2004
+43 	Star Wars 	$775,398,007 	1977
+44 	2012 	$769,679,473 	2009
+45 	The Da Vinci Code 	$758,239,851 	2006
+46 	Shrek Forever After 	$752,600,867 	2010
+47 	The Amazing Spider-Man 	$752,216,557 	2012
+48 	The Chronicles of Narnia: The Lion, the Witch and the Wardrobe 	$745,013,115 	2005
+49 	The Matrix Reloaded 	$742,128,461 	2003
+50 	Madagascar 3: Europe's Most Wanted 	$742,110,251 	2012

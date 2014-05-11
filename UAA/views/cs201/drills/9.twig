@@ -1,0 +1,82 @@
+{% extends 'cs201/drill.twig' %}
+
+{% block subject %}Drill 9 - Generics{% endblock %}
+
+{% block summary %}
+{{parent()}}
+
+<p>Create a generic "Stats" class that can hold any Comparable value. This class potentially could calculate a number of statistics on the objects of the provided type, but for this drill you only need to implement a <code>findMax()</code> method.</p>
+
+<p>If you do not remember the <a href='/cs201/lectures/18#comparable'>Comparable interface</a>, it is an interface that when implemented requires the compareTo method to be defined on the implementing class. CompareTo takes an object of similar type and compares itself (<code>this</code>) with the other object. It then returns a number &lt; 0 when <code>this</code> is less than the other object, 0 if both objects are equal, or &gt; 0 when <code>this</code> is greater than the other object.</p>
+
+<p>What you need to do is create a <a href='/cs201/lectures/21#generics'>generic class</a> that allows any Comparable class and uses compareTo to find the object with the highest value, then return that value. Here is the proposed class defined <em>without</em> being generic:</p>
+
+<pre class='brush: java; toolbar: false;'>
+//Non-generic class -- needs to be made generic and allow Comparable classes
+class Stats {
+	
+	public int findMax(int[] list) {
+
+		//Find the highest comparable number in the provided list
+		//...
+		//Return the highest comparable number found
+	}
+}
+</pre>
+
+<p>I am also providing an example <code>main()</code> method that tests whether your generic class holds up against both Integer &amp; and Double. I would suggest using it as your <code>main()</code> method:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public static void main(String[] args) {
+	
+	Stats&lt;Integer&gt; statsI = new Stats&lt;Integer&gt;();
+	Number result;
+	
+	//Display the highest of some randomly chosen numbers
+	result = statsI.findMax(new Integer[] { 35, 69, 42, 86, 17 });
+	System.out.println("Highest: " + result);
+	
+	//Display the highest of some not-so-randomly chosen numbers
+	result = statsI.findMax(new Integer[] { 4, 15, 42, 23, 8, 16 });
+	System.out.println("Highest: " + result);
+	
+	Stats&lt;Double&gt; statsD = new Stats&lt;Double&gt;();
+	
+	//Generate a series of random numbers between 0 and 1000
+	Double[] param = new Double[1000];
+	for(int idx = 0; idx &lt; param.length; idx++) {
+		param[idx] = Math.random() * idx;
+	}
+	
+	result = statsD.findMax(param);
+	System.out.println("Highest: " + result);
+}
+
+</pre>
+
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+<p>You <em>could</em> use polymorphism to solve this drill instead of generics. Please solve it using the generic class method as that is the purpose of the drill.</p>
+{% endblock %}
+
+{% block answer %}
+{{parent()}}
+
+<pre class='brush: java; toolbar: false;'>
+public class Stats&lt;T extends Comparable&gt; {
+    
+    public T findMax(T[] list) {
+		T highest = null;
+		
+		for(T item : list) {
+		    if(highest == null || highest.compareTo(item) &lt; 0) highest = item;
+		}
+		
+		return highest;
+    }
+}
+</pre>
+
+{% endblock %}

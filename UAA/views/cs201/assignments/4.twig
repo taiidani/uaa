@@ -1,0 +1,101 @@
+{% extends 'cs201/assignment.twig' %}
+
+{% block subject %}Assignment 4 - Maze Solving (Due 5/4){% endblock %}
+
+{% block summary %}
+{{parent()}}
+
+<div class='example'>
+	Starting Code:
+	<blockquote>
+		<a href='/uploads/cs201/Maze.zip'>Maze.zip</a><br/>
+	</blockquote>
+</div>
+
+<a href='/uploads/cs201/maze.png' class='quote'><img src='/uploads/cs201/maze.png' style='width: 250px;' /></a>
+<a href='/uploads/cs201/mazeTree.png' class='quote' style='clear: right;'><img src='/uploads/cs201/mazeTree.png' style='width: 300px;' /></a>
+
+<p>This assignment has you solving a maze by traversing all of its potential corridors and printing out the solution. The best way to solve a maze is to use recursion to go down every corridor. Recursion uses the stack to track which paths have been taken and which have yet to be taken; with an iterative solution you would need to define a multitude of variables to track this same history.</p>
+
+<p>To implement this solution with recursion, a programmer treats the maze as a series of turns that can be taken. These turns can then be simplified into a tree of left &amp; right turns and how many steps to take. The recursive method then simply uses <a>tree traversal</a> to travel down each turn until it finds the solution.</p>
+
+<p>For example, the maze at the right would be solved with these directions:</p>
+<ul>
+	<li>Begin the maze.</li>
+	<li>Take 4 steps.</li>
+	<li>Turn left. Take 8 steps.</li>
+	<li>Turn left. Take 2 steps.</li>
+	<li>Turn right. Take 8 steps.</li>
+	<li>Turn left. Take 6 steps.</li>
+	<li>Turn right. Take 22 steps.</li>
+	<li>Turn right. Take 33 steps.</li>
+	<li>At the end.</li>
+</ul>
+
+
+<p>These turns, including all of the failed paths, are illustrated in the tree to the right. The bottom of the tree is the top-left entrance to the maze image, and the top of the tree where "End" is displayed corresponds to the bottom-right corner of the maze where it exits. Each branch of the tree corresponds to a turn, where a box on the left branch is a left turn and a box to the right is a right turn. The number in the box corresponds to the number of steps taken in the maze.</p>
+
+<p>For your convenience, use the code at the top of this assignment to create the maze path data to the right. The code generates a list-like (<em>not an ArrayList</em>) collection of MazeFork objects that represent each stopping point in the maze where you may turn left or right. You can call <code>getLeft()</code> or <code>getRight()</code> on the object to return the next MazeFork object along that path.</p>
+
+<p class='clear'>Traversing the list to the end for example might look like this:</p>
+<pre class='brush: java; toolbar: false;'>
+MazeFork nextPoint = startingPoint.getLeft(); //Turn left (8 steps)
+nextPoint = nextPoint.getLeft(); //Turn left (2 steps)
+nextPoint = nextPoint.getRight(); //Turn right (8 steps)
+nextPoint = nextPoint.getLeft(); //Turn left (6 steps)
+nextPoint = nextPoint.getRight(); //Turn right (22 steps)
+nextPoint = nextPoint.getRight(); //Turn right (33 steps)
+
+//Now nextPoint is at the end
+if(nextPoint.isEnd()) {
+	System.out.println("You solved the maze!");
+}
+else {
+	System.out.println("That's not the correct path.");
+}
+</pre>
+
+<p>Your objective is to define a recursive method that will traverse all points in the tree (including all left &amp; right paths) in order to discover the correct path to the end. You should then print out this path to the console by calling <code>getSteps()</code> on each branch and tracking whether you took a right or left path to get there.</p>
+
+<p>Here is an example of the final output your program should produce:</p>
+<pre>
+To solve the maze, follow these steps:
+Take 4 steps.
+Turn left. Take 8 steps.
+Turn left. Take 2 steps.
+Turn right. Take 8 steps.
+Turn left. Take 6 steps.
+Turn right. Take 22 steps.
+Turn right. Take 33 steps.
+You're there!
+</pre>
+
+<h3>Requirements</h3>
+
+<ul>
+	<li>Use recursion to traverse the provided tree object.</li>
+	<li>Print out a list of directions for traveling along the tree to reach the end point.</li>
+</ul>
+
+{% endblock %}
+
+{% block notes %}
+<h2>Notes</h2>
+
+<p>Don't overthink the solution! Your final contribution will end up being around 20-40 lines of code. If you find yourself writing more than this then your solution is more complex than it needs to be.</p>
+
+{% endblock %}
+
+{% block answer %}
+{% endblock %}
+
+{% block extra %}
+<ul>
+	<li><strong>Allow for custom mazes (5 points)</strong> - Use the sample <code>generateMaze()</code> method to enable your program to create mazes that it then solves. You may do this either randomly (such as with Math.random()) or using input from the user.</li>
+
+	<li><strong>More than 2 paths (5 points)</strong> - Throw away the image of the maze and allow for more than left/right to be taken at every turn. This will require each node in the tree to maintain a list of possible directions that can be taken.</li>
+
+	<li><strong>Prizes (5 points)</strong> - Upgrade the MazeFork class so that some nodes (at least 1 of which is not in the solution path) in the maze contain prizes (i.e. strings) of different types. The program should find all nodes that have prizes even if they aren't on the path to the solution and print how to get to them.</li>
+
+
+{% endblock %}

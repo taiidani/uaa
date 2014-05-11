@@ -1,0 +1,127 @@
+{% extends 'cs201/drill.twig' %}
+
+{% block subject %}Drill 4 - Counter{% endblock %}
+
+{% block summary %}
+{{parent()}}
+
+<p>Create a program that allows you to count. This program should have the ability to count upwards and downwards, start over (i.e. reset) and to retrieve the current amount of the counter.</p>
+
+<p>The implementation for this logic must be done completely using methods. This means the following methods <em>must</em> exist:</p>
+<ul>
+	<li>A class-level variable to hold the current counter</li>
+	<li>A method that resets the current count back to 0</li>
+	<li>A method that increments the count by a specified amount</li>
+	<li>A method that decrements the count by a specified amount</li>
+	<li>A method that returns the current value that the counter is at</li>
+</ul>
+
+<p>If you would like, you may use the below main() method to build your program. This is what is sometimes called a "driver" (not a hardware driver) or "test"; it provides the required functionality that you must implement by giving you code that is broken until you implement the missing pieces.</p>
+<pre class='brush: java; toolbar: false;'>
+public static void main(String[] args) {
+	reset();
+
+	increment(5);
+	decrement(3);
+
+	//Displays 2
+	System.out.println("The current amount is " + current());
+
+	increment(4);
+
+	//Displays 6 
+	System.out.println("The amount has been increased to " + current());
+
+	reset();
+
+	//Displays 0
+	System.out.println("After resetting, the value has become " + current());
+}
+</pre>
+
+<h2>Requirements</h2>
+<p>The final program that you develop <em>must</em> contain:</p>
+<ul>
+	<li>A NetBeans project containing your code</li>
+	<li>A main() method that fully demonstrates the required logic</li>
+	<li>Variables and methods that implement all of the functionality</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+<p>Remember the difference between static and non-static levels. If the static main() method is going to be calling these methods, at what level should they be defined?</p>
+{% endblock %}
+
+{% block answer %}
+{{parent()}}
+<p><a href='/uploads/cs201/Counter.java'>Counter.java</a></p>
+
+<pre class='brush: java; toolbar: false;'>
+public class Counter {
+
+    /**
+     * A persistent class-level variable to hold the current count.
+     * Being static, this variable will exist throughout the entire
+     * duration of the program.
+     */
+    private static int count;
+    
+    public static void main(String[] args) {
+        reset();
+
+	increment(5);
+	decrement(3);
+
+	//Displays 2
+	System.out.println("The current amount is " + current());
+
+	increment(4);
+
+	//Displays 6 
+	System.out.println("The amount has been increased to " + current());
+
+	reset();
+
+	//Displays 0
+	System.out.println("After resetting, the value has become " + current());
+    }
+    
+    /**
+     * Resets the static count variable back to zero, forgetting
+     * all of the counting done so far.
+     */
+    public static void reset() {
+        count = 0;
+    }
+    
+    /**
+     * Gets the current value of the class-level count variable.
+     * 
+     * @return The current count
+     */
+    public static int current() {
+        return count;
+    }
+    
+    /**
+     * Increases the count by the specified amount
+     * 
+     * @param amount How much to increase the count by
+     */
+    public static void increment(int amount) {
+        count += amount;
+    }
+    
+    /**
+     * Decreases the count by the specified amount
+     * 
+     * @param amount How much to decrease the count by
+     */
+    public static void decrement(int amount) {
+        count -= amount;
+    }
+}
+</pre>
+
+{% endblock %}

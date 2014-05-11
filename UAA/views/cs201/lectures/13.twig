@@ -1,0 +1,278 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Object-Oriented Programming, Classes{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>Classes &amp; Objects</li>
+	<li>Accessors &amp; Mutators</li>
+	<li>Constructors</li>
+	<li>Overloading</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+
+<div class='example'>
+	Example - <a href='/uploads/cs201/Family.java'>Family.java</a>
+</div>
+
+<h2>Classes &amp; Objects</h2>
+
+<p>Now that we've discussed the basics of programming in general, now we get to talk about the core of the Java programming language, objects. Recall that Java is an <strong>object-oriented</strong> programming language. In essence this means that all of the variables you work with are attributes to a parent object.</p>
+
+<p>Think of an object just like you would in the real world. Everything you see, hear, feel has descriptors for it. Your phone might have a weight, a battery life, a screen size. All of these describe the object you call a "phone". Java objects are no different. So far we've seen a Counter object that counts numbers, a Deck object that holds Card objects, and a Course object that has a CRN, name and grade.</p>
+
+<p>Note that real-life objects also have actions they can take. A Phone object may <code>call()</code> another Phone object. A Deck object may <code>deal()</code> a Card object in the context of a Game object. These are methods, and perform just like you would expect real-life objects to perform. Keep these similarities in mind at all times that you work with Java and you'll be much more organized as a result.</p>
+
+<p class='quote'>"No two snowflakes are the same."</p>
+<p>Continuing the metaphor, if you have an object then that isn't saying you might have another object of the same type. Your iPhone object may be of class Phone, but so is your friend's Android. The two phones are completely different, but they share the same attributes. You can also change one phone (say putting it into Airplane mode) without affecting any of the other objects of the same class. In this way, each object you store in a variable has no association with other variables of the same class.</p>
+
+<p>However, if you modify the class itself things change dramatically. At the static level there is just the class object; no other to be seen. If you modify the class object then you modify <em>all objects of that class</em>. Say that you have a Deck class and it has a static attribute declaring that all Decks start with 52 cards. What if you wanted to play with Jokers? You could then increase this attribute and all Deck objects would immediately gain the ability to contain Jokers.</p>
+
+<h3>Special Object Methods</h3>
+
+<p>All objects <strong>inherit</strong>, or adopt from their parent class, specific methods that allow them to work with other objects. We have seen these before; you should remember them as they are critically important in Java.</p>
+
+<dl>
+	<dt>public boolean equals([Object Type] otherObject)</dt>
+	<dd>
+		<p>.equals() allows you to compare your object with another object. The only rule in the method is that you <strong>return</strong> a true or false boolean value that represents whether your object is "equal" by your definition to the object in the parameter.</p>
+
+		<p>This may include comparing the model names of two Phone objects...which themselves are String objects and would require the use of .equals(). You might also compare the CRN of two Course objects, for example.</p>
+	</dd>
+
+	<dt>public String toString()</dt>
+	<dd>
+		<p>.toString() is another method completely defined by you. The only requirement here is to return a String object that represents the contents of your object. Persons might return their first &amp; last names, Decks might return the name of each Card in them, etc.</p>
+	</dd>
+</dl>
+
+<h2>Accessors &amp; Mutators</h2>
+
+<p>With many object's attributes, it is important to keep them private from the outside world. Your Phone class for example has a passcode that no one else may see. The Deck class would be worthless if people could see all the values and order of all its cards. To this end Java has a standard rule that all variables that should not be modified from outside the class should be declared <strong>private</strong>. In practice this often means all variables, as variables have inter-dependencies (changing a course's CRN would be very bad...changing a course's name would be equally bad).</p>
+
+<p>To fix this you make your variables private, then produce accessor (getter) and mutator (setter) methods to retrieve and manipulate the private variables, respectively. Some examples:</p>
+
+<h3>class Deck</h3>
+<blockquote>
+	<dl>
+		<dt>Getters</dt>
+		<dd>public Card dealCard()</dd>
+		<dd>public boolean isEmpty()</dd>
+
+		<dt>Setters</dt>
+		<dd>public void addCard(Card c)</dd>
+		<dd>public void burnCard()</dd>
+	</dl>
+</blockquote>
+
+<h3>class Course</h3>
+<blockquote>
+	<dl>
+		<dt>Getters</dt>
+		<dd>public String getName()</dd>
+		<dd>public int getCRN()</dd>
+		<dd>public ArrayList<Assignment> getAssignments()</dd>
+		<dd>public String getGrade()</dd>
+
+		<dt>Setters</dt>
+		<dd>public void setName(String n)</dd>
+		<dd>public void setCRN(int crn)</dd>
+		<dd>public void addAssignment(Assignment a)</dd>
+	</dl>
+</blockquote>
+
+<p>The typical method prefixes are "get" for accessors, "set" for mutators, and "is" for accessors that return only a boolean value, but you may follow any convention you like.</p>
+
+<h2>Constructors</h2>
+
+<p>There is a very special type of method for objects known as a <strong>constructor</strong>. This method is executed when the object is first being created, and can populate some of your object's more necessary variables immediately rather than with mutators. Note that since this for when an object is being created it has no use in a static context.</p>
+
+<p>You declare a constructor by defining a method in your class that has the same name as the class itself. You then activate a constructor using the name of the class followed by parentheses:</p>
+<pre class='brush: java; toolbar: false;'>
+class Phone {
+	private double batteryLife;
+	
+	public Phone() {
+		batteryLife = 100.0;
+	}
+
+	public double getBatteryLife() {
+		return batteryLife;
+	}
+}
+
+//...and in your main() method...
+
+Phone iPhone = new Phone();
+
+//Prints 100.0 to the Console
+System.out.println(iPhone.getBatteryLife());
+</pre>
+
+<p>In the above example you have a Phone() constructor that takes no parameters and sets the initial battery life of the device to 100.0. If you didn't use a constructor here you would have had to set the battery life after creating the object...assuming that you even know that the Phone class expects that life to start at 100. Sometimes it is easier to let the object's constructor initialize your default values for this purpose.</p>
+
+<p>Since the constructor is just like any other method, it can also take parameters. You've seen this with Scanner:
+<pre class='brush: java; toolbar: false;'>
+class Scanner {
+	private InputStream stream;
+	
+	public Scanner(InputStream stream) {
+		this.stream = stream;
+	}
+
+	public String nextLine() {
+		return stream.readLine(); //In reality, not actually this simple
+	}
+}
+
+//...and in your main() method...
+
+Scanner keyboard = new Scanner(System.in);
+keyboard.nextLine();
+</pre>
+
+<p>Above you can see the Scanner's constructor taking a single InputStream parameter and storing it in a private variable. When the nextLine() method is called the object can now safely assume that that private variable has been initialized to a stream and doesn't have to perform any error checking on the variable.</p>
+
+<h3>Remember Remember the Fifth of...March</h3>
+<p>There are two differences between normal methods and constructors that you should remember: <strong>One</strong>, constructors do not return anything, so don't specify a return type when declaring them (even void) and <strong>Two</strong>, constructs can only be called when the object is being created. You can't call a constructor on an existing object unless you are creating a new object to replace it.</p>
+
+<h2 id='overloading'>Overloading</h2>
+
+<p>But what if you wanted to take optional parameters in your constructors? Say, you have an engraved phone and you'd like to set its name upon instantiation. Well, you could do this:</p>
+
+<pre class='brush: java; toolbar: false;'>
+class Phone {
+	private String engraving;
+	private double batteryLife;
+
+	public Phone(String engraving) {
+		this.engraving = engraving;
+		this.batteryLife = 100.0;
+	}
+}
+</pre>
+
+<p>...but now you've made all of your phone objects expect an engraving. <strong>Overloading</strong> your constructor allows you to get the best of both worlds so that your constructor which takes an engraving and the constructor that takes no parameters (known as the <strong>default constructor</strong>) are both available to be used.</p>
+
+<p>It's also very easy to do, just define both!</p>
+<pre class='brush: java; toolbar: false;'>
+class Phone {
+	private String engraving;
+	private double batteryLife;
+
+	public Phone(String engraving) {
+		this.engraving = engraving;
+		this.batteryLife = 100.0;
+	}
+
+	public Phone() {
+		this.engraving = "";
+		this.batteryLife = 100.0;
+	}
+}
+</pre>
+
+<p>You might be alarmed at this point. After all, I just declared two methods with the same name. The trick to overloading is to use different parameters. I have a constructor with no parameters and a constructor with a single String parameter. This allows me to differentiate the methods. It does <em>not</em> however allow me to define another method that takes a single String parameter:</p>
+
+<pre class='brush: java; toolbar: false;'>
+class Phone {
+	private String engraving;
+	private String name;
+	private double batteryLife;
+
+	public Phone(String engraving) {
+		this.engraving = engraving;
+		this.name = "";
+		this.batteryLife = 100.0;
+	}
+
+	/***** ERROR ******/
+	public Phone(String name) {
+		this.engraving = "";
+		this.name = name;
+		this.batteryLife = 100.0;
+	}
+	/***** /ERROR ******/
+}
+</pre>
+
+<p>Because both of the above constructors take a single String parameter they appear identical to Java and will not compile properly. The only way to get around this is to change your number of parameters or to use different data types.</p>
+
+<p>Overloading works perfectly for constructors as they need to be so flexible, but if you look again at the examples, I have to keep repeating the exact same lines of code. Say we have a complex object:</p>
+
+<pre class='brush: java; toolbar: false;'>
+class Person {
+	private String first;
+	private String last;
+	private int age;
+	private String phone;
+	private double height;
+	private double weight;
+
+	public Person() {
+		first = "";
+		last = "";
+		age = 0;
+		phone = "";
+		height = 0.0;
+		weight = 0.0;
+	}
+
+	public Person(String first, String last, int age) {
+		this.first = first;
+		this.last = last;
+		this.age = age;
+		phone = "";
+		height = 0.0;
+		weight = 0.0;
+	}
+
+	public Person(String first, String last, int age, String phone, double height, double weight) {
+		this.first = first;
+		this.last = last;
+		this.age = age;
+		this.phone = phone;
+		this.height = height;
+		this.weight = weight;
+	}
+}
+</pre>
+
+<p>There's a lot of repetition going on here! I always prefer the DRY (Don't Repeat Yourself) mantra, so I would immediately look to solve this. And there is a simple solution; since constructors are just methods I can have one constructor call the other with the values it expects. The third constructor here takes all the parameters I need, so I can just pass all of the other values I've gotten to it. I do this by using the <code>this</code> keyword as my method name, since the constructor itself represents the object.</p>
+
+<pre class='brush: java; toolbar: false;'>
+class Person {
+	private String first;
+	private String last;
+	private int age;
+	private String phone;
+	private double height;
+	private double weight;
+
+	public Person() {
+		this("", "", 0); //Calls the second constructor
+	}
+
+	public Person(String first, String last, int age) {
+		this(first, last, age, "", 0.0, 0.0); //Calls the third constructor
+	}
+
+	public Person(String first, String last, int age, String phone, double height, double weight) {
+		//Handles all possible ways of instantiating the object
+		this.first = first;
+		this.last = last;
+		this.age = age;
+		this.phone = phone;
+		this.height = height;
+		this.weight = weight;
+	}
+}
+</pre>
+
+<p>Simple, isn't it? And very powerful too. All of the overloading abilities works on methods as well, so overload to your heart's content.</p>
+
+{% endblock %}

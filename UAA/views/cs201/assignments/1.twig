@@ -1,0 +1,83 @@
+{% extends 'cs201/assignment.twig' %}
+
+{% block subject %}Assignment 1 - Blackjack (Due 2/21){% endblock %}
+
+{% block summary %}
+{{parent()}}
+<p>The goal of this assignment is to create a simple game of Blackjack between two players. Blackjack is a card game where each player is dealt cards one at a time to try and reach a card value as close to 21 as possible, but not over. If a player passes 21 they "Bust", or lose. The highest card value between the players that do not bust is the winner.</p>
+
+<p>The rules in this game have been dramatically simplified. Typical Blackjack rules such as the initial hand being dealt are waived in favor of keeping the logic simple. This is only a guideline; if you prefer you may enforce more accurate Blackjack rules in your program.</p>
+
+<p>The program you design will employ heavy use of the console, conditional statements and loops. It can also highly benefit from the use of methods which will be taught shortly. You may want to review the relevant sections if you run into trouble:</p>
+<ul>
+	<li><a href='/cs201/lectures/4'>Console Input/Output, Programming in IDEs</a></li>
+	<li><a href='/cs201/lectures/5'>Conditional Statements, Evaluating Boolean Expressions</a></li>
+	<li><a href='/cs201/lectures/6'>Looping/Iterative Structures</a></li>
+	<li><a href='/cs201/lectures/7'>Documentation and Variable Naming</a></li>
+	<li><a href='/cs201/lectures/8'>Methods, Scope</a></li>
+</ul>
+
+<h3>Rules of Play</h3>
+<a href='/uploads/cs201/Blackjack.png'><img style='float: right; width: 250px;' src='/uploads/cs201/Blackjack.png' /></a>
+<p>Each player starts with a hand value of 0.</p>
+
+<p>One player at a time is asked if they want to "Hit" (add a card) or "Stay" (end their turn).</p>
+
+<p>If a player hits, they receive a random card with a value that immediately adds to their hand's value. For example, if they are dealt a King their hand value would become 10.</p>
+
+<p>At this point the player's hand value needs to be examined:
+<ul>
+	<li>If the value pass 21 points then they bust and their turn immediately ends.</li>
+	<li>If the value is exactly 21 then they have reached the highest card value and their turn ends.</li>
+	<li>Otherwise, the player is again given a choice to hit or stay at their current card value.</li>
+</ul>
+
+<p>This process repeats until the player busts, reaches Blackjack (21) or stays. It then moves to the next player until all players have had their turn.</p>
+
+<p>Once all players are finished, a winner must be determined:</p>
+<ul>
+	<li>If all players have busted, there is no winner.</li>
+	<li>If all players have the same hand value, there is no winner.</li>
+	<li>Otherwise, the player with the highest hand value wins the game.</li>
+</ul>
+
+<p>Once a winner has been declared, the option should be given to play another game.</p>
+
+<h3>Card Values</h3>
+<ul>
+	<li>1-9 each represent their equivalent card value.</li>
+	<li>10, Jack, Queen or King all count for 10 points.</li>
+	<li>The Ace counts for either 1 or 11 as chosen by the player. For the purposes of this assignment you may choose this value for the player.</li>
+</ul>
+<p>You should notice that the potential point scores a player can receive per hit is between 1 and 11. There is a class in Java called the Random class that you can use to generate this number:</p>
+
+<pre class='brush: java; toolbar: false;'>
+import java.util.Random;
+
+//...
+
+//Instantiate a Random object
+Random rnd = new Random();
+
+//Call the nextInt(int) method. This returns a value between 0 and the parameter, inclusive.
+//You may then add to that number if you do not want to include the 0.
+int amount = rnd.nextInt(10) + 1;
+</pre>
+
+
+{% endblock %}
+
+{% block answer %}
+{% endblock %}
+
+{% block extra %}
+{{parent()}}
+
+<p>There are a number of opportunities for extra credit in this assignment, up to a maximum of 15 points. Below are two possibilities but there are many more ways to earn extra credit. If you have an idea that is not below, pass it by me and if I accept it I will assign a point score and add it to this list.</p>
+
+<ul>
+	<li><strong>More accurate card values (5 points)</strong> - The assignment encourages a simple random value between 1 and 11. In real Blackjack there is a deck of cards being dealt from, and the Ace may be 1 or 11. Enhance your program to support these rules. You will need to manage a deck of 52 cards with their own values that reduces as those cards are dealt. You also will have to prompt the player if they receive an Ace and allow them to choose for it to represent 1 or 11.</li>
+
+	<li><strong>Additional players (5 points)</strong> - Typical Blackjack allows for more than two players. At the start of the game prompt the user for how many players will be playing. You must then ensure that the flow of play allows all user's turns to finish before declaring a winner.</li>
+</ul>
+{% endblock %}

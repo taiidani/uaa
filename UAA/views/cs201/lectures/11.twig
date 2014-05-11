@@ -1,0 +1,264 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Continuing Arrays. Lists, Dictionaries{% endblock %}
+
+{% block styles %}
+{{parent()}}
+<style>
+
+.example {
+	display: inline-block;
+	background-color: #EEF;
+	border: 1px solid #DDE;
+	padding: 5px 10px;
+	border-radius: 5px;
+	font-weight: bold;
+}
+
+.excerpt {
+	float: right;
+	font-size: 0.9em;
+	padding: 1em 0.5em;
+	margin: 0;
+	background-color: #EEE;
+	border: 1px solid #DDD;
+	border-radius: 5px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>List objects</li>
+	<li>Generics</li>
+	<li>ArrayList</li>
+	<li>HashMap</li>
+</ul>
+
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+
+<h3>List Objects</h3>
+<div class='example'>
+	Example - <a href='/uploads/cs201/ListTypes.java'>ListTypes.java</a>
+</div>
+
+<p>We've seen how arrays are very useful for managing arbitrary amounts of data. They are perfect for managing collections of objects such as Strings, Courses, Persons, etc. But arrays also come with limitations:</p>
+<ul>
+	<li>Like Strings, they use a different syntax than the rest of Java</li>
+	<li>Also like Strings, they are pseudo-objects. Arrays act like objects but provide only limited functionality over primitives</li>
+	<li>They are not able to increase and decrease in size and provide no helper methods for working with the items inside of them</li>
+	<li>They can only be accessed through a 0-indexed numeric key; very useful when you need an ordered list but useless for more complex requirements</li>
+</ul>
+
+<p>The reason for these limitations is completely due to the implementation of array. It is simply the representation of a block of memory reserved for references to other existing objects. Java aims to make this as memory-efficient as possible, which severely limits what arrays can do.</p>
+
+<p>But what if speed and memory are not a priority? In many programs the bottleneck will be in other areas and managing lists will not have a noticeable impact. For these situations List &amp; Map classes have been created. These classes continue to utilize arrays behind the scenes but provide much greater flexibility in their use.</p>
+
+<p>Before we look at these classes though we need to briefly cover another topic, Generics.</p>
+
+<h3>Generics</h3>
+
+<p>Since Java is so full of different classes, most programs will end up having difficulties conforming to one class' requirement or another. The Java developers saw this happening and implemented the concept of <strong>Generic classes</strong>. These classes do not understand what they will be working with until they are instantiated, and are coded so that they do not need to. At runtime when you instantiate a generic class, you tell it what it is going to manage. The list classes are a very good example of this, as just like arrays they need to know the type of the object they're going to be containing in order to allocate the appropriate amount of memory for it.</p>
+
+<p>You can recognize a generic very easily. They will have parameters whose type is a single capital letter such as T, E, K or V. These letters are placeholders for the actual type that your program will assign to the object when you declare it. To assign this type, you place a &lt; and &gt; with your class type inside after the name of the generic class. For example, the below ArrayList can be told to hold Strings by declaring it as <code>ArrayList&lt;String&gt;</code>.</p>
+
+<p>Implementing generics is a more advanced topic that won't be covered here, but using them is very simple. Remember to use NetBeans; it will help to autocomplete these generic parameters.</p>
+
+
+<h3>ArrayList</h3>
+
+<div class='classDef' style=' float: right; width: 40%; margin-left: 3%;'>
+	<p class='header'>ArrayList Constructors</p>
+	<dl>
+		<dt>ArrayList&lt;T&gt;()</dt>
+		<dd>
+			<p>Adds a new item to the end of the underlying array. If the capacity of the array is exceeded, a new array that is large enough (determined by the <code>increment</code> value) will be created that can hold all existing values with the new element appended.</p>
+
+			<p>The T in the parameter represents the type of object assigned to this ArrayList.</p>
+		</dd>
+		
+		<dt>ArrayList&lt;T&gt;(int capacity)</dt>
+		<dd><p>Retrieves an item from the underlying array at the specified index and returns it.</p></dd>
+
+	</dl>
+	<p class='header'>ArrayList Methods</p>
+	<dl>
+		<dt>add(E element)</dt>
+		<dd>
+			<p>Adds a new item to the end of the underlying array. If the capacity of the array is exceeded, a new array that is large enough (determined by the <code>increment</code> value) will be created that can hold all existing values with the new element appended.</p>
+
+			<p>The E in the parameter represents the type of object originally assigned to this ArrayList.</p>
+		</dd>
+		
+		<dt>get(int index)</dt>
+		<dd><p>Retrieves an item from the underlying array at the specified index and returns it.</p></dd>
+
+		
+		<dt>indexOf(Object search)</dt>
+		<dd>
+			<p>Looks for the provided object in the array and, if found, returns the integer index of where it is in the array.</p>
+			<p>If the object is not in the array, this method will return -1.</p></dd>
+
+
+		<dt>remove(int index)</dt>
+		<dd><p>Removes an array element at the specified index, moving all subsequent elements one index back to fill the empty slot.</p></dd>
+
+		<dt>set(int index, E value)</dt>
+		<dd>
+			<p>Sets a value in the array at the specified index. E designates the type of object originally assigned to this ArrayList.</p>
+
+			<p><code>Set</code> will also return the object that it replaced.</p>
+		</dd>
+
+		<dt>size()</dt>
+		<dd><p>Returns the current size of the ArrayList. Note that the current size of the underlying array may be different if it has not reached capacity.</p></dd>
+		
+	</dl>
+</div>
+
+<div style=' float: left; width: 55%;'>
+	<p>The first of the helper objects is the ArrayList, located in the java.util package (just like Scanner). The ArrayList aims to improve upon simple arrays by allowing extra functionality such as appending beyond the size of the array. It does this by taking up more memory and processing time in order to define a true object for managing the array, but remember that underneath all of the code (known as <strong>abstraction</strong>, hiding complex functionality with a simpler interface) there is still an array data structure that has all of the original limitations.</p>
+
+	<p>Below is a simple example of using an ArrayList. Note the use of a generic to specify what data type the object is going to hold, and the use of methods rather than the [] bracket syntax.</p>
+
+	<pre class='brush: java; toolbar: false;'>
+		//Declaring a typical array
+		String[] threeBlindMice = new String[3];
+		threeBlindMice[0] = "I'm blind.";
+		threeBlindMice[1] = "Me too!";
+		threeBlindMice[2] = "Eh? Sorry, I'm deaf.";
+
+		//Declaring an ArrayList to hold the same data
+		ArrayList&lt;String> threeBlindMice = new ArrayList&lt;String>();
+		threeBlindMice.add("I'm blind");
+		threeBlindMice.add("Me too!");
+		threeBlindMice.add("Eh? Sorry, I'm deaf.");
+	</pre>
+
+	<p>Note that you no longer need to specify a limit to your array or keep track of which one needs to be initialized next. The ArrayList will manage all of this for you. As mentioned though, the array limitations are still underneath the abstraction. The class exposes an alternate <strong>constructor</strong> to help with this.</p>
+
+	<p>Constructors are methods whose sole purpose is to help initialize an object. There's nothing special about it, it's just a method, but will be called upon instantiation rather than manually. The empty parentheses after <code>new ArrayList&lt;String></code> is what is called the <strong>default constructor</strong>. This is for when no initialization parameters are required or when you have no preference to customize an object as you create it. Providing parameters to this constructor will allow it to run different methods to help instantiate it. You've seen this with Scanner where you provide <code>System.in</code> as a parameter to the constructor, telling Scanner that it should be reading from the console.</p>
+
+	<p>The ArrayList has its own constructor, taking an integer which specifies the initial <strong>capacity</strong> of the underlying array. If you know the estimated size of your array beforehand you should set this capacity. If not, when the default capacity is outgrown a new array will be allocated and all elements of the existing array will be moved to it. This causes your program to take a performance hit, so avoid it if you can by setting a capacity.</p>
+
+	<pre class='brush: java; toolbar: false;'>
+		//Setting an initial capacity of 2
+		ArrayList&lt;Integer> items = new ArrayList&lt;Integer>(2);
+		items.add(4);
+		items.add(2);
+	</pre>
+
+	<p>All of the methods in ArrayList help to manage the items in your array, as documented in the table to the right. You should note that there are some methods in the class that are not present for arrays, such as <strong>indexOf</strong>. indexOf will allow you to search through the array for a specific object and returns the index that that object is at (or -1 if not found). This method saves you a lot of coding:</p>
+
+	<pre class='brush: java; toolbar: false;'>
+		//Find the number 2 in an items array
+		for(int x = 0; x &lt; items.length; x++) {
+			if(items[x] == 2) return x;
+		}
+		return -1;
+
+		//Finds the number 2 in an items ArrayList
+		return item.indexOf(2);
+	</pre>
+
+	<p>The <strong>set</strong> method also simplifies swapping by returning the item that it replaces:</p>
+	<pre class='brush: java; toolbar: false;'>
+		//Swap items 1 and 2 in an items array
+		int tmp = items[0];
+		items[0] = items[1];
+		items[1] = tmp;
+
+		//Swap items 1 and 2 in an items ArrayList
+		int tmp = items.set(0, items.get(1));
+		items.set(1, tmp);
+	</pre>
+
+</div>
+
+
+<h3 class='clear'>HashMap</h3>
+
+<div class='classDef' style=' float: right; width: 40%; margin-left: 3%;'>
+	<p class='header'>HashMap Constructors</p>
+	<dl>
+		<dt>HashMap&lt;K, V&gt;()</dt>
+		<dd>
+			<p>Adds a new item to the end of the underlying array. If the capacity of the array is exceeded, a new array that is large enough (determined by the <code>increment</code> value) will be created that can hold all existing values with the new element appended.</p>
+
+			<p>The K in the parameter represents the type of object assigned for the HashMap's keys, whereas the V represents the type for the values.</p>
+		</dd>
+		
+	</dl>
+	<p class='header'>HashMap Methods</p>
+	<dl>
+		<dt>containsKey(Object search)</dt>
+		<dd>
+			<p>Looks for the provided key in the map and returns true if it is found, else false.</p>
+		</dd>
+
+		<dt>containsValue(Object search)</dt>
+		<dd>
+			<p>Looks for the provided value in the map and returns true if it is found, else false.</p>
+		</dd>
+		
+		<dt>get(Object key)</dt>
+		<dd><p>Retrieves the item in the map corresponding to the provided key, or null if not found.</p></dd>
+
+		<dt>keySet()</dt>
+		<dd><p>Returns an iterable Set (list) of all the keys in the HashMap. This is useful for going through each key in the mapping with a foreach loop.</p></dd>
+		
+		<dt>put(K key, V value)</dt>
+		<dd>
+			<p>Assigns the value object for the specified key. The method will also return the object that was originally set for that key, if any.</p>
+		</dd>
+
+		<dt>remove(Object key)</dt>
+		<dd><p>Removes the specified key and corresponding value from the HashMap.</p></dd>
+	</dl>
+</div>
+
+<div style='float: left; width: 55%;'>
+	<p>The HashMap class in the java.util package is similar to the ArrayList class, but has an entirely different implementation. Unlike the ArrayList which continues to use a simple array as its data structure, the HashMap uses a hash table. The specifics of how hash tables work will be covered in CS330 Algorithms and Data Structures, but in the meantime simply imagine it as a collection of arrays that allow objects to be used as keys.</p>
+
+	<p>Having trouble imagining it? Another term for a HashMap is <strong>Dictionary</strong>. This is because a HashMap, like a dictionary, contains a definition for every term in its collection. The HashMap refers to these terms &amp; definitions as keys &amp; values. Let's see how it works:</p>
+
+	<pre class='brush: java; toolbar: false;'>
+		//Declare the hashmap
+		HashMap&lt;Character, String> dict = new HashMap&lt;Character, String>();
+		dict.put('A', "Apple");
+		dict.put('B', "Boy");
+		dict.put('C', "Cat");
+
+		System.out.println("A is for " + dict.get('A'));
+	</pre>
+
+	<p>Notice that instead of working with a 0-indexed number as the key, I used a <code>Character</code> object. To note, these list types work with objects, not primitives, so I can't simply use <code>char</code>. Any object is allowed for keys and values in HashMaps, but only one per object. You assign the key type and value type like you did ArrayList, telling the generic HashMap what it is holding as you declare it. You should also keep in mind that all this added functionality comes at both a performance and memory price; the hash table data structure is much more complex than a simple array.</p>
+
+	<p>But what if I wanted to iterate over all of the items in the map? There is no numeric index to loop over, so a HashMap is not iterable like arrays are. The HashMap object does get around this however by providing an iterable <code>Set</code> object when the <strong>keySet()</strong> method is called on it. keySet() returns all of the keys that are currently in the array. Careful though, a HashMap is not always ordered the way you expect. If you'd like it to be in a proper order you should make sure to sort the Set before using it.</p>
+
+	<pre class='brush: java; toolbar: false;'>
+		System.out.println("Count the abc's!");
+
+		for(Character letter : dict.keySet()) {
+			System.out.printf("%s is for %s\n", letter, dict.get(letter));
+		}
+
+		//Enforcing sorted values takes more work
+		Character[] aryKeys = new Character[keys.size()];
+		keys.toArray(aryKeys);
+		Arrays.sort(aryKeys);
+
+		for(Character letter : aryKeys) {
+			System.out.printf("%s is for %s\n", letter, dict.get(letter));
+		}
+	</pre>
+</div>
+
+<div class='clear'></div>
+{% endblock %}

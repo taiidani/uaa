@@ -1,0 +1,123 @@
+{% extends 'cs201/assignment.twig' %}
+
+{% block subject %}Assignment 2 - Course Management (Due 3/7){% endblock %}
+
+{% block summary %}
+{{parent()}}
+<p>Use your knowledge of methods and arrays to expand upon the lecture's Course class and create a program that allows a student to view all of the courses that they are taking and their associated assignments. This program must track:</p>
+
+<ul>
+	<li>The name &amp; credits of every course in a semester.</li>
+	<li>All assignments &amp; tests that are given over the duration of a course, including their name and potential point scores.</li>
+	<li>All grades that are received for each course.</li>
+	<li>The final grade received for the semester.</li>
+</ul>
+
+<p>Sample data will be provided so you will not need to input anything from the console. You will however need to be able to load the sample data from the files that I provide.</p>
+
+<p>You may want to review these relevant lectures if you run into trouble:</p>
+<ul>
+	<li><a href='/cs201/lectures/8'>Methods, Scope</a></li>
+	<li><a href='/cs201/lectures/9'>Methods, Scope Continued</a></li>
+	<li><a href='/cs201/lectures/10'>Arrays</a></li>
+	<li><a href='/cs201/lectures/11'>Continuing Arrays. Lists</a></li>
+	<li><a href='/cs201/lectures/12'>File Input/Output, Serialization</a></li>
+</ul>
+
+<h3>Implementation</h3>
+
+<p>Your code must use classes, methods and array objects to organize your program. Data will also be provided that your program is expected to load and interpret using file I/O methods; this data will be organized in a way that supports an object-oriented design. As long as you organize your classes appropriately you will have no problems loading this sample data.</p>
+
+<p>For example, you might have a <code>Course</code> class which contains an ArrayList of <code>Assignment</code> classes, each with their own name, potential score and actual score. Your <code>Course</code> class would then be responsible for looping through each assignment it contains and determining an overall course grade.</p>
+
+<p>Alternatively you may want each <code>Assignment</code> class to contain a <code>Grade</code> class that contains the actual percentage in addition to its grade letter so that your program need only access this letter to see what you received for the assignment, and average the percentages to receive the course grade. This means that when the grade is first assigned you should store what grade letter it represents; this is similar to the Speed vs. Memory comparison we made regarding the Rectangle class.</p>
+
+</p>The organization of all of these classes will be completely up to you to decide; there are dozens of ways to implement it. I look forward to seeing the different choices that are made.</p>
+
+<h3>Requirements</h3>
+
+<ul>
+	<li>Use file input objects to populate your program with sample information.</li>
+	<li>Implement at least one class that exists apart from your program's entry point (the class with the main() method).</li>
+	<li>Employ at least 2 array or list objects.</li>
+</ul>
+
+<p>Note - You <strong>do not</strong> need to implement any file output, just output. The only output requirement is to print the curriculum summary (with grade) to the Console.</p>
+
+<p>There are also specific methods that must be implemented:</p>
+
+<ul>
+	<li>Accessors &amp; mutators (<code>getGrade()</code>, <code>setCRN(int crn)</code>, and more) for adding and removing classes, assignments, grades, etc. The respective variables these methods reference must be encapsulated in their classes by making them have <code>private</code> visibility.</li>
+	<li>Methods to manipulate courses. This must include but is not limited to the <code>addCourse()</code>, <code>addAssignment()</code>, <code>setGrade()</code>, etc. methods. You should not be able to set any of these attributes from your <code>main()</code> method without calling their mutators.</li>
+	<li>A method that is able to retrieve your expected grade for a course, such as <code>getCurrentGrade()</code>. This will take current assignments and determine from their potential/actual scores what your current grade average is, then translate that average to a grade letter before displaying it.</li>
+	<li>A method that determines your current GPA from all of the current course grades.</li>
+</ul>
+
+<h3>Sample Output</h3>
+
+<p>Due to the nature of the different implementations, your output may differ substantially from this example. Keep in mind though that the effective output of the various information should be the same.</p>
+<blockquote>
+<pre>
+Classes that you are taking:
+
+Intermediate American Sign Language I
+Credits: 4
+Grade: A
+
+Calculus I
+Credits: 4
+Grade: B
+
+Fundamentals of Oral Communication
+Credits: 3
+Grade: A
+
+Programming Concepts I
+Credits: 3
+Grade: A
+
+Nonlinear Dynamics and Chaos
+Credits: 3
+Grade: C
+
+Your current GPA: 3.44
+</pre>
+</blockquote>
+
+<h3>Sample Data</h3>
+
+<p class='example'><a href="/uploads/cs201/Assn2Files.zip">Source Text Files</a></p>
+
+<p>Above are the files that should be used in your program. You should use file input objects &amp; methods to read from these and generate your classes from them. The files are currently oriented in a structure that should assist with this setup. Each are tab-delimited (in Java, the "\t" escape character) similar to the format that was used in the lecture example.</p>
+
+<p>Most of the files provided are organized by a course's CRN number. You can use this number in each file to associate your data (such as a schedule) with the appropriate class.</p>
+
+<dl>
+	<dt><a href='/uploads/cs201/sample_curriculum.txt'>sample_curriculum.txt</a></dt>
+	<dd>Sample data for the current classes that your user is taking.</dd>
+
+	<dt><a href='/uploads/cs201/sample_assignments.txt'>sample_assignments.txt</a></dt>
+	<dd>A list of graded assignments that have been published so far in the semester for each course in the curriculum.</dd>
+
+	<dt><a href='/uploads/cs201/sample_schedule.txt'>sample_schedule.txt</a> (Optional)</dt>
+	<dd>The weekly meeting schedule and location for every course in the current curriculum.</dd>
+
+	<dt><a href='/uploads/cs201/sample_courses.txt'>sample_courses.txt</a> (Optional)</dt>
+	<dd>A file containing a small excerpt from UAOnline's course catalog for the Fall semester. This may be used to present your user with classes to dynamically add to your course curriculum but is not part of the core assignment requirements.</dd>
+</dl>
+
+{% endblock %}
+
+{% block answer %}
+{% endblock %}
+
+{% block extra %}
+{{parent()}}
+
+<ul>
+	<li><strong>Modification of course curriculum (5 points)</strong> - Allow the user to input from the console commands that add, update, and remove courses from their curriculum. For add and update you will need to provide a way for the user to input all attributes that your course allows.</li>
+
+	<li><strong>Course Schedules (5 points)</strong> - Use the sample_schedule.txt file to parse the location and schedule of each class in the curriculum and display it in the console along with the rest of the course information. Schedules may use the Calendar class shown in lecture or use alternative data types.</li>
+</ul>
+
+{% endblock %}

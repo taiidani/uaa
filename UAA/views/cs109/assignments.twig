@@ -1,0 +1,54 @@
+{% extends 'cs109/base.twig' %}
+
+{% block content %}
+		<h1 class='title'>Assignments</h1>
+
+		<ul>
+			<li><a href='1/'>SQL Unit 1, An Introduction to Relational Databases</a></li>
+			<li><a href='2/'>SQL Unit 2, Simple SQL Queries with Selection and Projection</a></li>
+			<li><a href='3/'>SQL Unit 3, Joins</a></li>
+			<li><a href='4/'>SQL Unit 4, Built-in Functions and Calculated Fields</a></li>
+			<li><a href='5/'>SQL Unit 5, Aggregation, GROUP BY, and HAVING</a></li>
+			<li><a href='6/'>SQL Unit 6, Views and Temporary Tables</a></li>
+			<li><a href='7/'>SQL Unit 7, Set Operations</a></li>
+			<li><a href='sql-project/'>Individual SQL Project Overview</a></li>
+			<li><a href='9/'>SQL Unit 9, Creating Tables, Adding Keys &amp; Constraints</a></li>
+		</ul>
+
+		<h2 id="project">Individual SQL Project</h2>
+		<p>The individual SQL project replaces the last 3 assignments in the semester and is worth 30 points, or about 6 assignments. Most of the project will be left entirely up to you; you will design and populate a database of your creation. Class lectures will provide the reference needed to create the database, and lab time will be dedicated entirely to working on the project.</p>
+
+		<p>Below are the minimum requirements that I will look for in your databases. I do not need the database file itself, but I will need the original SQL used to create it. This must include all CREATE TABLE, CREATE INDEX, ALTER TABLE, INSERT and any other statements used to define and populate the tables.</p>
+
+		<h3>Minimum Requirements:</h3>
+		<ul>
+			<li>There must be at least 5 tables in the database</li>
+			<li>All tables should have a Primary Key</li>
+			<li>One of each of the table relationships taught in class (1:1, 1:M, M:M) must exist and be fully defined with Foreign Keys</li>
+			<li>At least 1 Index should be created on a non-keyed field</li>
+			<li>At least 1 UNIQUE and NOT NULL constraint should be present on a column in the database</li>
+			<li>Each table must contain at least 1 row and maintain referential integrity with the other tables (no broken connections)</li>
+			<li>There should be at least 1 of each of the following data types in the database:
+				<ul>
+					<li>Integer</li>
+					<li>Float / Decimal / Numeric</li>
+					<li>Boolean / Bit</li>
+					<li>Date / Time / Datetime</li>
+					<li>Varchar</li>
+					<li>Text</li>
+				</ul>
+			</li>
+		</ul>
+
+		<h3>Database Ideas</h3>
+		<ul>
+			<li>A car manufacturer database for the type and number of vehicles purchased. This may include make, model, sale location, etc. It can also track the dates and times of each sale to support statistics regarding seasonal purchasing activities.</li>
+			
+			<li>A national tracking database for weather patterns. This might track weather conditions in each region by day, high and low temperatures, humidity and perhaps what the weatherman said and if they were actually right.</li>
+
+			<li>A database used in a music player such as iTunes. This would have data for each album, artist and song. It would also have to keep track of the location for each song on the computer, the number of times it has been played and what rating it has been given.</li>
+
+			<li>A database containing potential combinations of item stats in a video game such as Diablo or Borderlands. This might include power, accuracy, magazine size and fire/reload rates. Additional information could be stored such as what type of equipment it was, any special abilities it has and the location it can be found or creature that it is dropped from.</li>
+
+		</ul>
+{% endblock %}

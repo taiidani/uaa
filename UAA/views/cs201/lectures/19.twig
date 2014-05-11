@@ -1,0 +1,209 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Recursion{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>Revisiting Loops</li>
+	<li>Recursion Defined</li>
+	<li>A Warning</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+
+<div class='example'>
+	Examples:
+	<blockquote>
+		<a href='/uploads/cs201/StringReversal.java'>StringReversal.java</a><br/>
+	</blockquote>
+</div>
+
+
+<h3>Revisiting Loops</h3>
+<p>Recursion in Java is very similar to <a href='/cs201/lectures/6'>looping</a> in Java; so much that it would be beneficial to have examples of the different loops that we have already gone over:</p>
+
+<pre class='brush: java; toolbar: false;'>
+int cnt = 0;
+while(cnt &lt; 10) {
+	System.out.println(cnt);
+	cnt++;
+}
+</pre>
+
+<p>The <strong>while</strong> loop is the workhorse of programming, used implicitly or explicitly in all of the loops that we have seen (known as <strong>iterative loops</strong> due to the iteration of the counter variable). This loop also introduces the concept of the <strong>exit condition</strong>, a boolean expression that triggers the loop code to recur indefinitely until the expression becomes false.</p>
+
+<pre class='brush: java; toolbar: false;'>
+int cnt = 0;
+do {
+	System.out.println(cnt);
+	cnt++;
+} while(cnt &lt; 10);
+</pre>
+
+</p>The <strong>do-while</strong> loop is exactly like the while loop, except that the exit condition is checked at the end of the loop after all of the loop code has run. This means that a do-while loop will always execute at least once even if the exit condition is false.</p>
+
+<pre class='brush: java; toolbar: false;'>
+for(int cnt = 0; cnt &lt; 10; cnt++) {
+	System.out.println(cnt);
+}
+</pre>
+
+<p>A <strong>for</strong> loop is again exactly like the while loop, except that it allows the counter definition, exit condition check, and counter iteration in a single step. This simplifies the code for the common situation where a single integer counter is required.</p>
+
+<pre class='brush: java; toolbar: false;'>
+int[] cnts = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+for(int cnt : cnts) {
+	System.out.println(cnt);
+}
+</pre>
+
+<p>The <strong>for-each</strong> loop covers another common situation, where you are iterating over a collection of items in a list or array. This loop sacrifices the counter object and instead directly references the next item in the list upon each iteration.</p>
+
+<h3>Recursion Defined</h3>
+<p>Recursion is quite like a loop as well, but does not iterate or use any special Java syntax. Instead, <strong>recursion</strong> is performed by having a method call itself. In this way it "recurses" upon itself, causing the code in the method to execute again (and triggering the loop behavior). Recursion is different than normal loops because the way it loops is a trick of the system, but as you'll see this (much less intuitive) practice can make some specific problems much easier to solve.</p>
+
+<p>Before I show an example, I must stress: <strong>always, <em>always</em> define an exit condition</strong> for recursive loops, known here as the <strong>base case</strong>. With typical loops the absence of a proper exit condition will cause the program to run forever on an infinite loop. With recursion, the program will loop until you have run out of allocated memory for the program, and will then crash the application.</p>
+
+<p>Here is an example of the previous loops done with recursion:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public static void main(String[] args) {
+	counter(0);
+}
+
+public static void counter(int cnt) {
+	if(cnt &lt; 10) {
+		System.out.println(cnt);
+		counter(cnt + 1);
+	}
+}
+</pre>
+
+<p>Very different than a loop! But also vaguely similar. Let's break down the code into chunks:</p>
+
+<dl>
+	<dt><code>counter(0);</code> similar to <code>cnt = 0;</code></dt>
+	<dd>This triggers the beginning of the loop, and also sets the starting value of your "counter". Note that since recursion is not iterative this is not a true counter and does not necessarily have to change 
+	value between executions.</dd>
+
+	<dt><code>counter(int cnt)</code> similar to <code>int cnt;</code></dt>
+	<dd>This is the definition of the method that will be recursing. The cnt parameter allows for each execution of the method to have a slightly different state, again similar to the iteration counter in a loop.</dd>
+
+	<dt><code>if(cnt &lt; 10)</code> similar to <code>while(cnt &lt; 10)</code></dt>
+	<dd>This if statement represents our exit condition. If you look, you should see that the if statement has to resolve to <code>true</code> in order for the method to call itself. If it is not true, then the method will return without doing anything (exiting the "loop").</dd>
+
+	<dt><code>if(cnt &lt; 10)</code> similar to <code>while(cnt &lt; 10)</code></dt>
+	<dd>This if statement represents our exit condition. If you look, you should see that the if statement has to resolve to <code>true</code> in order for the method to call itself. If it is not true, then the method will return without doing anything (exiting the "loop").</dd>
+
+	<dt><code>counter(cnt + 1);</code> similar to <code>cnt++;</code></dt>
+	<dd>Recursion explicitly loops, so here you see the method calling itself to trigger the next loop's execution. It adds 1 to the <code>cnt</code> parameter to differentiate the method it calls from the method it is currently running in. This makes sure that each loop runs with a slightly different set of parameters, allowing the exit condition to take effect.</dd>
+</dl>
+
+<p>Remember <a href='/cs201/lectures/6'>the stack</a>? The stack is a list that keeps track of the methods  running in your program, and at what line they are running at. When a method calls another method, the new method gets "pushed" (added) onto the top of the stack. Whatever is currently on the top is the method that is actually running. When it finishes, the method gets "popped" (removed) off the top of the stack, causing the next method on top (the method that called the one that just finished) to continue executing where it left off.</p>
+
+<img class='quote' src='/uploads/cs201/counterStack.png' />
+<p>Since recursion is all about methods calling themselves, it makes heavy use of the stack:</p>
+<ul>
+	<li>The main() method calls counter(0). This pushes counter(0) onto the stack which causes it to begin executing.</li>
+	<li>counter(0) calls counter(1), which pushes counter(1) onto the stack.</li>
+	<li>counter(1) calls counter(2), which pushes counter(2) onto the stack.</li>
+	<li>counter(2) calls counter(3), which pushes counter(3) onto the stack.</li>
+	<li>counter(3) calls counter(4), which pushes counter(4) onto the stack.</li>
+	<li>counter(4) calls counter(5), which pushes counter(5) onto the stack.</li>
+	<li>counter(5) calls counter(6), which pushes counter(6) onto the stack.</li>
+	<li>counter(6) calls counter(7), which pushes counter(7) onto the stack.</li>
+	<li>counter(7) calls counter(8), which pushes counter(8) onto the stack.</li>
+	<li>counter(8) calls counter(9), which pushes counter(9) onto the stack.</li>
+	<li>counter(9) calls counter(10), which pushes counter(10) onto the stack.</li>
+	<li>counter(10) executes, but as 10 is not less than 10 the method does not recurse returns. This pops counter(10) off the stack.</li>
+	<li>counter(9) resumes executing and returns, causing counter(9) to be popped off the stack.</li>
+	<li>counter(8) resumes executing and returns, causing counter(8) to be popped off the stack.</li>
+	<li>counter(7) resumes executing and returns, causing counter(7) to be popped off the stack.</li>
+	<li>counter(6) resumes executing and returns, causing counter(6) to be popped off the stack.</li>
+	<li>counter(5) resumes executing and returns, causing counter(5) to be popped off the stack.</li>
+	<li>counter(4) resumes executing and returns, causing counter(4) to be popped off the stack.</li>
+	<li>counter(3) resumes executing and returns, causing counter(3) to be popped off the stack.</li>
+	<li>counter(2) resumes executing and returns, causing counter(2) to be popped off the stack.</li>
+	<li>counter(1) resumes executing and returns, causing counter(1) to be popped off the stack.</li>
+	<li>counter(0) resumes executing and returns, causing counter(0) to be popped off the stack.</li>
+	<li>main() resumes executing and returns, causing main() to be popped off the stack.</li>
+	<li>With no methods remaining in the stack, the program is finished running and exits cleanly.</li>
+</ul>
+
+<p>The use of the stack is the main difference between recursive loops and iterative loops. It is also why recursive loops are generally slower and take more memory than iterative loops.</p>
+
+<p>Why do we use them then? It is true that any recursive loop can be rewritten as an iterative loop, and that the iterative loop will work more efficiently in nearly all scenarios. Recursion does have one major benefit though: it does not follow the typical iterative model. There is a lot more freedom than the "loop once, loop again, loop again" idea of iteration, making it so that more complex loops are actually much easier to write using recursion than loops. We'll see some great examples of that on Tuesday, but for now let's see another iterative/recursive comparison.
+
+<p id="exponent">Q: Write a method to calculate a given number to a specified power.</p>
+
+<pre class='brush: java; toolbar: false;'>
+public int power(int number, int exponent) {
+	//The iterative approach
+	
+	//Return early if we don't need to calculate the power
+	if(exponent == 0) return 1;
+
+	//Perform the multiplication
+	int ret = number;
+	for(int cnt = 1; cnt &lt; exponent; cnt++) {
+		ret *= number;
+	}
+
+	//Return the multiplied value
+	return ret;
+}
+
+</pre>
+
+<p>Not too hard. You simply loop as many times as the exponent specifies, multiplying the number by itself each time. How does recursion handle it?</p>
+
+<pre class='brush: java; toolbar: false;'>
+public int power(int number, int exponent) {
+	//The recursive approach
+
+	//Still return early if there is no exponent
+	if(exponent == 0) return 1;
+
+	//Our exit condition
+	if(exponent == 1) return number;
+	
+	//Recurse with a lower power and get the result of the deeper method
+	int recursedNumber = power(number, exponent - 1);
+
+	//Return this number * the recursedNumber, returning a new recursedNumber
+	return number * recursedNumber;
+}
+</pre>
+
+<img class='quote' src='/uploads/cs201/powerStack.png' />
+<p>Quite differently! In the recursive solution, each "loop" is another call to the method, and each call reduces the specified power by 1. When the power becomes 1, an intuitive rule of math takes over (any number to the power of 1 is that number) causing the original number to be returned. The methods then begin popping off the stack, but as they pop the return variable keeps getting multiplied by the original number. The stack pops as many times as there is an exponent so this produces the same final result. Let me explain that in a little more detail.</p>
+
+<p>Assuming that <code>power(3, 4)</code> was called:</p>
+<ul>
+	<li>power(3, 4) immediately calls power(3, 3) (1 method on the stack)</li>
+	<li>power(3, 3) immediately calls power(3, 2) (2 methods on the stack)</li>
+	<li>power(3, 2) immediately calls power(3, 1) (3 methods on the stack)</li>
+	<li>power(3, 1) triggers the exit condition, returning 3 (3 methods on the stack)</li>
+	<li>power(3, 2) multiplies the returned number, returning 9 (2 methods on the stack)</li>
+	<li>power(3, 3) multiplies the returned number, returning 27 (1 method on the stack)</li>
+	<li>power(3, 4) multiplies the returned number, returning 81 (No methods on the stack)</li>
+</ul>
+
+<p>Note that unlike the previous example, all of the actions in this recursive method are being executed as the method returns. This is known as <code>tail recursion</code> because all of the code is present at the tail-end of the process. This type of recursion and the previous example's <code>head recursion</code> are no different, they simply work better in different situations.</p>
+
+<p>Is the recursive example better than the iterative example? That is open to interpretation, but there is one major benefit to the recursive solution in that it lets the natural laws of exponents trigger the exit condition. There is no true counter variable being used.</p>
+
+<h3>A Warning</h3>
+
+<p>There is one major danger to recursive loops. Before I emphasized that you always need to define an exit condition. Let me repeat: <strong>Always <em>always</em> define an exit condition</strong>. The reason for this is that recursion uses the stack for its looping and because of this takes up additional memory for each loop.</p>
+
+<p>The end result of a missed exit condition in an iterative loop will cause that loop to repeat forever. This freezes your program, but the program will still often respond to a request to quit. With a recursive loop you do not get that nicety. As the loop repeats the memory allocated to your program slowly fills up, one repetition at a time. Eventually your program runs out of memory and a StackOverflowError is raised. This devilish little exception then crashes your program immediately.</p>
+
+<p>You might be thinking, "But if I can catch the error in a try-catch block, isn't that better than having to force-quit a frozen program?" You are right in some situations, but remember that Errors are a different class of exception, ones that should not be caught because they indicate a severely incorrect state in your program. For example, what if you were in a "threaded" application where multiple sections of code execute concurrently? While your thread running on processor core A is busy handling the StackOverflowError, your thread on processor code B decides to allocate memory for a 100-item array of Strings. It likely will not have its allocation approved and will cascade your error into the other thread, causing major instability in your program.</p>
+
+<p>Suffice it to say, StackOverflowErrors are a Bad Thing<sup>TM</sup>... unless you are talking about the <a href='http://stackoverflow.com'>Stack Overflow website</a> (which I highly recommend).</p>
+
+{% endblock %}

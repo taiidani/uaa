@@ -1,0 +1,188 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}File Input/Output, Serialization{% endblock %}
+
+{% block styles %}
+{{parent()}}
+<style>
+
+.example {
+	display: inline-block;
+	background-color: #EEF;
+	border: 1px solid #DDE;
+	padding: 5px 10px;
+	border-radius: 5px;
+	font-weight: bold;
+}
+
+.excerpt {
+	float: right;
+	font-size: 0.9em;
+	padding: 1em 0.5em;
+	margin: 0;
+	background-color: #EEE;
+	border: 1px solid #DDD;
+	border-radius: 5px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>Streams</li>
+	<li>Scanner</li>
+	<li>Parsing Text Files</li>
+	<li>PrintWriter</li>
+</ul>
+
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+
+<h3>Streams</h3>
+<div class='example'>
+	Example - <a href='/uploads/cs201/FileInput.java'>FileInput.java</a> &amp; <a href='/uploads/cs201/films.txt'>films.txt</a>
+</div>
+
+<p>Working with files is a very tricky endeavor. You need to know the type of file that you are working with and the exact format that the data within it is organized. There are two types of files out there that you should be aware of, binary and text. <strong>Binary</strong> is pure data, read directly by a program as bytes. You see binary files all of the time; every time you view an image online, listen to music, watch a movie, all are binary files. The other type of file, <strong>text</strong>, is just as ubiquitous. These files are binary as well (as that's how all data is stored) but instead of optimizing their data for a machine to read, they optimize their data for a person to read. Text files are simply a series of characters that can be read by a text editor. This website is written with text files and so is your Java source code.</p>
+
+<p>To read these files you will use <strong>Stream</strong> readers and writers. Think of Streams like a river of data; you can stop in the water at any one point but there is always more rushing by. With a Java Stream you point at a file or other source of information and constantly send/receive data with it until complete.</p>
+
+<h3>Scanner</h3>
+
+<p>There are many, many ways to read files. We're going to focus on using the familiar <strong>Scanner</strong> to read just text files. You have used Scanner before to read information from the Console, but as mentioned in lecture the Scanner object can scan anything you send to it through its constructor. We have already seen this:</p>
+
+<pre class='brush: java; toolbar: false;'>
+Scanner keyboard = new Scanner(System.in);
+String text = keyboard.readLine();
+</pre>
+
+<p>In this code, we send the System.in InputStream to Scanner, which reads the data that you type on the keyboard. In this way the user is the source of the water in your Stream. Files are not much different:</p>
+
+<pre class='brush: java; toolbar: false;'>
+FileInputStream stream = new FileInputStream("file.txt");
+Scanner reader = new Scanner(stream);
+String text = reader.readLine();
+reader.close();
+</pre>
+
+<p>A few things to note here:</p>
+<ul>
+	<li>To read from a file, you send a <strong>FileInputStream</strong> object to the Scanner's constructor</li>
+	<li>The constructor of the FileInputStream is a string denoting where on disk your file is. This String is relative to your NetBeans project directory but you may point it anywhere that you like with a standard path.</li>
+	<li>The <code>close()</code> method should be called on the Scanner once reading is complete. While you are reading the file it is often locked by Java; no other program may write to it. Closing your Scanner releases the lock on the file.</li>
+</ul>
+
+<p>You will also notice when you try this that NetBeans immediately complains with a message saying that a "FileNotFoundException is expected to be caught." This refers to the world of Exceptions that we will be covering later in the semester, so don't worry about it now. To get around this you add "throws Exception" (or whatever type of exception you are seeing in your error) at the end of your <code>main()</code> method definition:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public static void main(String[] args) throws FileNotFoundException {
+	//...
+}
+</pre>
+
+<p>This code tells Java that you understand that the FileInputStream may raise errors if it can't find the file that it is looking for, and to crash the application if this happens.</p>
+
+<h3>Parsing Text Files</h3>
+
+<p>Once you have an instantiated Scanner object, reading from the file is very nearly the same as reading from the Console with the notable exception that reading will retrieve the data immediately without waiting for the user. It is also important to keep in mind that you often have no clue how much input you will receive from a file. ArrayList and loops come in very handy in these situations:</p>
+
+<pre class='brush: java; toolbar: false;'>
+FileInputStream stream = new FileInputStream("file.txt");
+Scanner reader = new Scanner(stream);
+
+ArrayList<String> lines = new ArrayList<String>();
+
+while(reader.hasNextLine()) {
+	lines.add(reader.nextLine());
+}
+
+reader.close();
+</pre>
+
+<p>This example shows the typical way of retrieving all lines of text from a file. Once you have the strings in your <code>lines</code> object you can ignore the fact that they ever came from a file; at that point they are just String objects. You should also make sure that your loop has a proper exit condition. In the case above the code prevents an EOF (End of File) error by first checking to see if the Stream has another line available before reading it. If no more lines are available or the file is empty, the loop will exit.</p>
+
+<p>But all you have are Strings! What about integers, doubles and all of the other data types? Well, remember that Scanner has read operations for that, too. I could have used <code>reader.nextInt()</code> rather than <code>nextLine()</code>, and this works great but can be very complicated when mixing data types. Instead, my preference is to read in the data as a String and then convert it as necessary with <strong>parsing</strong>.</p>
+
+<p>All of the primitives have a corresponding class by the verbose version of their name. ints relate to the Integer class, chars to the Character class, doubles to Double and so on. These classes allow the primitives to be represented in Java as objects and gain all of the benefits (and additional memory usage) that objects provide. They also all have static methods that allow you to parse, or interpret, Strings as a target data type. This lets you convert from Strings to the numeric types fairly easily:</p>
+
+<pre class='brush: java; toolbar: false;'>
+String numbers = "64 42 56.7";
+String[] aryNumbers = numbers.split(" ");
+
+byte exampleByte = Byte.parseByte(aryNumbers[0]);
+int exampleInt = Integer.parseInt(aryNumbers[1]);
+double exampleDouble = Double.parseDouble(aryNumbers[2]);
+</pre>
+
+<p>Each primitive has one of these corresponding parse methods in their objects. Be wary though that an error will be raised if the parser fails to interpret your String, similar to when Scanner receives bad input from the keyboard.</p>
+
+<h3>PrintWriter</h3>
+
+<p>Writing to a text file is just as easy as reading from one but uses two classes that we have not seen before. To write to a file you use <strong>FileWriter</strong> and <strong>PrintWriter</strong>, and fortunately their use is very similar to FileInputStream and Scanner.</p>
+
+<pre class='brush: java; toolbar: false;'>
+FileWriter file = new FileWriter("file.txt");
+PrintWriter writer = new PrintWriter(file);
+
+writer.println("Hello World");
+
+writer.close();
+</pre>
+
+<p>Looks very familiar, eh? With Writers you gain the same methods that you'd expect to see when working with System.out. You can use both print and println to your advantage here. Here's an example of writing the same lines to a file that you just read:</p>
+
+<pre class='brush: java; toolbar: false;'>
+//Open file for reading
+FileInputStream stream = new FileInputStream("file.txt");
+Scanner reader = new Scanner(stream);
+
+//Initialize array to hold your lines
+ArrayList<String> lines = new ArrayList<String>();
+
+//Read each line from the file into the array
+while(reader.hasNextLine()) {
+	lines.add(reader.nextLine());
+}
+
+//Always close your files when you are done with them!
+reader.close();
+
+//Open file for writing
+FileWriter file = new FileWriter("file.txt");
+PrintWriter writer = new PrintWriter(file);
+
+//Write all lines you just read back to the file
+// ( for(int cnt = 0; cnt &lt; lines.size(); cnt++) )
+for(String line : lines) {
+	writer.println(line);
+}
+
+//Always close!
+writer.close();
+</pre>
+
+<p>Note that this will completely overwrite the file with the exact same text that was just read. The moment that you open the file for writing you erase everything that was previously existing at that location. Sometimes you want this, but other times (say, if you were writing debugging or log entries to a file) you want to keep what was already present. The FileWriter class has a constructor that allows for this; simply specify the filename as your first parameter as seen above, and send a boolean True in as the second parameter. This causes the FileWriter to open in <strong>append</strong> mode, adding any text to the end of the file.</p>
+
+<pre class='brush: java; toolbar: false;'>
+//Add new text to a file
+String entry = "Dear diary ...";
+
+//Open file for appending
+FileWriter file = new FileWriter("diary.log", true);
+PrintWriter writer = new PrintWriter(file);
+
+//Add an entry to the end of the file
+writer.println(entry);
+
+//Always close!
+writer.close();
+</pre>
+
+<p>This is only a very brief look at file input and output. If we have time later in the semester I will show you ways of reading and writing actual Java objects to files. This allows you to store objects in the filesystem so that later runs of your program may reuse those same objects, and works with binary streams rather than the text streams we learned today.</p>
+
+{% endblock %}

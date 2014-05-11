@@ -1,0 +1,62 @@
+A sample student/class tracking database. This allows storage of students/faculty and the classes
+that they are registered through. It also tracks the class schedule and the student attendance for
+that class.
+
+What it does NOT do:
+- Take into account finals week or holidays
+- Disallow an attendance on a non-scheduled day
+
+------------------------------------------------------------------------------------------------------------
+* = Primary key
+@ = Foreign key (the referenced table will be inferred from the attribute's name)
+
+(table_name: *primary_key constraints, attribute constraints, @foreign_id constraints)
+------------------------------------------------------------------------------------------------------------
+
+-- 1:M table for a person's gender. This is similar in functionality to a "code table"
+(ct_gender: *id, name)
+
+-- 1:M table for a person's role in a class' registration (ie. student, faculty). This is similar in functionality to a "code table"
+(ct_role: *id, name)
+
+-- 1:M table for days of the week. This is similar in functionality to a "code table"
+(ct_day: *id, name)
+
+-- Primary table containing address information
+(address: *id, streetno NOT NULL, street NOT NULL, city NOT NULL, state NOT NULL, zip NOT NULL)
+
+-- Primary table for department information
+(department: *id, name NOT NULL)
+
+-- Primary table for department majors
+(major: *id, @department_id NOT NULL, name NOT NULL, abbr NOT NULL)
+
+-- Person table containind definitions for students, staff, faculty, etc.
+(person: *id, first NOT NULL, middle, last NOT NULL, @gender_id NOT NULL, dob, @address_id)
+
+-- 1:1 Table for persons who are also students. Contains information specific to students
+(person_student: @*person_id, out_of_state NOT NULL DEFAULT FALSE)
+
+-- 1:1 Table for person's who are also faculty. Contains information specific to faculty
+(person_faculty: @*person_id, @department_id NOT NULL, bio)
+
+-- Primary table for all class information
+(class: *id, @department_id NOT NULL, name NOT NULL, course NOT NULL, credits NOT NULL, section)
+
+-- A term length for classes containing the date range that it is available
+(term: *id, season NOT NULL, year NOT NULL, from_date NOT NULL, to_date NOT NULL)
+
+-- Primary table for buildings, holding rooms
+(building: *id, name, @address_id NOT NULL)
+
+-- Primary table for classrooms & lab areas (1:M relationship with buildings)
+(room: *id, @building_id NOT NULL, num,	name)
+
+-- M:M Table between Person & Class (class registrations)
+(class_registration: *id, @person_id NOT NULL, @term_id NOT NULL, @class_id NOT NULL, role_id NOT NULL DEFAULT "S")
+
+-- 1:M table displaying invididual attendance records
+(class_attendance: *id, @class_registration_id NOT NULL, attended NOT NULL, partial NOT NULL DEFAULT FALSE)
+
+-- 1:M table for class schedules, what days of the week & times they meet
+(class_schedule: *id, @class_id NOT NULL, @term_id NOT NULL, @room_id, @day_id NOT NULL, from_time NOT NULL, to_time NOT NULL)

@@ -1,0 +1,60 @@
+{% extends 'cs109/base.twig' %}
+
+{% block content %}
+		<h1 class='title'>Assignment 4, Built-in Functions and Calculated Fields</h1>
+
+		{% include 'cs109/assignments/tile_summary.twig' %}
+
+		<h2>Questions</h2>
+		<ol class='assignment_questions'>
+			
+			<li>In your own words, describe the difference between aggregate functions, row-level functions and calculated fields.</li>
+
+			<li>Name a row-level function and either describe or diagram the state of data in a row before and after that function is applied.</li>
+
+			<li>In what situation might COUNT produce a different number of rows than the actual count of rows in the resultset? How would you format your function call to return this alternate number?</li>
+
+			<li>How does the second parameter to ROUND affect its functionality?</li>
+
+			<li>Present a real-life scenario where RAND might be useful in the SELECT clause of a query.</li>
+
+			<li>What is casting? In what situations is casting useful?</li>
+
+			<li>At what point in the execution of a query is the TOP/LIMIT function applied?</li>
+
+			<li>Write a query that calculates the absolute value of the expression 3 * (5 / 9.5) - 20, rounded to the nearest whole number. Note: You should only have to use a SELECT clause for this query.</li>
+
+			<p>
+				<img src='/images/Resultset1.png' style='width: 300px;' />
+				<img src='/images/Resultset2.png' style='width: 300px;' />
+			</p>
+
+			<p>For the next few questions, reference the tables above for your queries.</p>
+
+			<li>Write a query to display the top score for all assignments in the grade table.</li>
+
+			<li>Write a query to display the lowest score for the assignment with id 3 in the grade table.</li>
+
+			<li>Write a query to display the average score for all assignments in the grade table.</li>
+
+			<li>Write a query to display the difference in points between the lowest and highest score in the grade table.</li>
+
+			<li>Write a query to display the number of students over 30 in the student table (note that age is an int, not a date).</li>
+
+			<p>All subsequent questions use the example database linked to at the top of this page. The questions expect only the information already present in the database; no additional information needs to be inserted to provide an answer.</p>
+
+			<li>Write a query to display the number of persons in the person table. Provide a reasonable alias for the displayed column.</li>
+
+			<li>Write a query displaying all majors' abbreviations that begin with the letter 'C'. Ensure that the abbreviation displays in uppercase letters regardless of the case of the data itself.</li>
+
+			<li>Using <em>only</em> SELECT and FROM (no WHERE or JOIN), write a query to display the number of persons in the person table that have an address.</li>
+
+			<li>Write a query to display all <em>unique</em> city, state &amp; zip codes in a single column.</li>
+
+			<li>Write a query to display the first 10 records in the person table that would appear in the White Pages.</li>
+
+			<li>Write a query to display only the day (not month or year) that Ellen Gifford was born.</li>
+
+			<li>Write a query to display the current month and day at the time the query is run, separated by a backslash in a single column. An example row from this column might be '10/02' or '10/2'.</li>
+		</ol>
+{% endblock %}

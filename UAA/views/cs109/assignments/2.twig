@@ -1,0 +1,54 @@
+{% extends 'cs109/base.twig' %}
+
+{% block content %}
+		<h1 class='title'>Assignment 2, Simple SQL Queries with Selection and Projection</h1>
+
+		{% include 'cs109/assignments/tile_summary.twig' %}
+
+		<h2>Questions</h2>
+		<ol class='assignment_questions'>
+			<li>If you want to query for only specific columns in a table, how would you format your SELECT to achieve that?</li>
+
+			<li>If a column has an unintuitive or ambiguous name, what can you do so that your results are easier to understand?</li>
+
+			<li>If you are running multiple queries (common when inserting data), what do you use to denote when one query ends and another begins? What is name that commonly refers to this collection of queries?</li>
+
+			<li>Give an example in SQL of when you would want to order a resultset in descending order.</li>
+
+			<li>Provide 5 other applications or websites besides SQL where boolean expressions are in use.</li>
+
+			<li>What would the boolean expression <code>(3 &lt; 5 OR 5 = 5) AND NOT ('SQL' &gt;= 'BOOL')</code> equate to?</li>
+
+			<p>For the following questions use this resultset as a reference:<br/><img style='width: 300px;' src='/images/Resultset1.png' /></p>
+
+			<li>Write 3 different SQL queries that would retrieve only Nathan Drake's row. At least one of them must use "IS NULL".</li>
+
+			<li>Write a query for all persons that are older than 30.</li>
+
+			<li>Write a query for anyone whose first name begins with a vowel.</li>
+
+			<li>How would the SQL expression <code>(age &lt; 38 AND age &gt; 35) OR last > 'Vance'</code> filter the resultset?</li>
+
+			<p>All subsequent questions use the example database linked to at the top of this page. The questions expect only the information already present in the database; no additional information needs to be inserted to provide an answer.</p>
+
+			<li>How many students are registered for this class in the database? Remember to exclude faculty.</li>
+
+			<li>When and where does the Fundamentals of Oceanography class meet?</li>
+
+			<li>Under what department is the Principals of Nutrition class?</li>
+
+			<li>Write a query for all women born before 1970.</li>
+
+			<li>Write a query showing all unique courses in the database. Your SELECT statement should not include the CRN or the class section.</li>
+
+			<li>Write 2 different queries that list all addresses with cities in the state of Alaska.</li>
+
+			<li>Write a query for all classes that meet on Monday between 4:00pm and 5:15pm.</li>
+
+			<li>Write a query to find all lab classes (remember that "lab" has multiple spellings).</li>
+
+			<li>Write a query to list any persons without a registered address.</li>
+
+			<li>Write at least 2 different queries listing the UAID numbers for students considered "Out of state".</li>
+		</ol>
+{% endblock %}

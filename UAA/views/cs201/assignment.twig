@@ -1,0 +1,27 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block landing %}
+<p>Assignments are multi-week projects meant to test your ability to use the skills from all of the lectures taught so far.</p>
+
+<p>Assignments will be graded according to the following rubric:</p>
+<ul>
+	<li>10 points for a successfully compiling program.</li>
+	<li>10 points for a program whose source code follows instructions and produces correct output.</li>
+	<li>5 points for proper documentation including JavaDoc and appropriate use of comments and variable names.</li>
+</ul>
+
+<p>Extra credit will also be given at my discretion. These opportunities will be noted at the bottom of the assignment page.</p>
+
+{% endblock %}
+
+{% block last %}
+{% block extra %}
+<h2>Extra Credit</h2>
+{% endblock %}
+
+{% block answer %}
+<h2>Solution</h2>
+{% endblock %}
+{% endblock %}
+
+{% block notes %}{% endblock %}

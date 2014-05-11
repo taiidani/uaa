@@ -1,0 +1,200 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Exceptions, Exception Handling{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>The Exception</li>
+	<li>Throwing &amp; Catching</li>
+	<li>Finally</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+
+<div class='example'>
+	Examples:
+	<blockquote>
+		<a href='/uploads/cs201/Exceptions.java'>Exceptions.java</a><br/>
+		<a href='/uploads/cs201/Flight.java'>Flight.java</a><br/>
+		<a href='/uploads/cs201/MidTerm.java'>MidTerm.java</a><br/>
+	</blockquote>
+</div>
+
+<h3>Exceptions</h3>
+
+<p>As you create larger and more complex programs you will notice that as the capabilities of the program increase, the potential for bugs increase as well. As objects interact with each other there is increased possibility that something may go wrong or that a method is called incorrectly. In most cases this will crash your program or, worse, make it freeze indefinitely.</p>
+
+<p>Exceptions were made as a deterrent to these erroneous states. They allow for the software designer to identify points in their program where they:</p>
+<ul>
+	<li>Can't handle something going wrong in one of their actions (a file not being found).</li>
+	<li>Receive incomplete or incorrect information that they require (a <code>null</code> argument being used where an object is expected).</li>
+	<li>Decide that further execution of their logic is impossible (an endless loop or timeout).</li>
+</ul>
+
+<p>Before exceptions these situations had to be handled either by letting the program crash or through extreme diligence of checking all variables before they are used. Those solutions are heavy-handed and messy, so the Exception syntax does its best to clean that up.</p>
+
+<h3>Throwing &amp; Catching</h3>
+
+<p>When dealing with exceptions, the primary concept you will need to keep in mind is of <strong>throwing</strong> and <strong>catching</strong>. Your methods may "throw" Exceptions when they can't handle them, and other methods that they throw to can "catch" the Exceptions and <strong>handle</strong> them as need be by cleanly dealing with the error.</p>
+
+<p>I like to think of a [slightly modified] game of hot potato when visualizing throwing &amp; catching. The person with the hot potato keeps lobbing it to the next person. If that person can't handle the heat, they lob it on to the next person. Eventually it gets tossed to the smart player in the room that thought to wear gloves, and that person gets to keep the potato. If no one is smart enough to handle the heat, eventually the potato gets dropped and the game is over.</p>
+
+<pre class='brush: java; toolbar: false;'>
+try {
+	//An object of type Potato is declared but not initialized.
+	Potato hotPotato = null;
+
+	//The uninitialized object (a null reference) is then used
+	hotPotato.eat();
+
+	//The above code throws a NullReference exception, meaning that
+	//this code is never reached.
+	System.out.println("Yum!");
+}
+catch(Exception ex) {
+	//This code is executed upon error, and prevents the program from crashing.
+	System.out.println("You can't eat air, silly!");
+}
+</pre>
+
+<p>The above syntax is how to set up what is called a <strong>try-catch block</strong>. It allows a program to handle any errors that may occur within the scope of the braces after <code>try</code>. If any error occurs then the code in <code>catch</code> is executed to handle it. If no error occurs then <code>catch</code> will not execute.</p>
+
+<p>You can also nest try-catch blocks, and deal with specific types of exceptions:</p>
+<pre class='brush: java; toolbar: false;'>
+try {
+	try {
+		Potato hotPotato = null;
+		hotPotato.eat();
+		System.out.println("Yum!");
+	}
+	catch(NullReferenceException ex) {
+		//This code is executed only when a null reference is encountered...
+		System.out.println("You can't eat air, silly!");
+	}
+}
+catch(Exception ex) {
+	//If some other error is encountered such as the program running out of memory...
+	System.out.println("Something unexpected happened.");
+}
+</pre>
+
+<p>Try-Catch blocks have no limit to their nesting, just like if statements. If, like above, you have two try-catch blocks immediately within each other, you may combine them into a single try-catch block by removing the redundant <code>try</code> and appending the more vague exception to after the previous <code>catch</code>. When an exception is thrown, only the first applicable <code>catch</code> block is executed, so always place the most specific exception first:</p>
+
+<pre class='brush: java; toolbar: false;'>
+try {
+	Potato hotPotato = null;
+	hotPotato.eat();
+	System.out.println("Yum!");
+}
+catch(NullReferenceException ex) {
+	//This code is executed only when a null reference is encountered...
+	System.out.println("You can't eat air, silly!");
+}
+catch(Exception ex) {
+	//If some other error is encountered such as the program running out of memory...
+	System.out.println(ex.getMessage());
+}
+</pre>
+
+<p>You should also see in the example above a very important method for exceptions, <code>getMessage()</code>. This allows you to retrieve a String containing the error message in question. Above, the all-inclusive <code>catch</code> block simply prints whatever exception it receives to the Console.</p>
+
+<p>Lastly, if our <code>catch</code> block discovers that it in fact cannot handle what has been thrown to it, the block may <strong>rethrow</strong> the error:</p>
+
+<pre class='brush: java; toolbar: false;'>
+try {
+	Potato hotPotato = null;
+	hotPotato.eat();
+	System.out.println("Yum!");
+}
+catch(NullReferenceException ex) {
+	//This method doesn't know what to do...
+	throw ex;
+}
+</pre>
+
+<p>In this case, the NullReferenceException will be thrown again as if the try-catch block wasn't even there. But doesn't this mean the program will crash? In fact, while it might, there are still many possibilities of this Exception being caught. Remember that each method executing is tracked in a list-like data structure called <a href='/cs201/lectures/8/'><strong>the stack</strong></a>. When a method returns, that method's signature is <strong>popped</strong> (removed) off the top of the stack, and the method below it that initially called it continues executing. Exceptions take advantage of the stack, and will continue traveling down the stack until it finds a method that can catch it. At that point the catch block in that method executes, and the code continues executing <em>immediately after</em> that block. Note that this means the original method that threw the exception no longer runs.</p>
+
+<pre class='brush: java; toolbar: false;'>
+public static void dividerDriver() {
+	try {
+		System.out.println(divider(5, 0));
+	}
+	catch(DivideByZeroException ex) {
+		System.out.println("You cannot divide by zero.");
+	}
+
+	//This code is executed immediately after the catch block
+	System.out.println("Well there you have it.");
+}
+
+public static double divider(double a, double b) {
+	return performDivide(a, b);
+}
+
+private static double performDivide(double a, double b) {
+	double result = a / b;
+
+	//This code will never execute due to the exception
+	return result;	
+}
+</pre>
+
+<p>If the above method <code>dividerDriver</code> was executed, it would end up adding <code>divider(double, double)</code> and <code>performDivide(double, double)</code> to the stack. If <code>performDivide</code> then divides by 0 a DivideByZeroException is thrown. <code>performDivide</code> doesn't know how to handle it, so up the stack it goes. <code>divider(double, double)</code> can't handle the exception either so it goes up the stack one more time to the original caller. The exception is then caught and handled at that point and the program continues running normally. If the exception had not been caught, the stack would eventually empty and the program would crash.</p>
+
+<p>You may also declare in advance that your method will throw an exception. This causes the Java compiler to force the method calling it to catch any potential exceptions of that type. Taking above as an example:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public static void dividerDriver() {
+	try {
+		System.out.println(divider(5, 0));
+	}
+	//This catch block MUST be present or the program won't even compile
+	catch(DivideByZeroException ex) {
+		System.out.println("You cannot divide by zero.");
+	}
+}
+
+public static double divider(double a, double b) throws NullReferenceException {
+	return a / b;
+}
+</pre>
+
+<p>Note the "throws NullReferenceException" text immediately after the <code>divider</code> method definition but before the braces. You may have your method throw as many exceptions here separated by commas, but it is in your best interest to only declare the specific exceptions that will be thrown to prevent headaches to whoever has to call it.</p>
+
+<h3>Finally</h3>
+
+<p>An important but far less used component of exception handling is the <strong>finally</strong> block. This is placed after your <code>catch</code> blocks and ensures that whatever happens to the flow of the program, the code in the <code>finally</code> block will execute.</p>
+
+<p>Because exceptions can dramatically manipulate the order of code execution (such as ending a method before it finishes), some critical logic may be skipped. If you put this logic in a <code>finally</code> block after your <code>catch</code> blocks, it will execute in the cases of:</p>
+
+<ul>
+	<li>The <code>try</code> block finishing without error.</li>
+	<li>A <code>catch</code> block finishing handling a raised error.</li>
+	<li>An exception not being handled and leaving the scope of the containing method.</li>
+</ul>
+
+<p>While not often used, this makes finally great for handling files:</p>
+<pre class='brush: java; toolbar: false;'>
+public static void readFile() {
+	try {
+		Scanner input = new Scanner(new FileInputStream("file.txt"));
+
+		try {
+			input.readLine();
+		}
+		finally {
+			//Regardless of whatever happens when reading the file, the
+			//file will always be cleanly closed.
+			input.close();
+		}
+	}
+	catch(FileNotFoundException ex) {
+		System.out.println("Could not find the file in question.");
+	}
+}
+</pre>
+
+{% endblock %}

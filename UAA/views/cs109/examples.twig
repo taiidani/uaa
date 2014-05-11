@@ -1,0 +1,772 @@
+{% extends 'cs109/base.twig' %}
+
+{% block styles %}
+	<link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,700' rel='stylesheet' type='text/css'>
+	<link rel='stylesheet' href='/styles/syntaxhighlighter/shCore.css' />
+	<link rel='stylesheet' href='/styles/syntaxhighlighter/shThemeDefault.css' />
+{% endblock %}
+
+{% block scripts %}
+	<script src='/scripts/shCore.js'></script>
+	<script src='/scripts/shBrushSql.js'></script>
+
+	<script>
+		SyntaxHighlighter.all();
+	</script>
+{% endblock %}
+
+{% block content %}
+		<h1 class='title'>SQL Examples</h1>
+
+		<p>
+			This page will contain sample resultsets from queries against the example database. Each section has queries relevant to the content taught in that unit.
+		</p>
+
+		<p>
+			<strong>*NOTE*</strong> These queries are written against the MySQL implementation of SQL. Due to this, the following differences are present:
+			<ul>
+				<li>Table names are not prefixed with "dbo_".</li>
+				<li>LIKE operators' wildcards are '%' rather than the Microsoft Access '*' character.</li>
+			</ul>
+
+			<p>Additional differences will present themselves when more advanced queries are used and will be noted here as they are added.</p>
+		</p>
+			
+		<h2>Unit 2</h2>
+		
+		<ol>
+			<li>
+				<p>Select the first and last name of all women whose first name start with 'W'.</p>
+
+				<blockquote>
+					<pre class='brush: sql; toolbar: false;'>
+						SELECT first AS 'First Name', last AS 'Last Name'
+						FROM person
+						WHERE gender_id = 'F' AND first LIKE 'W%'</pre>
+
+					<p>
+						<table border=1 cellpadding=5>
+							<thead>
+								<tr>
+									<th>first</th>
+									<th>last</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Wanda</td>
+									<td>Daniel</td>
+								</tr>
+								<tr>
+									<td>Wendy</td>
+									<td>Schultz</td>
+								</tr>
+							</tbody>
+						</table>
+					</p>
+				</blockquote>
+			</li>
+			<li>
+				<p>Who is teaching the "Bookkeeping for Business I" class?</p>
+
+				<blockquote>
+					<pre class='brush: sql; toolbar: false;'>
+						SELECT id
+						FROM class
+						WHERE name = 'Bookkeeping for Business I'</pre>
+
+					<p>
+						<table border=1 cellpadding=5>
+							<thead>
+								<tr>
+									<th>id</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>70007</td>
+								</tr>
+							</tbody>
+						</table>
+					</p>
+				</blockquote>
+
+				<blockquote>
+					<pre class='brush: sql; toolbar: false;'>
+						SELECT person_id
+						FROM class_registration
+						WHERE class_id = 70007 AND role_id = 'F'</pre>
+
+					<p>
+						<table border=1 cellpadding=5>
+							<thead>
+								<tr>
+									<th>person_id</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>30641335</td>
+								</tr>
+							</tbody>
+						</table>
+					</p>
+				</blockquote>
+
+				<blockquote>
+					<pre class='brush: sql; toolbar: false;'>
+						SELECT first, middle, last
+						FROM person
+						WHERE id = 30641335</pre>
+
+					<p>
+						<table border=1 cellpadding=5>
+							<thead>
+								<tr>
+									<th>first</th>
+									<th>middle</th>
+									<th>last</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Kari</td>
+									<td>Z</td>
+									<td>Dupree</td>
+								</tr>
+							</tbody>
+						</table>
+					</p>
+				</blockquote>
+			</li>
+
+			<li>
+				<p>What department does Melissa M Miller work for?</p>
+
+				<blockquote>
+					<pre class='brush: sql; toolbar: false;'>
+						SELECT id
+						FROM person
+						WHERE first = 'Melissa' AND middle = 'M' AND last = 'Miller'</pre>
+
+					<p>
+						<table border=1 cellpadding=5>
+							<thead>
+								<tr>
+									<th>id</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>30637242</td>
+								</tr>
+							</tbody>
+						</table>
+					</p>
+				</blockquote>
+
+				<blockquote>
+					<pre class='brush: sql; toolbar: false;'>
+						SELECT department_id
+						FROM person_faculty
+						WHERE person_id = 30637242</pre>
+
+					<p>
+						<table border=1 cellpadding=5>
+							<thead>
+								<tr>
+									<th>department_id</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>26</td>
+								</tr>
+							</tbody>
+						</table>
+					</p>
+				</blockquote>
+
+				<blockquote>
+					<pre class='brush: sql; toolbar: false;'>
+						SELECT name
+						FROM department
+						WHERE id = 26</pre>
+
+					<p>
+						<table border=1 cellpadding=5>
+							<thead>
+								<tr>
+									<th>name</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>English Department</td>
+								</tr>
+							</tbody>
+						</table>
+					</p>
+				</blockquote>
+			</li>
+		</ol>
+
+		<h2>Unit 3</h2>
+
+		<ol>
+			<li>
+				<p>Who is teaching the "Bookkeeping for Business I" class?</p>
+
+				<blockquote>
+					<pre class='brush: sql; toolbar: false;'>
+						SELECT first, middle, last
+						FROM class
+						INNER JOIN class_registration AS reg ON (reg.class_id = class.id)
+						INNER JOIN person ON (person.id = reg.person_id)
+						WHERE class.name = 'Bookkeeping for Business I' AND role_id = 'F'</pre>
+
+					<p>
+						<table border=1 cellpadding=5>
+							<thead>
+								<tr>
+									<th>first</th>
+									<th>middle</th>
+									<th>last</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Kari</td>
+									<td>Z</td>
+									<td>Dupree</td>
+								</tr>
+							</tbody>
+						</table>
+					</p>
+				</blockquote>
+			</li>
+			<li>
+				<p>What department does Melissa M Miller work for?</p>
+
+				<blockquote>
+					<pre class='brush: sql; toolbar: false;'>
+						SELECT name
+						FROM person
+						INNER JOIN person_faculty AS faculty ON (faculty.person_id = person.id)
+						INNER JOIN department ON (department.id = faculty.department_id)
+						WHERE first = 'Melissa' AND middle = 'M' AND last = 'Miller'</pre>
+
+					<p>
+						<table border=1 cellpadding=5>
+							<thead>
+								<tr>
+									<th>name</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>English Department</td>
+								</tr>
+							</tbody>
+						</table>
+					</p>
+				</blockquote>
+			</li>
+			<li>
+				<p>Select all addresses in Anchorage as well as any persons that may live at them.</p>
+
+				<blockquote>
+					<pre class='brush: sql; toolbar: false;'>
+						SELECT streetno, street, city, state, zip, first, middle, last
+						FROM address
+						LEFT JOIN person ON (person.address_id = address.id)
+						WHERE city = 'Anchorage' AND state = 'AK'</pre>
+
+					<p>
+						<table border=1 cellpadding=5>
+							<thead>
+								<tr>
+									<th>streetno</th>
+									<th>street</th>
+									<th>city</th>
+									<th>state</th>
+									<th>zip</th>
+									<th>first</th>
+									<th>middle</th>
+									<th>last</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>3211</td>
+									<td>Providence Dr</td>
+									<td>Anchorage</td>
+									<td>AK</td>
+									<td>99508</td>
+									<td>NULL</td>
+									<td>NULL</td>
+									<td>NULL</td>
+								</tr>
+								<tr>
+									<td>500</td>
+									<td>W Campus Drive</td>
+									<td>Anchorage</td>
+									<td>AK</td>
+									<td>99508</td>
+									<td>NULL</td>
+									<td>NULL</td>
+									<td>NULL</td>
+								</tr>
+								<tr>
+									<td>3150</td>
+									<td>Providence Dr</td>
+									<td>Anchorage</td>
+									<td>AK</td>
+									<td>99508</td>
+									<td>Willie</td>
+									<td>B</td>
+									<td>Hurst</td>
+								</tr>
+								<tr>
+									<td>3800</td>
+									<td>Old Seward Hwy</td>
+									<td>Anchorage</td>
+									<td>AK</td>
+									<td>99503</td>
+									<td>Robert</td>
+									<td>E</td>
+									<td>White</td>
+								</tr>
+								<tr>
+									<td>112</td>
+									<td>Seawolf Dr</td>
+									<td>Anchorage</td>
+									<td>AK</td>
+									<td>99508</td>
+									<td>NULL</td>
+									<td>NULL</td>
+									<td>NULL</td>
+								</tr>
+								<tr>
+									<td>10928</td>
+									<td>Eagle River Road</td>
+									<td>Anchorage</td>
+									<td>AK</td>
+									<td>99577</td>
+									<td>NULL</td>
+									<td>NULL</td>
+									<td>NULL</td>
+								</tr>
+								<tr>
+									<td>200</td>
+									<td>Spirit Way</td>
+									<td>Anchorage</td>
+									<td>AK</td>
+									<td>99508</td>
+									<td>David</td>
+									<td>M</td>
+									<td>Story</td>
+								</tr>
+
+								<tr>
+									<td>512</td>
+									<td>UAA Dr</td>
+									<td>Anchorage</td>
+									<td>AK</td>
+									<td>99508</td>
+									<td>NULL</td>
+									<td>NULL</td>
+									<td>NULL</td>
+								</tr>
+
+								<tr>
+									<td>135</td>
+									<td>Alumni Dr</td>
+									<td>Anchorage</td>
+									<td>AK</td>
+									<td>99508</td>
+									<td>NULL</td>
+									<td>NULL</td>
+									<td>NULL</td>
+								</tr>
+
+								<tr>
+									<td>138</td>
+									<td>Alumni Dr</td>
+									<td>Anchorage</td>
+									<td>AK</td>
+									<td>99508</td>
+									<td>Melinda</td>
+									<td>G</td>
+									<td>Collins</td>
+								</tr>
+
+								<tr>
+									<td>146</td>
+									<td>Alumni Dr</td>
+									<td>Anchorage</td>
+									<td>AK</td>
+									<td>99508</td>
+									<td>Catherine</td>
+									<td>E</td>
+									<td>Lebron</td>
+								</tr>
+							</tbody>
+						</table>
+					</p>
+				</blockquote>
+			</li>
+		</ol>
+
+		<h2>Unit 4</h2>
+
+		<ol>
+
+			<li>
+				<p>Write a query to that displays the largest number of credits offered for a course.</p>
+
+				<pre class='brush: sql; toolbar: false;'>
+					SELECT MAX(credits) AS credits
+					FROM class</pre>
+
+				<p>
+					<table border=1 cellpadding=5>
+						<thead>
+							<tr>
+								<th>credits</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>7</td>
+							</tr>
+						</tbody>
+					</table>
+				</p>
+			</li>
+			
+
+			<li>
+				<p>Write a query listing the number of majors whose name begins with 'A'.</p>
+
+				<pre class='brush: sql; toolbar: false;'>
+					SELECT COUNT(major.id) AS count
+					FROM major
+					WHERE name LIKE 'A%'</pre>
+
+				<p>
+					<table border=1 cellpadding=5>
+						<thead>
+							<tr>
+								<th>count</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>14</td>
+							</tr>
+						</tbody>
+					</table>
+				</p>
+			</li>
+
+			<li>
+				<p>Write a query listing the last 5 classes that would appear in the course catalog.</p>
+
+				<pre class='brush: sql; toolbar: false;'>
+					SELECT class.name
+					FROM class
+					INNER JOIN major ON (major.id = class.major_id)
+					ORDER BY major.abbr DESC, class.name DESC
+					LIMIT 5</pre>
+
+				<p>
+					<table border=1 cellpadding=5>
+						<thead>
+							<tr>
+								<th>name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Teaching World Language in Secondary Schools</td>
+							</tr>
+							<tr>
+								<td>Teaching Social Studies in Secondary Schools</td>
+							</tr>
+							<tr>
+								<td>Teaching Science in Secondary Schools</td>
+							</tr>
+							<tr>
+								<td>Teaching Mathematics in Secondary Schools</td>
+							</tr>
+							<tr>
+								<td>Teaching English/Language Arts in Secondary Schools</td>
+							</tr>
+						</tbody>
+					</table>
+				</p>
+			</li>
+
+
+			<li>
+				<p>Write a query to list all classes that meet halfway through the hour (30 minutes in).</p>
+
+				<pre class='brush: sql; toolbar: false;'>
+					SELECT DISTINCT class.name
+					FROM class_schedule
+					INNER JOIN class ON (class.id = class_schedule.class_id)
+					WHERE STRFTIME('%M', from_time) = '30'</pre>
+
+				<p>
+					<table border=1 cellpadding=5>
+						<thead>
+							<tr>
+								<th>name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Entry-Level Accounting Internship</td>
+							</tr>
+							<tr>
+								<td>Advanced Income Tax</td>
+							</tr>
+							<tr>
+								<td>Governmental and Not-for-Profit Accounting</td>
+							</tr>
+						</tbody>
+					</table>
+				</p>
+			</li>
+		</ol>
+
+		<h2>Unit 5</h2>
+
+		<ol>
+			<li>
+				<p>Write a query listing each building and room that has over 2 meeting times scheduled for it, ordered by the most overscheduled room first.</p>
+
+				<pre class='brush: sql; toolbar: false;'>
+					SELECT building.name, room.num, COUNT(class_id) AS count
+					FROM class_schedule AS sched
+					INNER JOIN room ON room.id = sched.room_id
+					INNER JOIN building ON building.id = room.building_id
+					GROUP BY building.name, room.num
+					HAVING COUNT(class_id) > 2
+					ORDER BY count DESC, building.name ASC</pre>
+
+				<p>
+					<table border=1 cellpadding=5>
+						<thead>
+							<tr>
+								<th>name</th>
+								<th>num</th>
+								<th>count</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Eagle River Center</td>
+								<td>122</td>
+								<td>8</td>
+							</tr>
+							<tr>
+								<td>Beatrice McDonald Hall</td>
+								<td>113</td>
+								<td>6</td>
+							</tr>
+							<tr>
+								<td>Eagle River Center</td>
+								<td>128</td>
+								<td>6</td>
+							</tr>
+							<tr>
+								<td>Eugene Short Hall</td>
+								<td>119</td>
+								<td>6</td>
+							</tr>
+							<tr>
+								<td>Sally Monserud Hall</td>
+								<td>218</td>
+								<td>6</td>
+							</tr>
+							<tr>
+								<td>Rasmuson Hall</td>
+								<td>205</td>
+								<td>4</td>
+							</tr>
+							<tr>
+								<td>University Center</td>
+								<td>228</td>
+								<td>4</td>
+							</tr>
+							<tr>
+								<td>Gordon Hartlieb Hall</td>
+								<td>123</td>
+								<td>3</td>
+							</tr>
+							<tr>
+								<td>Gordon Hartlieb Hall</td>
+								<td>125</td>
+								<td>3</td>
+							</tr>
+						</tbody>
+					</table>
+				</p>
+			</li>
+
+			<li>
+				<p>Write a query to display a top 5 list for the majors containing the highest credit offering in their classes.</p>
+
+				<pre class='brush: sql; toolbar: false;'>
+					SELECT major.name, MAX(credits) AS credits
+					FROM class
+					INNER JOIN major ON major.id = class.major_id
+					GROUP BY major.name
+					ORDER BY credits DESC
+					LIMIT 5</pre>
+
+				<p>
+					<table border=1 cellpadding=5>
+						<thead>
+							<tr>
+								<th>name</th>
+								<th>credits</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Dental Hygiene</td>
+								<td>7</td>
+							</tr>
+							<tr>
+								<td>Culinary Arts</td>
+								<td>6</td>
+							</tr>
+							<tr>
+								<td>ED: Elementary ED</td>
+								<td>6</td>
+							</tr>
+							<tr>
+								<td>Aviation Maint Tech</td>
+								<td>5</td>
+							</tr>
+							<tr>
+								<td>Biology</td>
+								<td>5</td>
+							</tr>
+						</tbody>
+					</table>
+				</p>
+		</ol>
+
+
+		<h2>Unit 7</h2>
+
+		<ol>
+			<li>
+				<p>Write a query using set operations listing all faculty that are male and all students that are female. Also include the person's department or 'No Department' if the person does not have a department. (limited to 6 to save website space)</p>
+
+				<pre class='brush: sql; toolbar: false;'>
+					SELECT id, first, last, department_id, gender_id
+					FROM person_faculty
+					INNER JOIN person ON person.id = person_faculty.person_id
+					WHERE gender_id = 'M'
+					UNION
+					SELECT id, first, last, 'No Department', gender_id
+					FROM person_student
+					INNER JOIN person ON person.id = person_student.person_id
+					WHERE gender_id = 'F'
+					LIMIT 6</pre>
+
+				<p>
+					<table border=1 cellpadding=5>
+						<thead>
+							<tr>
+								<th>id</th>
+								<th>first</th>
+								<th>last</th>
+								<th>department_id</th>
+								<th>gender_id</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>30600729</td>
+								<td>Chad</td>
+								<td>Forcier</td>
+								<td>12</td>
+								<td>M</td>
+							</tr>
+							<tr>
+								<td>30601229</td>
+								<td>Hortense</td>
+								<td>Ryan</td>
+								<td>No Department</td>
+								<td>F</td>
+							</tr>
+							<tr>
+								<td>30601563</td>
+								<td>Marie</td>
+								<td>Woods</td>
+								<td>No Department</td>
+								<td>F</td>
+							</tr>
+							<tr>
+								<td>30603700</td>
+								<td>Evelyn</td>
+								<td>Hahn</td>
+								<td>No Department</td>
+								<td>F</td>
+							</tr>
+							<tr>
+								<td>30603825</td>
+								<td>Peggy</td>
+								<td>Quillen</td>
+								<td>No Department</td>
+								<td>F</td>
+							</tr>
+							<tr>
+								<td>30605914</td>
+								<td>Robert</td>
+								<td>Nielsen</td>
+								<td>5</td>
+								<td>M</td>
+							</tr>
+						</tbody>
+					</table>
+				</p>
+			</li>
+
+			<li>
+				<p>Write a query using set operations that displays all faculty that are also students.</p>
+
+				<pre class='brush: sql; toolbar: false;'>
+					SELECT id, first, last
+					FROM person
+					INNER JOIN person_faculty ON person.id = person_faculty.person_id
+					WHERE  person_id IN (
+						SELECT id
+						FROM person_student)</pre>
+
+				<p>
+					<table border=1 cellpadding=5>
+						<thead>
+							<tr>
+								<th>id</th>
+								<th>first</th>
+								<th>last</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>30752649</td>
+								<td>Ryan</td>
+								<td>Nixon</td>
+							</tr>
+						</tbody>
+					</table>
+				</p>
+		</ol>
+{% endblock %}

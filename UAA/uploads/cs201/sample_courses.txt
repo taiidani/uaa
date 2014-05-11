@@ -1,0 +1,46 @@
+CRN	Name	Major	Course Number	Section	Credits
+70019	Accounting Information Systems I	ACCT	A216	601	3.0
+70028	Accounting Information Systems II	ACCT	A316	602	3.0
+70034	Advanced Accounting Internship	ACCT	A495	641	3.0
+37228	Nonlinear Dynamics and Chaos	PHYS	456	051	3.0
+70033	Advanced Accounting Internship	ACCT	A495	601	3.0
+70030	Advanced Income Tax	ACCT	A410	601	3.0
+70032	Auditing	ACCT	A452	601	3.0
+71057	Programming Concepts I	CS	A201	602	3.0
+70007	Bookkeeping for Business I	ACCT	A120	601	3.0
+70105	Codes and Standards	AET	A123	650	3.0
+70022	Entry-Level Accounting Internship	ACCT	A295	641	3.0
+70084	Environmental Law, Regulations and Permitting	AEST	A604	601	3.0
+70091	Fundamentals of CADD for Building Construction	AET	A101	650	4.0
+70093	Fundamentals of CADD for Building Construction	AET	A101	652	4.0
+70092	Fundamentals of CADD for Building Construction	AET	A101	651	4.0
+76540	Fundamentals of Oral Communication	COMM	A111	615	3.0
+70506	Fundamentals of Oceanography	BIOL	A178	651	3.0
+70031	Governmental and Not-for-Profit Accounting	ACCT	A430	601	3.0
+70026	Income Tax	ACCT	A310	601	3.0
+70024	Intermediate Accounting I	ACCT	A301	602	3.0
+70023	Intermediate Accounting I	ACCT	A301	601	3.0
+70025	Intermediate Accounting II	ACCT	A302	601	3.0
+70020	Introduction to Computerized Accounting	ACCT	A222	601	3.0
+70029	Managerial Cost Accounting	ACCT	A342	601	3.0
+70275	Intermediate American Sign Language I	ASL	A201	601	4.0
+70101	Methods of Building Construction	AET	A102	851	3.0
+70100	Methods of Building Construction	AET	A102	651	3.0
+70099	Methods of Building Construction	AET	A102	650	3.0
+70085	National Environmental Policy Act	AEST	A605	801	3.0
+32398	Calculus I	MATH	A200	001	4.0
+70014	Principles of Financial Accounting	ACCT	A201	791	3.0
+70011	Principles of Financial Accounting	ACCT	A201	604	3.0
+70008	Principles of Financial Accounting	ACCT	A201	601	3.0
+70009	Principles of Financial Accounting	ACCT	A201	602	3.0
+70012	Principles of Financial Accounting	ACCT	A201	605	3.0
+70010	Principles of Financial Accounting	ACCT	A201	603	3.0
+70003	Principles of Financial Accounting I	ACCT	A101	602	3.0
+70002	Principles of Financial Accounting I	ACCT	A101	601	3.0
+70004	Principles of Financial Accounting I	ACCT	A101	801	3.0
+70005	Principles of Financial Accounting II	ACCT	A102	601	3.0
+70006	Principles of Financial Accounting II	ACCT	A102	801	3.0
+70015	Principles of Managerial Accounting	ACCT	A202	601	3.0
+70016	Principles of Managerial Accounting	ACCT	A202	602	3.0
+76605	SQL	CS	A109	601	3.0
+70107	Structural Drafting	AET	A131	601	3.0

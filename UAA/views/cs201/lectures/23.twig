@@ -1,0 +1,103 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Review 2{% endblock %}
+
+{% block summary %}
+{{parent()}}
+
+<h3>Example 1</h3>
+
+<p><strong>References:</strong> <a href='/cs201/lectures/4'>Console input</a>, <a href='/cs201/lectures/6'>Looping / Iteration</a>, <a href='/cs201/lectures/11'>List objects</a>, <a href='/cs201/lectures/13'>Classes</a></p>
+
+<p>Solution: <a href='/uploads/cs201/Example1.zip'>Example1.zip</a></p>
+
+<p>MacLaren's Groceries &amp; Thrift is in need of some programs that manage its daily transactions. They would like to know the average profit from all items that have been sold in a 1 hour period.</p>
+
+<p>Write a program to prompt the user using the Console for each item's name, price &amp; quantity, then summarize all items that have been entered so far. After the summary, calculate the total price of all items as well as the average price.</p>
+
+<p>Requirements:</p>
+<ul>
+   <li>You must get input from the console for an item's name, price and quantity</li>
+   <li>An arbitrary number of items may be entered</li>
+   <li>Both sum total and average profit must be calculated and displayed</li>
+   <li>At least 1 class must be defined</li>
+</ul>
+
+<p>Note that floating point math may skew some of the calculations. This approximate result is acceptable.</p>
+
+
+<h3>Example 2</h3>
+
+<p><strong>References:</strong> <a href='/cs201/lectures/16'>Class Inheritance</a>, <a href='/cs201/lectures/17'>Polymorphism</a>, <a href='/cs201/lectures/18'>Polymorphism / Abstract Classes</a></p>
+
+<p>Solution: <a href='/uploads/cs201/Example2.zip'>Example2.zip</a></p>
+
+<p>MacLaren's Groceries &amp; Thrift, being a grocery store, also sells produce. Produce is sold according to weight rather than by unit. Using the class from the previous example, design an inheritance hierarchy that is able to handle both unit-price and weight-price for a product.</p>
+
+<p>Write a program that implements this inheritance hierarchy. The program should prompt the user for a single item and what type of item it is. If the type is non-produce the program should then prompt for price and quantity; if produce the program should prompt for weight and price-per-pound. After the item has been entered, display the item's name and total sale price.</p>
+
+<p>Note that polymorphism resulting from the inheritance <em>must</em> be used here. The information that displays to the user at the end must not check to see what type of item is being printed, it should simply print the object and get results according to the object's type.</p>
+
+<p>Requirements:</p>
+<ul>
+	<li>You must get input from the console for an item's name and type</li>
+	<li>If the type is produce or non-produce, the program should then prompt appropriately for more information</li>
+	<li>Only one item need be entered (no loop)</li>
+	<li>The display of the item's information must make use of polymorphism. No type checks.</li>
+	<li>An inheritance hierarchy for products must be designed and implemented appropriately</li>
+</ul>
+
+<h3>Example 3</h3>
+
+<p><strong>References:</strong> <a href='/cs201/lectures/8'>Methods / Scope</a>, <a href='/cs201/lectures/13'>Classes</a>, <a href='/cs201/lectures/15'>Exception Handling</a></p>
+
+<p>Solution: <a href='/uploads/cs201/Example3.zip'>Example3.zip</a></p>
+
+<p>Now that inventory has been taken care of, MacLaren's Groceries &amp; Thrift needs a point of sale system for adding new items to their inventory. This POS system needs to manage the store's funds and allow withdrawals to be made, but only when funds allow it.</p>
+
+<p>Write a program that employs the inheritance hierarchy from example 2 and adds another class, Register. This class should contain the current funds available for withdrawals, as well as a method for withdrawing funds. If there are not enough funds available, the method should raise a custom FundsException and allow it to propagate to the calling method.</p>
+
+<p>Using the <code>main()</code> method developed for example 2 write logic to purchase the specified item, withdrawing funds as necessary. If there are not enough funds available then an appropriate message should be displayed before the program exits cleanly. If something else goes awry an alternative message should be displayed saying as such.</p>
+
+<p>Note that MacLaren's only has a single cash register, not multiple. There should only be one and only one set of funds to manage.</p>
+
+<p>Requirements:</p>
+<ul>
+	<li>Implement a class, Register, that manages a single set of funds (starting at $20) available throughout the program</li>
+	<li>Implement a custom FundsException that is thrown when not enough funds are available for a purchase</li>
+	<li>Use exception handling to exit gracefully with a helpful message when FundsException or other exceptions are thrown</li>
+</ul>
+
+<h3>Example 4</h3>
+
+<p><strong>References:</strong> <a href='/cs201/lectures/3'>Strings</a>, <a href='/cs201/lectures/6'>Looping / Iteration</a>, <a href='/cs201/lectures/10'>Arrays</a>, <a href='/cs201/lectures/19'>Recursion</a></p>
+
+<p>Solution: <a href='/uploads/cs201/Example4.zip'>Example4.zip</a></p>
+
+<p>One of the store managers saw their friend using recursion to solve an assortment of complex mazes...and since MacLaren's has found an assortment of products that have been stolen they figure recursion is a great solution for sorting each item (which it actually <a href='http://en.wikipedia.org/wiki/Quicksort'>can be</a>).</p>
+
+<p>Write a program that sorts the given array of product names using iteration, then displays them in order. You should then write the same algorithm that sorts the products using recursion. You may use either head recursion or tail recursion to do this but to maintain performance you <strong>must not</strong> use List objects to store any Strings that you work with.</p>
+
+<pre class='brush: java; toolbar: false;'>
+//You may assume that this products array is already defined in your program
+//and resets between the iterative &amp; recursive solutions
+String[] products = new String[5];
+products[0] = "Food Cube";
+products[1] = "Sandvich";
+products[2] = "Cotton Candy";
+products[3] = "Soylent Green";
+products[4] = "Donut";
+</pre>
+
+<p>Requirements:</p>
+<ul>
+	<li>Use iteration to sort the String[] array and display the sorted array to the console</li>
+	<li>Use recursion to sort the same String[] array and display the sorted array to the console</li>
+	<li>You may not use List objects in your sorting, only arrays.</li>
+</ul>
+
+
+{% endblock %}
+
+{% block notes %}
+{% endblock %}

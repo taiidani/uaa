@@ -1,0 +1,75 @@
+{% extends 'cs201/drill.twig' %}
+
+{% block subject %}Drill 5 - Top 5 List{% endblock %}
+
+{% block summary %}
+{{parent()}}
+
+<p>Below is a list of the top 5 video games ever released (by critic review score) and their corresponding average rating. Store both of these lists into separate arrays, one for the titles and the other for the ratings. With these two arrays print out all 5 games with their respective scores to the console.</p>
+
+<ol style='float: left; width: 250px;'>
+	<li>Super Mario Galaxy</li>
+	<li>The Legend of Zelda: Ocarina of Time</li>
+	<li>Super Mario Galaxy 2</li>
+	<li>Grand Theft Auto IV</li>
+	<li>Soul Caliber</li>
+</ol>
+
+<ol style='float: left; list-style: none;'>
+	<li>97.64</li>
+	<li>97.54</li>
+	<li>97.30</li>
+	<li>97.05</li>
+	<li>96.94</li>
+</ol>
+
+<div class='clear'></div>
+
+<p>You should use the line-by-line initialization method for the array containing the game titles and the front-loading initialization method for the scores array. A loop would also be very helpful in printing out each title, as the array items are already sorted and in a correct relationship with each other. The output should end up looking similar to:</p>
+<blockquote>
+<pre>
+The current all-time best games are:
+	Super Mario Galaxy at 97.64%
+	The Legend of Zelda: Ocarina of Time at 97.54%
+	Super Mario Galaxy 2 at 97.30%
+	Grand Theft Auto IV at 97.05%
+	Soul Caliber at 96.94%
+</pre>
+</blockquote>
+
+<h2>Requirements</h2>
+<p>The final program that you develop <em>must</em> contain:</p>
+<ul>
+	<li>A NetBeans project containing your code</li>
+	<li>Demonstrated use of both declaring an array and both ways of initializing it.</li>
+	<li>Code that dereferences and prints array elements.</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+<p>Remember that all arrays are 0-indexed.</p>
+{% endblock %}
+
+{% block answer %}
+{{parent()}}
+
+<pre class='brush: java; toolbar: false;'>
+String[] games = new String[5];
+
+games[0] = "Super Mario Galaxy";
+games[1] = "The Legend of Zelda: Ocarina of Time";
+games[2] = "Super Mario Galaxy 2";
+games[3] = "Grand Theft Auto IV";
+games[4] = "Soul Caliber";
+
+double[] ratings = { 97.64, 97.54, 97.30, 97.05, 96.94 };
+
+System.out.println("The current all-time best games are:");
+
+for(int i = 0; i < games.length; i++) {
+    System.out.printf("\t%s at %.2f%%\n", games[i], ratings[i]);
+}
+</pre>
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'cs109/base.twig' %}
+
+
+{% block content %}
+		<h1 class='title'>Assignment 1, An Introduction to Relational Databases</h1>
+
+		<h2>Summary</h2>
+		<p>This assignment is worth 5 points which will be taken from 5 of the questions that you answer below. If more than 5 questions are answered, point preference will be given to the correct answers. It is in your best interest to answer as many questions as possible, both to guarantee your grade but also to prepare for the test.</p>
+
+		<p>If a question asks you to describe a database layout you may answer in two different ways. You may either diagram the relationships using the box, crow's foot, dot model implemented in the slides and <a href='/database/CS109.pdf'>example database</a>, or write out the relationships <a href='/database/CS109.txt'>in text</a> using the following format:</p>
+
+		<blockquote>
+			<pre>* = Primary key<br/>
+@ = Foreign key (the referenced table will be inferred from the attribute's name)<br/>
+(table_name: *primary_key constraints, attribute constraints, @foreign_id constraints)
+
+Example:
+	(ct_gender: *id, name)
+	(department: *id, name NOT NULL, abbr NOT NULL)
+	(person: *id, first NOT NULL, last NOT NULL, @gender_id NOT NULL, dob)
+	(person_faculty: @*person_id, @department_id NOT NULL, bio)
+	(person_student: @*person_id, out_of_state NOT NULL DEFAULT FALSE)
+			</pre>
+		</blockquote>
+
+		<h2>Questions</h2>
+		<ol class='assignment_questions'>
+			<li>Describe what a database is and what it is used for.</li>
+
+			<li>Explain a scenario where one would use a database rather than a spreadsheet application such as Microsoft Excel.</li>
+
+			<li>Define "SQL" and explain how it works with databases.</li>
+
+			<li>Provide at least 10 examples of publicly accessible databases.</li>
+
+			<li class='long'>Explain the basic differences between MySQL, SQLite, Microsoft SQL Server and Microsoft Access. How do these products store their databases on disk?</li>
+
+			<li>What database product from the above list is most often used for mobile phones?</li>
+
+			<li>Provide at least 2 other names for a database "table".</li>
+
+			<li>What is the table's purpose in a relational database system?</li>
+
+			<li>Are duplicate records (rows) allowed (possible) in a relational table?</li>
+
+			<li>Is there any requirement that records of a table be arranged in any particular order in a relational table?</li>
+
+			<li>What name is given to the field that uniquely identifies a record?</li>
+
+			<li>What are the three different kinds of relationships that can be between entities?</li>
+
+			<li>Let tables A and B be in a one-to-many relationship with each other, with A as the "one" table and B as the "many" table. Using the terms "primary key" and "foreign key", describe how the relationships are captured.</li>
+
+			<li>Let the entities stored in tables A and B be in a one-to-one relationship. Without changing the design to merge A and B into a single table, what are the two choices for capturing the one-to-one relationship?</li>
+
+			<li>Let tables A and B be in a many-to-many relationship. What additional thing would be needed in the database design in order to capture this relationship?</li>
+
+			<li>Give an example of a table and attributes that would be used to store information about products in a grocery store.</li>
+
+			<li class='long'>Using your answer from the previous question, expand your database layout to add a table and attributes that would store information about the grocery store itself, the vendors of the products, and the quantity of products in each store.</li>
+
+			<li>Let tables A and B be in a many-to-many relationship captured by a table in the middle, C. Let the primary key of A be apk and the primary key of B be bpk. Without introducing a new primary key for C, what would serve as its primary key?</li>
+
+			<li>If a field is said to be null, what does this mean?</li>
+
+			<li>If a field contains this value, "null", is it null?</li>
+
+			<li>Define the term "entity integrity".</li>
+
+			<li>Define the term "referential integrity".</li>
+
+			<li>If a user enters the value "0" to describe a person's age, what integrity rule is this violating?</li>
+
+			<li>If two tables are in a primary key to foreign key relationship, can nulls appear in the foreign key field?</li>
+
+			<li>Provide an example of some of the numeric data types available in relational databases. Why are there so many different data types for the same information?</li>
+
+			<li>If you were to store currency amounts in a database, what data type would you use? Why?</li>
+
+			<p>The following questions present a situation where a database could be used. Describe a potential database layout to handle the situation. Include at least 1 of each relationship type and describe the layout using one of the formats provided at the top of this document.</p>
+
+			<li class='long'>An airline needs to track flights around the United States as well as the passengers that are flying on them. They must collect at least:
+				<ul>
+					<li>The number of passengers on each flight</li>
+					<li>The crew members on each flight</li>
+					<li>The departure and arrival airport names and locations</li>
+					<li>The flight departure and arrival times. It will also need to handle late/early flights</li>
+					<li>The items offered and serving time for in-flight meals</li>
+				</ul>
+			</li>
+
+			<li class='long'>A Wikipedia-like website wants to track their user activity. At a minimum they must hold information for user logins, privileges, page edits, and any pages that users are tracking (alerted upon changes).</li>
+		</ol>
+{% endblock %}

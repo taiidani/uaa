@@ -1,0 +1,62 @@
+{% extends 'cs109/base.twig' %}
+
+{% block content %}
+		<h1 class='title'>Assignment 7, Set Operations</h1>
+
+		{% include 'cs109/assignments/tile_summary.twig' %}
+
+		<h2>Questions</h2>
+		<ol class='assignment_questions'>
+
+			<li>At what level of data do set operations work at? (ie. column, row, table, etc.)</li>
+
+			<li>Name the 4 set operations and describe how they modify the resultset when used.</li>
+
+			<li>What parallels do the UNION and INTERSECT operations have with the WHERE clause?</li>
+
+			<li>What must you do in order to perform a Union that allows a row existing in both resultsets to appear <em>twice</em> in the final resultset?</li>
+
+			<li>Give a reasoning why Unions and Intersections are sometimes better than AND and OR.</li>
+
+			<li>Provide an example WHERE clause that filters on a field using IN <em>without</em> using a subquery.</li>
+
+			<li>Define and explain union compatibility.</li>
+
+			<li>Explain the process that occurs when a set operation compares two fields of differing types.</li>
+
+			<li>How can you handle performing a union or intersection set operation on two tables with differing column counts?</li>
+
+			<li>Provide a reason why using IN is so useful and give an example to back up that reasoning.</li>
+
+			<p>
+				<img src='/images/Resultset1.png' style='width: 300px;' />
+				<img src='/images/Resultset3.png' style='width: 300px;' />
+			</p>
+
+			<p>For the next few questions, reference the tables above for your queries. (Note that grade.student_id is a foreign key for the person table in this example). You may not use <em>any</em> joins in your answers to these questions.</p>
+
+			<li class='long'>Write a query using set operations that displays the first and last name of all people in the student and person tables.</li>
+
+			<li>Write a query using set operations that selects the first name, last name and age of the student with the same id as Simon Tam in the person table.</li>
+
+			<li>Write a query using set operations that lists all students whose first name is 'Jacob', 'Emma', or 'Albert'.</li>
+
+			<li class='long'>Of the above tables, there is only one union query able to generate duplicates. Write this query and ensure that the duplicates are displayed.</li>
+
+			<li class='long'>Write a query using set operations that lists all students that are also in the person table, as compared by their primary keys (effectively all of them). Explain how this comparison is misleading and provide a better field to compare on.</li>
+
+			<p>All subsequent questions use the example database linked to at the top of this page. The questions expect only the information already present in the database; no additional information needs to be inserted to provide an answer. You may not use <em>any</em> joins in your answers to these questions.</p>
+
+			<li class='long'>Write a query using set operations that combines all 3 of the example code tables into one resultset.</li>
+
+			<li class='long'>Write a query using set operations that lists all students and all faculty. This query should contain all columns in both tables.</li>
+
+			<li class='long'>Write a query using set operations that lists all students who are also faculty.</li>
+
+			<li class='long'>Write a query using set operations that displays all classes that meet at 8am and all classes that meet at 4pm.</li>
+
+			<li class='long'>Write a query using set operations that lists all classes with 1 credit that have the same section as a class with 2 credits.</li>
+
+			<li>Write a query using set operations that displays the id and schedule for the one class in the database that meets on Mondays but not Wednesdays.</li>
+		</ol>
+{% endblock %}

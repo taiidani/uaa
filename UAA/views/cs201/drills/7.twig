@@ -1,0 +1,37 @@
+{% extends 'cs201/drill.twig' %}
+
+{% block subject %}Drill 7 - The Four Seasons{% endblock %}
+
+{% block summary %}
+{{parent()}}
+
+<img style='float: right;' src='/uploads/cs201/seasons.png' alt='Seasons' />
+<p>Construct a <a href='/cs201/lectures/16'>class hierarchy</a> that consists of the four seasons: Fall, Winter, Spring, Summer and a class representing what they all have in common, that they are Seasons. Every season should have a method called <code>getNextSeason()</code> that returns the name as a String of the next season after the current one. It should also override <code>toString()</code> to return its name as a String (i.e. the Fall class would return "Fall")</p>
+
+<p>As the Season class does not itself have the concept of a "next season", its <code>getNextSeason()</code> method must be <a href='/cs201/lectures/18#abstractClasses'>abstract</a>. This means that Season itself should not be able to be instantiated.</p>
+
+<p>Your <code>main()</code> method must declare a single List of Seasons, add objects of each of the four season class types to it, then print out the result of their <code>getNextSeason()</code> methods one at a time. See the Sample Output for an example.</p>
+
+<h3>Sample Output</h3>
+<pre>
+Starting season is Fall.
+
+Beginning loop
+After Fall is Winter
+After Winter is Spring
+After Spring is Summer
+After Summer is Fall
+</pre>
+
+<p>(Note that this output implies that my List object contains Fall, Winter, Spring &amp; Summer objects, in that order)</p>
+
+{% endblock %}
+
+{% block notes %}
+{% endblock %}
+
+{% block answer %}
+{{parent}}
+
+
+{% endblock %}

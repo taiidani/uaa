@@ -1,0 +1,52 @@
+{% extends 'cs109/base.twig' %}
+
+{% block content %}
+		<h1 class='title'>Assignment 3, Joins</h1>
+
+		{% include 'cs109/assignments/tile_summary.twig' %}
+
+		<h2>Questions</h2>
+		<ol class='assignment_questions'>
+			<li>Explain the purpose of joins and how they work, in your own words.</li>
+
+			<li>When performing a query, the error 'this column is ambiguous' may display. What does this mean? What can be done to resolve it?</li>
+
+			<li>Give an example SQL query for a fictional table that makes use of a table alias.</li>
+
+			<li>Why are we focusing on the Inner Join syntax rather than the other syntax (sometimes known as WHERE syntax) referenced in class?</li>
+
+			<li>Describe the differences between an Inner Join and a Left Outer Join.</li>
+
+			<li>Explain the concept of "direction" (Left/Right) in SQL queries. Why is this so important? What might happen if the direction was incorrect?</li>
+
+			<li>When a Left Outer Join encounters multiple results on the right side of a join, how does it handle the results?</li>
+
+			<li>How does using a Right Join instead of a Left Join affect the resultset?</li>
+
+			<li>Which join type is best used for analyzing statistics?</li>
+
+			<li>Define 'Natural Join' and explain why it can be dangerous to use.</li>
+
+			<li>When using an Inner Join, if data for the right side of the join is not present for the left, what happens to the data on the left?</li>
+
+			<li>When might you use something other than an equi-join? (a.k.a. providing additional Join filters beyond the keys)</li>
+
+			<li>What is the most important concept to keep in mind when joining a table with itself?</li>
+
+			<li>Rewrite questions 11-13 on the <a href='/cs109/assignments/2/'>Unit 2 assignment</a> so that each can be performed in a single query. (3pts total, 1 per query)</li>
+
+			<p>All subsequent questions use the example database linked to at the top of this page. The questions expect only the information already present in the database; no additional information needs to be inserted to provide an answer.</p>
+
+			<li>Write a query to display the verbose gender name (i.e. Male/Female, not M/F) for all persons whose last name is 'Brown'.</li>
+
+			<li>Write a query to display the address of the Sally Monserud Hall using both the building and address tables.</li>
+
+			<li>Write a query to display all addresses and any buildings at their address, <em>if any</em>. Ensure that the results will display using some reasonable ordering.</li>
+
+			<li>Write a query using only joins to display all faculty that are also students. (regarding the results, remember that this is test data)</li>
+
+			<li>Write a query to list all students registered for a Computer Science class.</li>
+
+			<li>Write a query to display all classes in session for the Fall term (term_id = 1) and, if they meet on Wednesdays, display their room number.<br/>Hint: This query will require the use of both Inner and Outer joins as well as an extra condition on the outer join.</li>
+		</ol>
+{% endblock %}

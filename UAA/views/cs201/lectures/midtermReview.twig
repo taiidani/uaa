@@ -1,0 +1,41 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Review{% endblock %}
+
+{% block styles %}
+{{parent()}}
+<style>
+
+.example {
+	display: inline-block;
+	background-color: #EEF;
+	border: 1px solid #DDE;
+	padding: 5px 10px;
+	border-radius: 5px;
+	font-weight: bold;
+}
+
+.excerpt {
+	float: right;
+	font-size: 0.9em;
+	padding: 1em 0.5em;
+	margin: 0;
+	background-color: #EEE;
+	border: 1px solid #DDD;
+	border-radius: 5px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block summary %}
+
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+
+<p><a href='/uploads/cs201/MidtermReview.zip'>Drill/Assignment solution examples</a></p>
+
+{% endblock %}

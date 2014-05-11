@@ -1,0 +1,30 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Object-Oriented Programming, Classes{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>File I/O, Revisited</li>
+	<li>Classes Within Classes</li>
+	<li>Effective Use of Constructors and Static Methods</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+
+<div class='example'>
+	Examples:
+	<blockquote>
+		<a href='/uploads/cs201/Family.java'>Family.java</a><br/>
+		<a href='/uploads/cs201/Person.java'>Person.java</a><br/>
+		<a href='/uploads/cs201/Animal.java'>Animal.java</a><br/>
+		<a href='/uploads/cs201/pets.txt'>pets.txt</a><br/>
+		<a href='/uploads/cs201/people.txt'>people.txt</a>
+	</blockquote>
+</div>
+
+<p>This will be an in-class demonstration further enhancing the Family classes produced at the last lecture. The files above have already been filled out with a modified version of their state at the end of Tuesday.</p>
+
+{% endblock %}

@@ -1,0 +1,262 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Polymorphism{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>Polymorphism</li>
+	<li>InstanceOf</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+
+<div class='example'>
+	Examples:
+	<blockquote>
+		<a href='/uploads/cs201/Animals.zip'>Animals.zip</a><br/>
+	</blockquote>
+</div>
+
+<p>While it sounds like a complex word, <strong>polymorphism</strong> is actually a fairly easy concept to grasp. What polymorphism implies is that with a single object you may have many attributes from different classes express themselves. In other words, a single object of one class may act like another. While this sounds like it could be confusing or worse, insecure, polymorphism conforms strictly to the class inheritance hierarchy so it is very easy to predict how functionality may be altered.</p>
+
+<p>Here is an example; one that I've been using in class:</p>
+<pre class='brush: java; toolbar: false;'>
+List&lt;String> lst = new ArrayList&lt;String>();
+</pre>
+
+<p>This one line exhibits how polymorphism works. I have defined a <code>List</code> variable, but am assigning an <code>ArrayList</code> object to it. This is because my list does not care how it is implemented, it only cares that it is a list and can be manipulated like a list. An ArrayList "is a" list which, remember, implies that it is a derived class of the List class. Because of this, all of the methods that List defines are available to the ArrayList, and the ArrayList overrides these methods as necessary to implement the array[] storage.</p>
+
+<p>Let's look at another familiar example. Below we have 3 classes: Pet, Dog &amp; Cat. Pet is the super class whereas Dog &amp; Cat are both subclasses of Pet. Both of them override Pet's implementation of <code>makeNoise()</code> to produce their own noises.</p>
+<pre class='brush: java; toolbar: false;'>
+
+class Pet {
+	protected String name;
+
+	public Pet(String name) {
+		this.name = name;
+	}
+	
+	//A default makeNoise(). Immediately errors since it doesn't know
+	//what type of noise to make
+	public String makeNoise() {
+		throw new Exception("Not implemented.");
+	}
+
+	public String toString() {
+		return "Name: " + name;
+	}
+}
+
+class Dog extends Pet {
+	
+	//Overrides Pet's makeNoise()
+	public String makeNoise() {
+		return "Woof.";
+	}
+}
+
+class Cat extends Pet {
+	
+	//Overrides Pet's makeNoise()
+	public String makeNoise() {
+		return "Meow.";
+	}
+}
+</pre>
+
+<p>We can then take advantage of the inherited methods and attributes from Pet in our <code>main()</code> method. First, a way I might do it without polymorphism:</p>
+
+<pre class='brush: java; toolbar: false;'>
+ArrayList&lt;Cat> cats = new ArrayList&lt;Cat>();
+cats.add(new Cat("Spot"));
+cats.add(new Cat("Martin"));
+cats.add(new Cat("Lyra"));
+
+ArrayList&lt;Dog> dogs = new ArrayList&lt;Dog>();
+dogs.add(new Dog("Manley"));
+dogs.add(new Dog("Mogul"));
+dogs.add(new Dog("Oreo"));
+
+foreach(Cat cat : cats) {
+	System.out.println(cat);
+	System.out.println(cat.makeNoise());
+}
+
+foreach(Dog dog : dogs) {
+	System.out.println(dog);
+	System.out.println(dog.makeNoise());
+}
+</pre>
+
+<p>Lots of typing here, and you have to maintain two separate ArrayLists. Except we're only using methods for the cats and dogs that are already defined in the Pet class, so why not just use Pet?</p>
+<pre class='brush: java; toolbar: false;'>
+List&lt;Pet> pets = new ArrayList&lt;Pet>();
+pets.add(new Cat("Spot"));
+pets.add(new Cat("Martin"));
+pets.add(new Cat("Lyra"));
+pets.add(new Dog("Manley"));
+pets.add(new Dog("Mogul"));
+pets.add(new Dog("Oreo"));
+
+foreach(Pet pet : pets) {
+	System.out.println(pet);
+	System.out.println(pet.makeNoise());
+}
+</pre>
+
+<p>With polymorphism it doesn't matter what type the object in the array actually is, only that it is a subclass of Pet. When the <code>toString</code> and <code>makeNoise</code> methods are called, Java looks at the actual object type and calls that type's methods. This is known as <strong>late binding</strong> because Java doesn't "bind" a type to the methods until it's ready to call them; up until the point they are called you may change the object's type at will.</p>
+
+<p>If Pet however did <em>not</em> have its own <code>makeNoise</code> method, then you could not use polymorphism here. At the time that you compile the program Java still looks at the type of object you have defined for your array (Pet). If it then sees you calling methods on that type that do not exist in its definition (<code>makeNoise</code>) then the program will not compile successfully. To get around this you can do what I did above and define a "stub" method that immediately throws an exception, or more appropriately use abstract classes/interfaces which we will cover next lecture.</p>
+
+<p>For a third example, let's bring back the <code>equals()</code> method.</p>
+<pre class='brush: java; toolbar: false;'>
+class Pet {
+	protected String name;
+
+	public Pet(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	//Overrides Object's .equals?
+	public boolean equals(Pet otherPet) {
+		return name.equals(otherPet.getName());
+	}
+}
+
+class Dog extends Pet {
+
+	//Overrides Pet's .equals?
+	public boolean equals(Dog otherPet) {
+		return name.equals(otherPet.getName());
+	}
+}
+
+class Cat extends Pet {
+
+	//Overrides Pet's .equals?
+	public boolean equals(Cat otherPet) {
+		return name.equals(otherPet.getName());
+	}
+}
+</pre>
+
+<p>With these definitions we see three implementations of <code>.equals</code>, each overriding the method above it in the inheritance structure...or are we? Recall that in order to override something you need to have the same return type, name <em>and</em> parameters. Each of these implementations use a different type of object (Pet, Dog, Cat) as the first parameter, so they are in fact <a href='/cs201/13#overloading'>overloading</a> the method.</p>
+
+<p>This is quite bad. It means that for Cat there are 3 different <code>.equals</code> methods that could be called (remember Object has its own as well). This would allow me to do the following:</p>
+
+<pre class='brush: java; toolbar: false;'>
+Cat c = new Cat("Spot");
+Dog d = new Dog("Spot");
+
+boolean areEqual = c.equals(d);
+//True! They have the same name
+</pre>
+
+</p>Because Pet's <code>.equals</code> method still exists in Cat, that method takes the Dog object and determines by name that it is equal to the Cat. This is bad&tm;, so let's use polymorphism to ensure that proper overriding takes place:</p>
+
+<pre class='brush: java; toolbar: false;'>
+class Pet {
+	protected String name;
+
+	public Pet(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public boolean equals(Object otherPet) {
+		return name.equals((Pet)otherPet.getName());
+	}
+}
+
+class Dog extends Pet {
+
+	public boolean equals(Object otherPet) {
+		return name.equals((Dog)otherPet.getName());
+	}
+}
+
+class Cat extends Pet {
+
+	public boolean equals(Object otherPet) {
+		return name.equals((Cat)otherPet.getName());
+	}
+}
+</pre>
+
+<p>Since Object is at the top of the hierarchy and has its own <code>equals</code> method, we override that in all derived classes using the same method definition, then in the method cast the object down to the appropriate type. This allows Pet, Cat &amp; Dog to have one and only one <code>equals</code> method to deal with...</p>
+
+<p>But that didn't solve the problem. I can still use a Dog object as the parameter to Cat's <code>.equals</code> method, as a Dog is an Object as well. To fix it we need to introduce a new term:</p>
+
+<h3>InstanceOf</h3>
+
+<p>The <strong>instanceof</strong> keyword is a command that produces true or false depending on what type of object it is looking at. <code>instanceof</code> allows you to determine within the inheritance hierarhy if you have an object that descends from something else. It directly corresponds to the "is a" concept. An example works best to understand it:</p>
+
+<pre class='brush: java; toolbar: false;'>
+Cat c = new Cat("Lyra");
+Pet p = new Pet("Generica");
+
+boolean isCatACat = c instanceof Cat; //True, a Cat "is a" Cat
+boolean isCatAPet = c instanceof Pet; //True, a Cat "is a" Pet
+boolean isPetACat = p instanceof Cat; //False, a Pet "is NOT a" Cat
+
+//But if I used polymorphism and set the Pet to a Cat object...
+p = new Cat("Sly");
+
+isPetACat = p instanceof Cat; //True, regardless of the declared type,
+								//the object is actually a Cat.
+</pre>
+
+<p><code>instanceof</code> will always look for the most specific class and work its way up the inheritance hierarchy until a match has been made. This allows a Cat to always be a Pet, because Pet is a level higher on the hierarchy. Cat however is a level lower, so Pets are not always considered Cats. <code>instanceof</code> also respects polymorphism so it looks at an objects actual type versus its declared type.</p>
+
+<p>One thing to keep in mind, "<code>c instanceof Object</code>" would always be true for any object c, because all objects in Java have the Object class at the top of their hierarchy.</p>
+
+<p>Okay! Lets apply what we learned to the <code>.equals</code> example above. Regardless of a Dog being an Object, if it isn't a Cat then it's not going to be equal to a Cat:</p>
+
+<pre class='brush: java; toolbar: false;'>
+class Pet {
+	protected String name;
+
+	public Pet(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public boolean equals(Object otherPet) {
+		if(otherPet == null || !(otherPet instanceof Pet)) return false;
+		return name.equals((Pet)otherPet.getName());
+	}
+}
+
+class Dog extends Pet {
+
+	public boolean equals(Object otherPet) {
+		if(otherPet == null || !(otherPet instanceof Dog)) return false;
+		return name.equals((Dog)otherPet.getName());
+	}
+}
+
+class Cat extends Pet {
+
+	public boolean equals(Object otherPet) {
+		if(otherPet == null || !(otherPet instanceof Cat)) return false;
+		return name.equals((Cat)otherPet.getName());
+	}
+}
+</pre>
+
+<p>By adding a check to ensure that all of the objects are an instance of (or, in fact a subclass of) the exact type in our <code>.equals</code> method, we now ensure that only Cats with the same name may be considered equal, and a Pet or Dog with the same name will not accidentally be considered equal as well.</p>
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'cs201/drill.twig' %}
+
+{% block subject %}Drill 8 - Recursion Conversion{% endblock %}
+
+{% block summary %}
+{{parent()}}
+
+<p>Use the <a href='/cs201/lectures/19'>recursion</a> lecture notes to convert the following two iterative loops to recursive loops. You may use either head recursion or tail recursion for your implementations, whichever is more intuitive to you.</p>
+
+<pre class='brush: java; toolbar: false;'>
+//Print out numbers in exponents of 2 (1, 2, 4, 8, 16) until you hit 20.
+int whileCount = 1;
+
+while(whileCount &lt; 20) {
+	System.out.println(whileCount);
+	whileCount *= 2;
+}
+
+System.out.println();
+
+//Print out 10 descending numbers going from 10 to 1.
+for(int forCount = 10; forCount &gt; 0; forCount--) {
+	System.out.println(forCount);
+}
+</pre>
+
+<p><strong>Hint:</strong> To save time it would be in your best interest to copy-paste the above code directly into your main() method, then reference the previous lecture where it discusses which sections of a recursive loop correspond to an iterative loop's sections.</p>
+
+
+{% endblock %}
+
+{% block notes %}
+{% endblock %}
+
+{% block answer %}
+{{parent()}}
+
+<pre class='brush: java; toolbar: false;'>
+public static void main(String[] args) {
+	//Print out numbers in exponents of 2 (1, 2, 4, 8, 16) until you hit 20.
+	int whileCount = 1;
+
+	while(whileCount &lt; 20) {
+		System.out.println(whileCount);
+		whileCount *= 2;
+	}
+	
+	System.out.println();
+	
+	headWhile(1);
+	
+	System.out.println();
+	
+	tailWhile(1);
+	
+	System.out.println();
+
+	//Print out 10 descending numbers going from 10 to 1.
+	for(int forCount = 10; forCount &gt; 0; forCount--) {
+		System.out.println(forCount);
+	}
+	
+	System.out.println();
+	
+	headFor(10);
+	
+	System.out.println();
+	
+	tailFor(1);
+}
+	
+public static void headWhile(int cnt) {
+	if(cnt &lt; 20) {
+		System.out.println(cnt);
+		headWhile(cnt * 2);
+	}
+}
+
+public static int tailWhile(int cnt) {
+	if(cnt &gt;= 20) return 1;
+	else {
+		int ret = tailWhile(cnt * 2);
+		System.out.println(ret);
+		return ret * 2;
+	}
+}
+
+public static void headFor(int cnt) {
+	if(cnt &gt; 0) {
+		System.out.println(cnt);
+		headFor(cnt - 1);
+	}
+}
+
+public static void tailFor(int cnt) {
+	if(cnt &lt;= 10) {
+		tailFor(cnt + 1);
+		System.out.println(cnt);
+	}
+}
+</pre>
+{% endblock %}

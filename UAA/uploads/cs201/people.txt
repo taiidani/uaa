@@ -1,0 +1,7 @@
+First	Last	Age	Weight	Height
+Nathan	Drake	32	190	5'8"
+Lara	Croft	24	150	5'6"
+James	Raynor	39	220	5'6"
+Sarah	Kerrigan	29	140	5'7"
+Desmond	Hume	35	190	6'1"
+Kate	Austen	31	130	6'0"

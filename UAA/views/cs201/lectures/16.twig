@@ -1,0 +1,340 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Class Inheritance{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>Inheritance</li>
+	<li>Triggering Inheritance</li>
+	<li>Overriding Methods</li>
+	<li>Visibility Modifiers</li>
+	<li>Super</li>
+	<li>Revisiting Exceptions</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+
+<div class='example'>
+	Examples:
+	<blockquote>
+		<a href='/uploads/cs201/Inheritance.java'>Inheritance.java</a><br/>
+		<a href='/uploads/cs201/Animalia.java'>Animalia.java</a><br/>
+	</blockquote>
+</div>
+
+
+<h3>Inheritance</h3>
+
+<p>The most important concept that Java brought to the table when it was designed was object-oriented programming (OOP). Java was the language that popularized this programming style. We've already seen the benefits using objects provides, encapsulating attributes and actions of a defined entity within a single organized section of code. But so far we have breezed over one of the most beneficial parts of OOP, using inheritance.</p>
+
+<p><strong>Inheritance</strong>, like it sounds, allows an object to inherit methods and variables from another object. If you have two class definitions and they contain very similar logic, you can have one inherit the other's logic so that you don't have to repeat yourself. This action has a few terms that surround it:</p>
+
+<p>The class that contains the source information to be inherited is known as the <strong>super class</strong>, <strong>base class</strong>, or <strong>parent class</strong>. The class that is gaining this information is the <strong>derived class</strong>, <strong>extending class</strong> or <strong>child class</strong>. Regardless of the name used there is an obvious Parent-Child relationship going on, where the child can inherit attributes and mannerisms of their parent.</p>
+
+<p>The child may also have their own features as well that the parent does not have. This allows it to enhance the original logic of the parent...say, becoming more specific. Let's look at an example.</p>
+
+<h3>Triggering Inheritance</h3>
+
+<p>Syntactically not much is added to the table to trigger inheritance. You simply need two classes and the addition of the <strong>extends</strong> keyword:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public class BaseClass {
+	
+	public void performAction() {
+
+	}
+}
+
+public class DerivedClass extends BaseClass {
+	
+	//Automatically gains the performAction() method from BaseClass
+}
+</pre>
+
+<p>This code allows all variables &amp; methods from the BaseClass to be copied down to DerivedClass, so you only have to define it once. We've already seen this when making our own objects; all objects inherit from the class known as Object, which provides methods such as toString() without us having to write any code.</p>
+
+<p>Here is a more real-world example, showing that derived classes may enhance the class that they are extending:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public class Person {
+	private int age;
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void haveBirthday() {
+		age++;
+	}
+}
+
+public class Teenager extends Person {
+	private int jailTime;
+	
+	public void rebel() {
+		jailTime++;
+	}
+
+	public void lieAboutAge() {
+		Random rnd = new Random();
+		//The class may automatically use the age methods from Person without defining anything
+		//Note though that age is private; the mutator is the only way to change it
+		setAge(21 + rnd.nextInt(10));
+	}
+}
+
+public class Employee extends Person {
+	private String employer;
+	private Employee supervisor;
+
+	public int getVisibleAge() {
+		return getAge() + (getAge() * 0.2);
+	}
+}
+</pre>
+
+<p>You can immediately see the benefits of inheritance with the above example. In both of the derived classes I did not have to define any logic about Teenagers or Employees having ages. Because they extended the Person object (think "is-a", such as, "the teenager <em>is a</em> person.") they instantly gain the age attribute and associated methods.</p>
+
+<h3>Overriding Methods</h3>
+
+<p>But again, doesn't it look like we have some duplicate logic going on? If a teenager lies about their age and an employee's age appears to be older than reality, it looks like we have some shared code we can make. Inheritance isn't just about gaining the elements of a parent class, it is also about enhancing or even redefining it. To redefine a method for example we simply repeat the same method definition in the child class:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public class Person {
+	private int age;
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public int getVisibleAge() {
+		return age;
+	}
+
+	public void haveBirthday() {
+		age++;
+	}
+}
+
+public class Teenager extends Person {
+	private int jailTime;
+	
+	public void rebel() {
+		jailTime++;
+	}
+
+	public int getVisibleAge() {
+		Random rnd = new Random();
+		return 21 + rnd.nextInt(10);
+	}
+}
+
+public class Employee extends Person {
+	private String employer;
+	private Employee supervisor;
+
+	public int getVisibleAge() {
+		return getAge() + (getAge() * 0.2);
+	}
+}
+</pre>
+
+<p>In this example, the Person class has a <code>getVisibleAge()</code> method. In Person it simply returns the actual age, since by default a Person's age is...well, their age. To a teenager lying about their age though, their visible age will always be above 21 so all Teenager classes <strong>override</strong> the Person class' <code>getVisibleAge()</code> method with their own implementation. This effectively allows us to now retrieve the Teenager object's actual age <em>and</em> their fake age; and to the outside world we didn't even define any new methods!</p>
+
+<p>When overriding methods, remember that in order to override you <em>must</em> use the exact same return type, name, and parameters. If you change any of these you will end up either <a href='13#overloading'>overloading</a> the method or defining a brand new method. Netbeans is generally helpful in this regard, erroring if you attempt to override a method in a manner that is not possible.</p>
+
+<h3>Visibility Modifiers</h3>
+
+<p>You may notice that in the above examples, age is labeled <code>private</code>. Visibility modifiers such as this gain a whole new meaning when using inheritance. Not only to they control access to members from the outside world, but they also control how a member is inherited by child classes. Private for example does not ever inherit; Teenager and Person would be unable to directly access the <code>age</code> variable. Instead they would have to access it just like any other class using the getters &amp; setters that Person defines.</p>
+
+<p>There are three types of visibility modifiers. Two, <code>public</code> and <code>private</code>, we've already made heavy use of. While private members are very specific to a class, public members will always inherit to their children and allow themselves to be overridden. The third visibility modifier is known as <code>protected</code>. Protected methods are a hybrid of the public/private idea; they do not allow access from outside classes, but <em>do</em> allow access from derived classes. This allows derived classes to directly make use of protected attributes and methods.</p>
+
+<p>It also allows derived classes to change the member's visibility. With a private member, the child class never even sees the original definition, meaning that if they end up creating the same thing in their class it is purely incidental and no overriding occurs. Public on the other hand always cascades to the child, so they may be overridden. Once they are public though they must stay public, you cannot lower their visibility. Protected members follow the same inheritance rules as public members, but the programmer may choose to publicize their logic by specifying <code>public</code> for their visibility modifier when they override it. Note again that once the protected member becomes public it cannot ever be set protected again.</p>
+
+<p>To summarize:</p>
+<dl>
+	<dt>public</dt>
+	<dd>Cascades to all lower classes. May not be replaced by any other visibility.</dd>
+
+	<dt>protected</dt>
+	<dd>Similar to private. Cascades to all lower classes. May be replaced by public.</dd>
+
+	<dt>private</dt>
+	<dd>Does not extend to child classes. Only available within implementing class. May not be replaced, but may be redefined (effectively the same) under any visibility.</dd>
+</dl>
+
+<p>Let's use the Employee example again to show an effective use of <code>protected</code>:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public class Person {
+	//Age is now protected, meaning it is still safe from harm by outside classes
+	protected int age;
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public int getVisibleAge() {
+		return age + getVisibleAgeModifier();
+	}
+
+	//This method is protected, just like private except it can be overridden
+	protected int getVisibleAgeModifier() {
+		return 0;
+	}
+}
+
+public class Employee extends Person {
+
+	//This overrides the parent method and replaces it with its own logic	
+	protected int getVisibleAgeModifier() {
+		//Because the age variable is protected, it is now directly accessible
+		//by this method.
+		return age * 0.2;
+	}
+}
+
+</pre>
+
+<h3>Super</h3>
+
+<p>You probably have noticed by now that there is some substantial possibilities for data hiding going on. When a derived class overrides its parent method, the parent's method is no longer accessible and is completely replaced by the derived class' implementation. The child class also cannot use the parent's logic when it is overriding...or can it?</p>
+
+<p>The keyword <strong>super</strong> allows for accessing the parent class (or as it is sometimes known, the super class). Super works very similar to <a href='8'>this</a>by allowing explicit use of the same object but in another context, in this case the parent's context. You may use <code>super()</code> to call a parent class' methods that may otherwise have been hidden by an override. The best example for this is when working with constructors.</p>
+
+<pre class='brush: java; toolbar: false;'>
+public class Person {
+	protected int age;
+
+	//Note the lack of default constructor. An age MUST be specified
+	//for a Person object to be created
+
+	public Person(int age) {
+		setAge(age);
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public int getAge() {
+		return age;
+	}
+}
+
+public class Newborn extends Person {
+	protected String birthPlace;
+
+	//A newborn baby's age is obvious, it would be pointless to force it to
+	//be specified
+	public Newborn() {
+		//Call the parent class' constructor and specify 0 as the default age.
+		super(0);
+	}
+
+	public Newborn(String birthPlace) {
+		super(0);
+		this.birthPlace = birthPlace;
+	}
+
+	//Note that the parent's constructors also inherit, so a Newborn will still be
+	//able to be created with a custom age
+}
+</pre>
+
+<p>This specific use of <code>super</code> acts like a method call. That is how you use it within a constructor to call the parent's constructors. There is also a limitation to using super in this way: you must always have <code>super()</code> be the first line in a constructor. You may then add any logic that you need afterwards for your own needs.</p>
+
+<p>If you want to use <code>super</code> outside of a constructor, such as explicitly calling the super class' methods, then use it just as you would <code>this</code>.</p>
+
+<pre class='brush: java; toolbar: false;'>
+public class Teenager extends Person {
+	
+	protected final int MAX_JUVENILE_SENTENCE = 5;
+	protected final int DEFAULT_JAIL_TIME = 1;
+	protected int jailTime;
+	
+	public void rebel() {
+		//Add one year to this teenager's sentence
+		jailTime = jailTime + DEFAULT_JAIL_TIME;
+		System.out.println("To juvie with you!");
+	}
+}
+
+public class HomicidalTeenager extends Teenager {
+	
+	public void rebel() {
+		//Still add the default amount of years (whatever may be defined as the default)
+		super.rebel();
+
+		//Then tack on some more because this kid is crazy
+		jailTime = jailTime + MAX_JUVENILE_SENTENCE;
+
+		System.out.println("You shall pay for what you've done!");
+	}
+}
+</pre>
+
+<h3 id='exceptionsRevisited'>Revisiting Exceptions</h3>
+
+<p>Class inheritance can readily be seen when working with exception handling. Recall from the previous lecture that there are many different types of Exceptions such as InputMismatchException and NullReferenceException, but all of the different types contain the same method <code>getMessage()</code>. The reason for this is that <code>getMessage</code> is inherited from the Exception base class that all exceptions extend. It also hints at how we can make our own exceptions.</p>
+
+<p>Creating your own exception is fairly easy. You need to:</p>
+
+<ul>
+	<li>Define your custom exception class as extending Exception, making it a derived class.</li>
+	<li>[Optional] Override the default constructor and/or the String constructor of the exception so that you can have a default error message defined while retaining the ability for the program to assign a custom message.</li>
+	<li>If you override any of the constructors, all of them should include a call to <code>super()</code> so that the base Exception class can perform all of its setup.</li>
+</ul>
+
+<p>And that's it! Not too hard. Here is an example, continuing the delinquent teenager example:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public class Teenager extends Person {
+	
+	protected final int MAX_JUVENILE_SENTENCE = 5;
+	protected final int DEFAULT_JAIL_TIME = 1;
+	protected int jailTime;
+	
+	public void rebel() {
+		//Add one year to this teenager's sentence
+		jailTime = jailTime + DEFAULT_JAIL_TIME;
+		System.out.println("To juvie with you!");
+	}
+
+	public void sendToJail(int numYears) throws ConcurrentSentenceException {
+		//Throw the exception if the person is already in jail at time of jailing
+		if(jailTime > 0) throw new ConcurrentSentenceException();
+		else jailTime = numYears;
+	}
+}
+
+public class ConcurrentSentenceException extends Exception {
+	
+	public ConcurrentSentenceException() {
+		//Provide a default error message if it hasn't been provided
+		this("You cannot sentence a person to jail when they are already in jail.");
+	}
+
+	public ConcurrentSentenceException(String message) {
+		//Allow for custom messages to be set
+		super(message);
+	}
+}
+</pre>
+
+{% endblock %}

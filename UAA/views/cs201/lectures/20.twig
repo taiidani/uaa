@@ -1,0 +1,177 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Recursion Continued{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>Recursion vs. Iteration</li>
+	<li>The Fibonacci Sequence</li>
+	<li>Binary Trees</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+
+<div class='example'>
+	Examples:
+	<blockquote>
+		<a href='/uploads/cs201/Recursion.zip'>Recursion.zip</a><br/>
+	</blockquote>
+</div>
+
+<h3>Recursion vs. Iteration vs. Traversal</h3>
+
+<p>What we've seen so far with recursion doesn't look very beneficial. Memory limitations can prevent large recursive methods from finishing, and the recursive approach to a problem is often less intuitive than using a simple loop. The reason for this is because, honestly, they really aren't good for simple solutions! If you can solve a problem with an iterative loop, then that solution will often be both faster and less memory intensive.</p>
+
+<p>So why even use recursion? It's for the much more complex problems. Iteration most often involves a single counter that changes every loop, but some problems may require 2, 3, or many more counters. It's this exponential growth in required variables that recursion serves to eliminate.</p>
+
+<p>A great example of this complexity is a maze. Think about how you would typically solve a maze. You would go down each corridor; if you reach a dead end you would then retrace your steps and traverse the next unexplored corridor and so on until you find the exit. An iterative solution would need some way of tracking which corridors you have already explored which leads to numerous counter variables, one for each fork in the maze that you have to take.</p>
+
+<p>In this lecture we're going to discuss two examples where recursion's simplicity pulls ahead of the typical iterative solutions.</p>
+
+<h3>The Fibonacci Sequence</h3>
+
+<p>The Fibonacci Sequence is a series of numbers with the rule that each number in the sequence is the sum of the prior two numbers in that sequence. For example, if two numbers in the sequence were 13 and 21 then the next number would be 13 + 21 = 34. The first two numbers, not having two previous numbers, are always 0 &amp; 1. With these rules the sequence always goes:</p>
+
+<pre>
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, etc....
+
+RULE: fib(0) = 0
+RULE: fib(1) = 1
+RULE: fib(n) = fib(n -1) + fib(n - 2)
+</pre>
+
+<p>So how is the Fibonacci sequence calculated iteratively? It is actually quite similar to what we saw on Thursday with the <a href='/cs201/lectures/19#exponent'>exponent calculation</a>. In the iterative approach you declare a number separate from your counter that will be increased with each iteration of the loop. This number allows you to track what the final calculated exponent will be. The iterative Fibonacci code follows the same idea but because of the algorithm, Fibonacci requires not only a counter but also variables to hold the running number, the prior number <em>and</em> the number prior to that:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public int fibonacci(int times) {
+	//Two variables to hold the prior two numbers in the sequence
+	int prior1 = 0;
+	int prior2 = 1; 
+ 
+	//Our running variable for the next number in the sequence
+	int ret;
+ 
+	//Loop as many times as specified to find the nth item
+	for(int cnt = 1; cnt &lt; times; cnt++) {
+		//Assign the running number equal to the two prior numbers
+		ret = prior1 + prior2;
+
+		//Reset the prior numbers to be the previous number and the current number
+		prior1 = prior2;
+		prior2 = ret;
+	}
+ 
+   return ret;
+}
+</pre>
+
+<p>This isn't terribly complicated, but you can see that Fibonacci requires 5 variables to be maintained throughout the method in order to make its calculations. With more complex algorithms the number of variables will only increase.</p>
+
+<p>With the recursive solution for exponents, we reduced our power until the natural rules took hold, that any number to the power of 1 is always that number. The Fibonacci sequence also has its three rules mentioned above which are directly used in the recursive solution:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public int fibonacci(int times) {
+	
+	//RULE: fib(0) = 0
+	if(times == 0) return 0;
+
+	//RULE: fib(1) = 1
+	else if(times == 1) return 1;
+
+	//RULE: fib(n) = fib(n -1) + fib(n - 2)
+	else return fibonacci(times - 1) + fibonacci(times - 2);
+}
+</pre>
+
+<p>Not that bad, eh? In the recursive solution you only need a single variable to track when to stop recursing. You also only need code that enforces the mathematical rules already in the definition of the sequence itself. The trick here is that you are using tail recursion by calculating your final return variable <em>as the stack decreases</em>.
+
+<h3>Binary Search Trees</h3>
+
+<a href='/uploads/cs201/fibonacciTree.png' class='quote'><img src='/uploads/cs201/fibonacciTree.png' style='width: 400px' /></a>
+<p>There is also something familiar to the recursive Fibonacci solution that you may not recognize immediately. Each time that the <code>fibonacci</code> method executes, it ends up invoking itself twice. A typical loop will "call itself" at the very end of the loop after the while() condition has been checked. Recursion doesn't behave like that. It allows you to choose when it calls itself <em>and</em> how many times it calls itself.</p>
+
+<p>In loop-terms, this allows you to write code against any number of previous iterations of that loop. The only way to do this without recursion is to declare a variable to store each previous result. Recursion deftly avoids this by using the method on the stack to return that variable.</p>
+
+<p>This behavior is exactly what you would see when working with <strong>tree traversal</strong>. With trees, you have a path that you take which branches into multiple possible paths (as opposed to the straight line that loops would follow). At any point (called a <strong>node</strong>) in the tree you are able to travel to any branch of your choice at that point. "Traversing" the tree is simply traveling along each branch until you find something you are looking for.</p>
+
+<p>In this case, we traverse the tree (a <strong>binary tree</strong> because each path has only 2 directions to go) until we find a point on the tree where the value is 1 or 0, our exit conditions.</p>
+
+<a href='/uploads/cs201/simpleBinaryTree.png' class='quote'><img src='/uploads/cs201/simpleBinaryTree.png' style='width: 300px' /></a>
+<p>Let's simplify things a bit. To the right we have a binary tree where each node in the tree (looking bottom-to-top left-to-right) is a number increasing from 0 to 5. If we look at each individual node, we notice that the two nodes above it (called <strong>child nodes</strong>) always consist of an even and odd number. This is a rule caused by the counting method; the two nodes above will always consist of one even &amp; one odd because one node is always the other node + 1.</p>
+
+<p>Q: How would we display all even numbers in this tree?</p>
+
+<p>We may assume that there is a pre-populated tree object where <code>getLeft()</code> and <code>getRight()</code> return the next node of the tree to the left or the right respectively and getValue() returns the number at the current node.</p>
+
+<pre class='brush: java; toolbar: false;'>
+//The iterative solution
+public void iterativeTree() {
+	Stack&lt;Node> nodes = new Stack&lt;Node>();
+	List&lt;Integer> numbers = new ArrayList&lt;Integer>();
+
+	point = startingNode; //Where startingNode is the bottom of the tree
+
+	while(nodes.size() > 0 || point != null) {
+		if(point != null) {
+			if(point.getValue() % 2 == 0 &amp;&amp; !numbers.contains(point.getValue())) {
+				numbers.add(point.getValue());
+			}
+
+			//Add right node to the end of the stack for visiting later
+			nodes.push(point.getRight());
+
+			//Head down the left node
+			point = point.getLeft();
+		}
+		else {
+			//Hit the end of the tree; use the stack to process the next node
+			point = nodes.pop();
+		}
+	}
+
+	for(Integer i : numbers) {
+		System.out.println(i);
+	}
+}
+</pre>
+
+<p>Again the iterative solution becomes very complex, needing a Stack object of its own just to track where it is in the tree. This Stack object is then used to revisit prior nodes that it couldn't get to before. Remember that with iteration, you can only calculate one loop at a time whereas recursion can calculate multiple. Here's the simpler recursive version:</p>
+
+<pre class='brush: java; toolbar: false;'>
+//The recursive solution
+List&lt;Integer> numbers;
+
+public void recursiveTree() {
+	numbers = new ArrayList&lt;Integer>();
+
+	traverse(startingNode);
+
+	for(Integer i : numbers) {
+		System.out.println(i);
+	}
+}
+
+public void traverse(Node point) {
+	//Hit the end of the tree, no need to process
+	if(point == null) return;
+
+	if(point.getValue() % 2 == 0 &amp;&amp; !numbers.contains(point.getValue())) {
+		numbers.add(point.getValue());
+	}
+
+	//Travel down the left path
+	traverse(point.getLeft());
+
+	//Travel down the right path
+	traverse(point.getRight());
+}
+</pre>
+
+<p>The recursive solution is much easier to digest. In this case, you need no Stack object because you use methods to track your visitations. In each execution of your <code>traverse()</code> method you calculate <em>both</em> the left and the right paths.</p>
+
+<p>Note that this solution is using head recursion. It is adding to the <code>numbers</code> list as it descends through the tree, rather than when it is returning up the tree like Fibonacci does with its tail recursion. Both solutions work the same, it is your choice which type of recursion to use.</p>
+
+{% endblock %}

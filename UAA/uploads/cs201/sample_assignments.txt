@@ -1,0 +1,24 @@
+CRN	Name	Type	Current Points	Points Possible
+70275	Practice 1	Assignment	9	10
+70275	Practice 2	Assignment	10	10
+70275	Test 1	Test	42	50
+70275	Practice 3	Assignment	6	10
+70275	Practice 4	Assignment	10	10
+70275	Test 2	Test	45	50
+32398	Homework 1	Assignment	4	10
+32398	Homework 2	Assignment	7	10
+32398	Homework 3	Assignment	8	10
+32398	Homework 4	Assignment	9	10
+32398	Test 1	Test	86	100
+76540	Homework 1	Assignment	12	15
+76540	Group Work	Assignment	10	10
+76540	Presentation	Assignment	48	50
+71057	Drill 1	Assignment	6	6
+71057	Drill 1	Assignment	6	6
+71057	Drill 1	Assignment	6	6
+71057	Drill 1	Assignment	6	6
+71057	Assignment 1	Assignment	27	25
+37228	Quiz 1	Test	15	20
+37228	Quiz 2	Test	14	20
+37228	Quiz 3	Test	14	20
+37228	Test 1	Test	40	50

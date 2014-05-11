@@ -1,0 +1,54 @@
+******** Samples for different animals and the information that goes along with each sample ********
+-- Sample is in a 1:1 relationship with Sample_Hair and Sample_Blood
+-- Sample is in a M:M relationship with Storage_Location. The connecting table is sample_storage. A potential addition here would be the start and end time when the sample was stored in that location, in case it gets moved
+-- Location is in a 1:M relationship with Storage_Location. There are many other 1:M relationships such as the code tables
+
+-- The animal whose sample was taken. If the animal was tagged, their tag number might be used as the primary key
+animal: *id, @species_id NOT NULL
+
+-- The sample that was taken, with information about that sample including where it was taken
+sample: *id, @animal_id NOT NULL, abnormal, size, notes, collected_time, @taken_location_id NOT NULL
+sample_hair: *@sample_id, length NOT NULL, color NOT NULL, amount NOT NULL
+sample_blood: *@sample_id, type NOT NULL
+
+-- The location that a sample is currently at (many samples at one storage location, many storage locations for each sample)
+sample_storage: *id, @storage_location_id NOT NULL, @sample_id NOT NULL
+
+-- A single location that stores samples
+storage_location: *id, @location_id NOT NULL, name NOT NULL UNIQUE
+
+-- The location that storage locations are, as well as where samples are taken. None of these have NOT NULL as some locations may only have a lat/long and others may only have a street, city & state.
+location: *id, streetno, street, city, state, zip, lat, long
+
+-- A code table for animal species. This can be expanded to genus, phylum, family, etc. if desired
+ct_species: *id, name NOT NULL
+
+
+
+******** Entertainment database, video games, movies, board games (Collected items) ********
+-- Item is in a 1:1 relationship with Item_Video_Game
+-- Item is in a M:M relationship with System. The connecting table is System_Support. This may only be used for video games, but is capable of supporting more. It might also be able to be reused for movies (i.e. DVD/Blu-Ray, VHS, etc.)
+-- Make is in a 1:M relationship with Model, which is in a 1:M relationship with System_Version. There are many other 1:M relationships such as the code tables
+
+-- Individual items (the actual movie, video game, or board game)
+item: *id, name NOT NULL, created_date, @edition_id, price, condition
+item_video_game: *@item_id, @developer_id NOT NULL, supports_motion_controller NOT NULL DEFAULT FALSE, supported_resolution, number_of_players NOT NULL DEFAULT 1, @rating_id NOT NULL
+
+-- The supported system for an item. This might represent what systems the product has been released on
+system_support: *id, @item_id NOT NULL, @system_id NOT NULL
+
+-- Code tables for edition (director's cut, special edition, etc.) and rating (Mature, Everyone, PG, R)
+ct_edition: *id, name NOT NULL
+ct_rating: *id, name NOT NULL UNIQUE
+
+-- Systems associated with the items, such as a DVD player or SNES video game console
+system: *id, @model_id NOT NULL, name NOT NULL, released_date, supported_resolution
+
+-- The manufacturer of a model (Sony, Panasonic, Samsung, Hasbro, Nintendo, Microsoft)
+make: *id, name NOT NULL, @location_id
+
+-- The model of system that has been released (The black Wii, PS3 Slim 120gb model, 2012 XBox 360 w/ Kinect)
+model: *id, @make_id NOT NULL, name NOT NULL
+
+-- The location for manufacturers. Can easily be reused for other location information
+location: *id, streetno, street, city NOT NULL, state NOT NULL, zip NOT NULL

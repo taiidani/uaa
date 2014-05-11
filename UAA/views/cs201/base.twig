@@ -1,0 +1,32 @@
+{% extends 'base.twig' %}
+
+{% block title %}CS201 Programming Concepts I{% endblock %}
+
+{% block styles %}
+	{{parent()}}
+	<link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,700' rel='stylesheet' type='text/css'>
+	<link rel='stylesheet' href='/styles/syntaxhighlighter/shCore.css' />
+	<link rel='stylesheet' href='/styles/syntaxhighlighter/shThemeDefault.css' />
+{% endblock %}
+
+
+{% block scripts %}
+	{{parent()}}
+	<script src='/scripts/shCore.js'></script>
+	<script src='/scripts/shBrushJava.js'></script>
+
+	<script>
+		SyntaxHighlighter.all();
+	</script>
+{% endblock %}
+
+{% block body %}
+		<div id='title'>CS 201 Programming Concepts I, Spring 2013</div>
+		<div id='nav'>
+			<ul>
+				<li><a href='/cs201/'>Syllabus</a></li>
+				<li><a href='/cs201/schedule/'>Schedule</a></li>
+			</ul>
+		</div>
+		{% block content %}{% endblock %}
+{% endblock %}

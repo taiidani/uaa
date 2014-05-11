@@ -1,0 +1,170 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Methods, Scope Continued{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>Defining classes</li>
+	<li>Using privacy with variables/methods</li>
+	<li>Accessors/Mutators</li>
+	<li>Calling ByValue, ByReference</li>
+</ul>
+
+<p><strong>Note: </strong> This lecture is intended as an experiment -- instead of using slides I am providing the course material directly on the lecture page and focusing on code examples.</p>
+
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+<h3>Defining Classes</h3>
+<div class='example'>
+	Example - <a href='/uploads/cs201/Course.java'>Course.java</a>
+</div>
+
+<p>You may define any number of classes in addition to the class that contains the main() method. In OOP principals, these classes should have an organized structure and hierarchy that depends on what you are creating. For example, if you were creating a program to manage fishing areas you might have classes for Area, Regulation, Season, etc.</p>
+
+<p>In the context of this course, we might have classes for:</p>
+<ul>
+	<li>A Course class for the course itself, including the name, section, number of credits</li>
+	<li>Student and Teacher classes for the students attending the course and the professor(s), respectively.</li>
+	<li>A Schedule class, containing the meeting times for a course</li>
+	<li>A Location class to define where a course would meet.</li>
+</ul>
+<p>The complexity and depth of the class structure is completely up to the needs of the program. These course classes for example do not provide the ability to track individual assignments or drills.</p>
+
+<p>We have covered naming conventions for the main() method's class before. Additional classes follow the same conventions. A typical structure for the class would be:</p>
+<pre class='brush: java; toolbar: false;'>
+
+//Note -- This class must be saved in a file called 'Classname.java'.
+//This association is case-sensitive
+
+class Classname {
+	
+	//Class constants
+
+	//Class variables
+
+	//Instance variables
+
+	//Public methods
+
+	//Private methods
+}
+</pre>
+<p>The order of these definitions is a recommendation, not a requirement.</p>
+
+<h3>Variable/Method Privacy</h3>
+
+<div class='example'>
+	Example - <a href='/uploads/cs201/Rectangle.java'>Rectangle.java</a>
+</div>
+
+<p>A common programming concept is known as <strong>encapsulation</strong>. This refers to the practice of using data hiding methods to prevent outside programmers access to the inner workings of your program. We briefly saw data hiding when we looked at the <code>this</code> keyword, but in this context we're talking more about public/private privacy levels on your definitions. To help with encapsulation, each class has an <strong>interface</strong> and an <strong>implementation</strong> that gets generated as you develop the class and allows you to see the visibility of your definitions to the outside world.</p>
+
+<p>For example, lets say that you have a class Vehicle:</p>
+<pre class='brush: java; toolbar: false;'>
+class Vehicle {
+	
+	private double speed;
+	private int force;
+
+	public void liftGasPedal() {
+		applyForce(force - 1);
+	}
+
+	public void pressGasPedal() {
+		applyForce(force + 1);
+	}
+
+	private void applyForce(double force) {
+		speed += force / 120;
+		this.force = force;
+	}
+}
+</pre>
+<p>You should note that there are 2 class-level instance variables, 2 public instance methods, and a single private instance method. These privacy keywords define what will show in the interface and what will be in the implementation. They allow hiding of data <strong>members</strong> (both variables &amp; methods) from outside eyes.</p>
+
+<div style='float: left; width: 50%'>
+	<p style='text-align: center;'><strong>Interface</strong></p>
+
+	<pre class='brush: java; toolbar: false;'>
+		Vehicle {
+			void liftGasPedal();
+			void pressGasPedal();
+		}
+	</pre>
+
+</div>
+
+<div style='float: left; width: 50%;'>
+	<p style='text-align: center;'><strong>Implementation</strong></p>
+
+	<pre class='brush: java; toolbar: false;'>
+		Vehicle {
+			double speed;
+			double force;
+
+			void liftGasPedal();
+			void pressGasPedal();
+			void applyForce(double);
+		}
+
+	</pre>
+</div>
+
+<p class='clear'>The difference between interface and implementation should be apparent. In the interface, only the publicly defined members are shown. In the implementation all of the members including the privately defined ones are shown. A programmer who does not have access to the source code of this class will only be able to see and make use of the interface. This allows you to create classes that expose very general behavior and hide the specifics of how it actually works behind the scenes.</p>
+
+<p>In the example, the designer of the Vehicle class hides the applyForce() method from the outside. If they had exposed it then outside classes would be able to modify the force placed on the gas pedal without actually pressing on the gas pedal.</p>
+
+<h3>Accessors/Mutators</h3>
+
+<div class='example'>
+	Example - <a href='/uploads/cs201/Person.java'>Person.java</a>
+</div>
+
+<p>But what if we need access to the variables that we have set to <code>private</code>? Some programmers may just set them to public and expect that their classes are treated fairly...but that would be a dangerous expectation. Instead, Java encourages the use of <strong>Accessors</strong> and <strong>Mutators</strong>. These are methods that are specially made to work with the private variables from outside the class.</p>
+
+<dl>
+	<dt>Accessor</dt>
+	<dd>A method prefixed with "get" that takes no parameters and returns the current value of the private variable.</dd>
+
+	<dt>Mutator</dt>
+	<dd>A method prefixed with "set" that returns nothing, takes a single parameter, and sets the private variable's value to that parameter's value.</dd>
+</dl>
+
+<p>There really isn't much to accessors &amp; mutators. They are simply methods with defined conventions on how to name them. The major benefit to them is in their implementation. For example, you might have an <code>age</code> variable:</p>
+
+<pre class='brush: java; toolbar: false;'>
+private final int MAX_AGE = 150;
+private int age;
+
+public int getAge() {
+	return age;
+}
+
+public void setAge(int age) {
+	if(age &lt; 0 || age &gt; MAX_AGE) return;
+
+	this.age = age;
+}
+</pre>
+<p>The accessor here just returns the current age; this is the same behavior as if <code>age</code> was public. The mutator however performs some validation before allowing a new value to set. It prevents any negative ages, and allows only up to a specific maximum age. If either of these cases happened then it would ignore the set request.</p>
+
+<p>You can't do this if you make your variables <code>public</code>. It's a prime example of both data hiding (preventing a class from setting age manually) and sanitizing data input.</p>
+
+<h3>Calling ByValue, ByReference</h3>
+
+<div class='example'>
+	Example - <a href='/uploads/cs201/ClassExamples.java'>ClassExamples.java</a>
+</div>
+
+<p>One gotcha that you will run into when working with classes and objects is the difference in how variables pass to methods. Recall from last lecture that the <code>new</code> operator returns the memory address of a newly instantiated object. This means that classes such as <code>String</code> do not hold the actual string that you work with, they hold the <em>memory address</em> of the object stored in the variable. This is unlike primitives where the variable is fully aware of the value of its contents.</p>
+
+<p>This managing of object by references to their memory locations causes a side effect when passing them around to other methods. When a primitive is provided as an argument to another method, its value will be directly given to the method. This is known as passing <strong>by value</strong>. In effect, the receiving method will get a copy of the variable and can work with it however it pleases.</p>
+
+<p>When an object is provided as an argument to another method, it is passed <strong>by reference</strong>. This is because the value that it passes is the memory location of the object. As a result, if the method that receives the object modifies that object, it will <em>modify the original object</em>. You must keep this in mind when working with objects and methods, otherwise it is very easy to cause bugs in your code.</p>
+
+<p>If you for some reason need to modify an object's values, it is best to make a complete copy of the object (known as <strong>cloning</strong>) or to copy the value in question to a new variable that is local to the scope of your method. This prevents unexpected changes to the original object which the programmer calling your method may not be prepared for.</p>
+
+{% endblock %}

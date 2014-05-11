@@ -1,0 +1,49 @@
+{% extends 'cs201/base.twig' %}
+
+{% block content %}
+
+<h1>{% block subject %}{% endblock %}</h1>
+
+{% block first %}{% endblock %}
+
+{% block landing %}{% endblock %}
+
+{% block summary %}
+<h2>Summary</h2>
+{% endblock %}
+
+{% block slides %}
+{% if showSlideHTML or showSlidePDF or showSlideKeynote %}
+	<h2>Presentation</h2>
+
+	<p>
+		{% if showSlidePDF %}
+			<a href='/cs201/lectures/{{ num }}/pdf'><img alt='PDF' src='/images/PDF_64.png' /></a>
+		{% endif %}
+		
+		{% if showSlideHTML %}
+			<a href='/cs201/lectures/{{ num }}/html'><img alt='HTML5' src='/images/HTML5_64.png' /></a>
+		{% endif %}
+	</p>
+
+{% endif %}
+{% endblock %}
+
+{% block notes %}
+<h2>Notes</h2>
+{% endblock %}
+
+{% block video %}
+{% if showVideo %}
+<h2>Video</h2>
+<video class='video' controls>
+	<source type='video/ogg' src='{{ videoURL }}ogv' />
+	<source type='video/mp4' src='{{ videoURL }}mov' />
+	Your browser does not support HTML5 videos
+</video>
+{% endif %}
+{% endblock %}
+
+{% block last %}{% endblock %}
+
+{% endblock %}

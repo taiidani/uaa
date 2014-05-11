@@ -1,0 +1,385 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Arrays{% endblock %}
+
+{% block styles %}
+{{parent()}}
+<style>
+
+.example {
+	display: inline-block;
+	background-color: #EEF;
+	border: 1px solid #DDE;
+	padding: 5px 10px;
+	border-radius: 5px;
+	font-weight: bold;
+}
+
+.excerpt {
+	float: right;
+	font-size: 0.9em;
+	padding: 1em 0.5em;
+	margin: 0;
+	background-color: #EEE;
+	border: 1px solid #DDD;
+	border-radius: 5px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>Arrays overview</li>
+	<li>Declaring arrays</li>
+	<li>Working with arrays</li>
+	<li>Multidimensional arrays</li>
+</ul>
+
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+<h3>Arrays Overview</h3>
+<div class='example'>
+	Example - <a href='/uploads/cs201/Sorting.java'>Sorting.java</a>
+</div>
+
+<p>Arrays can often scare people with how they work. This may be because their syntax isn't really used anywhere else and can sometimes be tricky to remember. But the Array concept itself is easy to grasp; you have in fact been using arrays since the very first class without knowing it!</p>
+
+<p>Arrays are simply lists of variables. They have a defined data type, a specific order, and a fixed amount. This is very intuitive but the devil is in the details:</p>
+
+<ol>
+	<li>This is a numbered list. The text written here is at <strong>index</strong> 1, as denoted by the number to the left</li>
+	<li>This is list <strong>element</strong> number 2, at index 2.</li>
+	<li>At index 3 this text is stored.</li>
+</ol>
+
+<p>Each one of these items is a collection of characters that can be held in a String, so the variable holding this list (say, the <code>numberedList</code> variable) is a collection of Strings. Because I've declared that, the <code>numberedList</code> can no longer hold anything else except strings...just like declaring a data type.</p>
+
+<p>Here is a more familiar example. Let's look at the third String element of the <code>numberedList</code>. It reads, "At index 3 this text is stored." You should be comfortable with Strings by now and also aware that they are just a simple list of <code>char</code> types arranged in order:
+
+<table border="1" cellpadding=5>
+	<thead>
+		<tr>
+			<th>0</th>
+			<th>1</th>
+			<th>2</th>
+			<th>3</th>
+			<th>4</th>
+			<th>5</th>
+			<th>6</th>
+			<th>7</th>
+			<th>8</th>
+			<th>9</th>
+			<th>10</th>
+			<th>11</th>
+			<th>12</th>
+			<th>13</th>
+			<th>14</th>
+			<th>15</th>
+			<th>16</th>
+			<th>17</th>
+			<th>18</th>
+			<th>19</th>
+			<th>20</th>
+			<td>...</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>A</td>
+			<td>t</td>
+			<td></td>
+			<td>i</td>
+			<td>n</td>
+			<td>d</td>
+			<td>e</td>
+			<td>x</td>
+			<td></td>
+			<td>3</td>
+			<td> </td>
+			<td>t</td>
+			<td>h</td>
+			<td>i</td>
+			<td>s</td>
+			<td></td>
+			<td>t</td>
+			<td>e</td>
+			<td>x</td>
+			<td>t</td>
+			<td></td>
+			<td>...</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Each one of these letters is in a <code>char</code>, but the collection holding them in order is an array of type char[].</p>
+
+<h3>Declaring Arrays</h3>
+
+<p>Using the <code>numberedList</code> example from above...</p>
+
+<pre class='brush: java; toolbar: false;'>
+	String[] numberedList = new String[3];
+	numberedList[0] = "This is a list. The text wri...";
+	numberedList[1] = "This is list element number 2...";
+	numberedList[2] = "At index 3 this text is stored.";
+</pre>
+
+<p class='excerpt'><code>data_type[] variable_name = new data_type[length];</code></p>
+<p>This is how you create an array. Note the <code>[]</code> brackets (not braces). The brackets define <strong>array notation</strong> and are very specific to the array concept. To the left of the brackets is the data type, "String", meaning that everything in the array's list <em>must</em> be a String. You then give the array variable a name and use the = assignment operator to set the variable to a new instance of String[3]. Note that unlike an object there are no parentheses here, just the brackets reappearing. The number in the brackets defines the amount of Strings that <code>numberedList</code> can hold. In this case there are 3 list items and so the amount is 3.</p>
+
+<p>But <strong>be careful</strong>. Arrays, like Strings, are 0-indexed. Even though the displayed list above begins counting at 1, all arrays begin counting at 0. This means that a String of length 5 will have slots reserved for indices 0, 1, 2, 3 &amp; 4, but <em>not</em> 5. You can see this above where the third entry thinks that it is at index 3 but it is actually being physically stored at index 2.</p>
+
+<h3>Working With Arrays</h3>
+
+<p>There are 2 different ways of populating an array's value. Above a method was shown that is very similar to objects, using the <code>new</code> keyword. This way is beneficial because it is very easy to read and makes the number of memory slots allocated to your data (the <strong>length</strong> of the array) very obvious.</p>
+
+<p>It also forces you to initialize each element in the array. When you first declare an array it is always empty, with memory already reserved for your data but not yet holding anything. Each element needs a value; if the element is a primitive such as double or int then it will be set to a default (usually 0), otherwise if it is an object it will be <strong>Null</strong>, which is a keyword for the <em>absence</em> of a value. Nulls can be very bad in a program, especially when you are not expecting them, so it is a good practice to initialize as soon as possible after declaring an object variable.</p>
+
+<h4>Cell-by-Cell Initialization</h4>
+
+<p class='excerpt'><code>variable_name[index] = value;</code></p>
+<p>Initializing uses the same array notation (brackets) that declaring the array used. To set the value of an element in an array you specify the index in the brackets after the variable's name, which will resolve to the individual item in that array variable. At that point you can work just like any other variable, in this case using an = assignment operator to set a value to it.</p>
+
+<pre class='brush: java; toolbar: false;'>
+	//Declare an array of length 1
+	double[] ary = new double[1];
+
+	//Initialize the only item (0-indexed) in the array
+	ary[0] = 42.01;
+
+	//After dereferencing the variable in the array
+	//you can use it like any other variable
+	if(ary[0] &gt; 42.0) {
+		ary[0] = ary[0] + (42 - ary[0]);
+	}
+</pre>
+
+<p>This "one at a time" method works great with loops. Memory has been assigned to hold your values but no values are present. If all you need are, say, a list of numbers to work with, then looping to create these arbitrary numbers is easy:</p>
+
+<pre class='brush: java; toolbar: false;'>
+int[] evenNumbers = new int[10];
+
+//Start at 0 and go through every element in the array
+for(int cnt = 0; cnt &lt; evenNumbers.length; cnt++) {
+	evenNumbers[cnt] = cnt * 2;
+}
+
+</pre>
+
+<p>This would produce:</p>
+
+<table border="1" cellpadding=5>
+	<thead>
+		<tr>
+			<th>0</th>
+			<th>1</th>
+			<th>2</th>
+			<th>3</th>
+			<th>4</th>
+			<th>5</th>
+			<th>6</th>
+			<th>7</th>
+			<th>8</th>
+			<th>9</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>0</td>
+			<td>2</td>
+			<td>4</td>
+			<td>6</td>
+			<td>8</td>
+			<td>10</td>
+			<td>12</td>
+			<td>14</td>
+			<td>16</td>
+			<td>18</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Note the use of the <code>.length</code> attribute. Remember that arrays are more like objects than primitives. They have their own variables and methods. Length in particular is very useful because it will always contain the number of items that the array can hold (<em>not</em> 0 indexed. It is the actual count of elements).</p>
+
+<h4>Front-loading Initialization</h4>
+
+<p>An alternative syntax to the cell-by-cell initialization allows you to populate your entire array at the same time that you declare it. This syntax requires you to provide every value in your array immediately so will only work for reasonably small arrays. Let's use "Hello" as an example:</p>
+
+<table border="1" cellpadding=5>
+	<thead>
+		<tr>
+			<th>0</th>
+			<th>1</th>
+			<th>2</th>
+			<th>3</th>
+			<th>4</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>H</td>
+			<td>e</td>
+			<td>l</td>
+			<td>l</td>
+			<td>o</td>
+		</tr>
+	</tbody>
+</table>
+
+<pre class='brush: java; toolbar: false;'>
+	String greeting = "Hello";
+
+	char[] greeting2 = new char[5];
+	greeting2[0] = 'H';
+	greeting2[1] = 'e';
+	greeting2[2] = 'l';
+	greeting2[3] = 'l';
+	greeting2[4] = 'o';
+
+	char[] greeting3 = { 'H', 'e', 'l', 'l', 'o'};
+</pre>
+
+<p>This syntax eschews brackets for braces. Between the braces should be each element of the array in the order that it will appear in the array, separated by commas. There is no difference in the data between the three examples above with the small exception of String that provides helper methods for working with the character array hidden inside of it.</p>
+
+<h4>Accessing Arrays</h4>
+
+<p>Now to access the Strings in the earlier <code>numberedList</code> example I would still use the variable's name, but just like an object the name only references the <em>memory location</em> and not the values within the array. Instead, I need to use brackets again which dereference the variable stored at that memory location:</p>
+
+<pre class='brush: java; toolbar: false;'>
+	System.out.println(numberedList); //Outputs a memory location. Practically useless here
+
+	System.out.println(numberedList[0]); //Outputs "This is a list. The text wri..."
+</pre>
+
+<h3>Multidimensional arrays</h3>
+
+<p class='excerpt'><code>variable_name[row][column];</code></p>
+<p>An array doesn't necessary need to hold a simple list. Remember that it can hold objects such as Strings, objects which hold their own values. This lets a programmer nest their arrays as deep as they need using objects that may in turn contain their own arrays.</p>
+
+<p>Note that Java arrays are objects themselves. This enables what are called <strong>multidimensional arrays</strong>, arrays of arrays (of arrays (of arrays)). Before jumping in, remember that once an array element is dereferenced there is <em>no</em> difference between it and any other object of its type:</p>
+
+<pre class='brush: java; toolbar: false;'>
+int amountFive = 7;
+
+int[] amount = { 1, 2, 3, 4, 5, 6 };
+
+//The amountFive variable and the fifth element of the amount
+//array are the same exact data type and value
+
+bool same = (amountFive == amount[4]); //True
+</pre>
+
+<p>Because of this, there is nothing stopping a programmer from having the data type of the dereferenced value to be an integer <em>array</em> rather than just a simple integer:</p>
+
+<pre class='brush: java; toolbar: false;'>
+int[][] amount = new int[2][3];
+
+//Allows us to access:
+amount[0][0];
+amount[0][1];
+amount[0][2];
+amount[1][0];
+amount[1][1];
+amount[1][2];
+
+//Lengths also match
+amount.length; // (int[][]) - 2
+amount[0].length; //(int[]) - 3
+amount[0][0].length; //(int) - Error, integers don't have length
+</pre>
+
+<p>Remember that all that is happening here is that upon dereferencing one array (amount[0]) we get the object stored at that location...which just happens to be another array. We can then work with that array as we see fit, not knowing that it is part of a larger array. We can also dereference that object to get the plain integer inside of it.</p>
+
+<p>Here is some example code for initializing the <code>amount</code> <strong>2-dimensional</strong> (i.e. [1][2]) array of numbers:</p>
+
+<pre class='brush: java; toolbar: false;'>
+int[][] amount = new int[4][5];
+
+//Go through each top-level item, then through each second level item inside of that
+for(int cnt = 0; cnt &lt; amount.length; cnt++) {
+	//Note that the nested for uses a different counter
+	//It also has an exit condition checking the dereferenced int[] array
+	for(int cnt2 = 0; cnt2 &lt; amount[cnt].length; cnt2++) {
+
+		//Dereference first the int[] array at cnt, then the plain integer
+		//inside of that array at cnt2
+		amount[cnt][cnt2] = cnt * cnt2;
+	}
+}
+</pre>
+
+<table border="1" cellpadding=5>
+	<thead>
+		<tr>
+			<th colspan=7>amount[]</th>
+		<tr>
+			<th colspan=2></th>
+			<th>0</th>
+			<th>1</th>
+			<th>2</th>
+			<th>3</th>
+			<th>4</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th rowspan=4>amount</th>
+			<th>0</th>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+		</tr>
+		<tr>
+			<th>1</th>
+			<td>0</td>
+			<td>1</td>
+			<td>2</td>
+			<td>3</td>
+			<td>4</td>
+		</tr>
+		<tr>
+			<th>2</th>
+			<td>0</td>
+			<td>2</td>
+			<td>4</td>
+			<td>6</td>
+			<td>8</td>
+		</tr>
+		<tr>
+			<th>3</th>
+			<td>0</td>
+			<td>3</td>
+			<td>6</td>
+			<td>9</td>
+			<td>12</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>The best way to think of a 2 dimensional array is a simple table. You have two axes, x and y, represented in the table as rows and columns. Each time you access an item in <code>amount</code>, you are looking a row. This row gives you the int[] at that location (note the row giving you a simple list), so if you want to access an item in that row you need to dereference again and look at the column. Now you have both a row and column specified which gives you a single, integer variable. For the last example, let's illustrate that:</p>
+
+<pre class='brush: java; toolbar: false;'>
+	//Amount has been pre-populated from the earlier example
+	int row = 2;
+	int col = 3;
+
+	System.out.println(amount[row][col]); //Prints 6
+
+	//Dereference the row, get all the items in that row
+	int[] rowOfInts = amount[row];
+
+	//Dereference the column, get the item at that index
+	int singleValue = rowOfInts[col];
+
+	System.out.println(singleValue); //Prints 6
+</pre>
+
+<p>As multidimensional arrays can get rather complex I would suggest never going deeper than a 2 dimensional array. If you tried a 3 dimensional array then to visualize it you would need to map the values on a cube using the z axis. This is more complex than it needs to be; when you get to the point where you need such deeply nested arrays, consider using objects to simplify your code.</p>
+{% endblock %}

@@ -1,0 +1,223 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Generics, LinkedList{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>Cleaning Up</li>
+	<li>Generics</li>
+	<li>Linked Lists</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+
+<div class='example'>
+	Examples:
+	<blockquote>
+		<a href='/uploads/cs201/Node.java'>Node.java</a>
+	</blockquote>
+</div>
+
+<h3>Cleaning Up</h3>
+
+<p>Congratulations, You've made it to the last section of new content! Today will be about the remaining two topics that we haven't covered yet, Generics and the LinkedList data structure. Both of these concepts you have seen done before, so this lecture will ensure that you can work with them yourself.</p>
+
+<h3 id="generics">Generics</h3>
+
+<p>The term generic can be a little misleading. It may make you think of abstract classes, but abstracts are quite different than generic classes. While an abstract class cannot be instantiated and can defer its method implementations to derived classes, a <strong>generic class</strong> is just like a normal class but cannot be instantiated without being told what type of class it is.</p>
+
+<p>Take the ArrayList that we've been using, for example. When you instantiate an ArrayList you must provide a class type (in Java 1.6 at least) that tells the ArrayList what type of objects it is going to be holding. ArrayList is a generic class because of this; it has all of the code that defines its behavior, but doesn't know what type of objects it is working with until you tell it.</p>
+
+<p>Instantiating a generic is simple enough. When you declare or create an instance of a generic, you need to specify the type in &lt;carets&gt; after the class' name but before the parentheses. If the generic requires multiple types then you separate the types with commas. For example:</p>
+
+<pre class='brush: java; toolbar: false;'>
+//Declare a List generic that holds Strings, instantiate as an ArrayList.
+List&lt;String> list = new ArrayList&lt;String>();
+list.add("A string");
+
+//A map generic. Note the two required types specifying a key/value pair.
+Map&lt;String, Integer> map = new HashMap&lt;String, Integer>();
+map.put("Five", 5);
+
+//The type is completely dynamic. You can nest if you like.
+Map&lt;String, List&lt;String>> nested = new HashMap&lt;String, List&lt;String>>();
+map.put("Strings", list);
+</pre>
+
+<p>There is one limitation to generics worth repeating. Only class types may be used as the parameters for a generic class. This means no primitives like <code>int</code> or <code>double</code>. Above I had to use the Integer class in order to store a number rather than the less memory-hogging <code>int</code>.</p>
+
+<p>But we've seen how to use generics before; how do we create them? Well, it's actually almost as easy as using them. When you define your class you put the same &lt;carets&gt; after your class' name but before the opening brace. In the carets you can provide a comma-separated list of class type variables (which I will call <strong>T variables</strong>) that will be used in the class. By class type variables I mean that you provide the name of a variable that acts as a placeholder for the class type that is specified at instantiation. Let's see what I mean:</p>
+
+<pre class='brush: java; toolbar: false;'>
+class Box&lt;T> {
+	private T contents;
+	
+	public Box() {
+
+	}
+
+	public Box(T contents) {
+		this.contents = contents;	
+	}
+
+	public T getContents() {
+		return contents;
+	}
+}
+</pre>
+
+<p>This T variable that you specify should go everywhere you normally would have to put an object's type. Place it in all declarations, parameter types, and return types within your class and, when instantiated, your class will automatically treat those class types as if they were never generic in the first place.</p>
+
+<p>There is one large limitation that comes with generics though; T variables may not be instantiated. This is because Java does not know at compile time what constructors are going to be available for the final type. It also cannot assume that a default constructor will be available. This means no <code>T item = new T();</code> is allowed.</p>
+
+</p>It also means you can only treat your T variable like an Object, the most vague of types that lives at the very top of the inheritance hierarchy. This can be...restrictive. Fortunately Java allows you to specify a minimum type for your T variables:</p>
+
+<pre class='brush: java; toolbar: false;'>
+class Counter&lt;T extends Integer> {
+	private T count;
+	
+	public Box(T initial) {
+		this.count = initial;
+	}
+
+	public T getAmount() {
+		return count;
+	}
+
+	public void count() {
+		//Now you can treat your count variable like an Integer object
+		count++;
+	}
+}
+</pre>
+
+<p>If you declare that your T variable extends another class, then the programmer trying to instantiate your generic class will be required to specify a class extending that class. This now allows you to treat your T variable as if it was that class, or some subclass of that class. In the above example I am allowed to treat my <code>count</code> variable as if it was an Integer variable, but remember that I am still not allowed to instantiate it because I still don't know what the final type will be.</p>
+
+
+<h3>Linked Lists</h3>
+
+<p>While we're on the topic of generic classes such as List &amp; ArrayList, remember how I always declare my lists with the List class rather than simply declaring an ArrayList? The main reason I do this is to allow for polymorphism; I do not need the actual object to be an ArrayList, only a List-like structure. I didn't however provide alternate choices for Lists at the time.</p>
+
+<p>A LinkedList is a List type that can be used instead. This class lives in java.util and for all intents and purposes can be used exactly as you would any other List due to the fact that it implements the List interface. And that's why polymorphism is awesome!</p>
+
+<p>So now that we have how to use a LinkedList object out of the way, lets define what a <strong>linked list</strong> is. A linked list, like an array, maintains a collection of objects (but not primitives). The difference is in how these objects are stored.</p>
+
+<p>When you declare an array, Java reserves a section of memory for the exact number of items that that array will hold. If you want 5 strings, you get 5 * the number of bytes a String object requires. If you fill up this array and need to add a 6th item, you can't. ArrayList gets around this by automatically declaring a new larger array and then <em>moving all existing items to the new array</em>. This operation can get very time intensive when working with large arrays.</p>
+
+<p>When you declare a linked list, Java only reserves enough memory to hold the first item in the list. Mind you that this memory includes the container object that is wrapped around the object you are storing, so a single item in a linked list will always take up substantially more memory than a single array item. A 5 string linked list will take up 5 * Node&lt;String&gt; bytes where Node is at least the memory location of the String as well as the Node itself.</p>
+
+<p>The benefit that a linked list has is that you don't need to specify a size for it; it will always start out with the minimum amount of memory to contain a single item in the list. When you add a new item to the list, memory is allocated for only that item, and a reference is set on the first item in the list to point to the last item.</p>
+
+<p>Hard to explain, easy to illustrate. Here is what a 5 String array with 3 strings in it looks like:</p>
+
+<p><img src='/uploads/cs201/arrayList.png' alt=''/></p>
+
+<p>Note that this array takes up 5 Strings worth of memory even though only 3 of them are being used. Here is the linked list:</p>
+
+<p><img src='/uploads/cs201/linkedList.png' alt=''/></p>
+
+<p>Each Node object will take up more memory than the String it contains, but there are less Node objects required to store all 3 strings. The memory usage will even out depending on how much space in the array is wasted but speed of insertion is where the linked list shines, not memory usage.</p>
+
+<p>But enough talk, what does a linked list look like?</p>
+
+<pre class='brush: java; toolbar: false;'>
+class Node&lt;T> {
+	protected T item;
+	protected Node next;
+
+	public Node(T item) {
+		this.item = item;
+	}
+
+	public T getItem() {
+		return item;
+	}
+
+	public Node getNext() {
+		return next;
+	}
+
+	public Node add(T item) {
+		//If we're not at the end of the list
+		if(next != null) return next.add();
+
+		//If we're at the end, add another
+		else {
+			next = new Node(item);
+			return next;
+		}
+	}
+}
+</pre>
+
+<p>Here is an implementation of a single node in the list. There are a lot of things to notice here:</p>
+<ul>
+	<li>The list can contain any type of object, using generics.</li>
+	<li>The memory requirement = Size of Node + Size of T + Size of Node, for each of the objects declared by the node and the node itself.</li>
+	<li>The only way to get to the next node is by calling <code>getNext()</code>.</li>
+	<li>Adding a new item requires recursion that traverses all sibling nodes.</li>
+</ul>
+
+<p>So a linked list really is just an object that contains a single item and has the ability to call a method to travel to the next item in the list. The <code>next</code> variable points to that next item and is simply null if at the end of the list. Adding items is done by calling <code>add(T)</code> on any nodes in the list. If the node is not at the end of the list it will recursively call <code>add(T)</code> on each succeeding item in the list until at the end, which will add the new node and return it back down the stack.</p>
+
+<p>"But I thought you said linked lists were faster than arrays at insertions!", you ask. Very true, this implementation requires you to travel the entire linked list just to add a single item...very slow. But, unlike an array, a linked list is just a collection of container objects, so we can add whatever behavior we want to the data structure!</p>
+
+<pre class='brush: java; toolbar: false;'>
+class Node&lt;T> {
+	protected T item;
+	protected Node next;
+	protected Node last;
+
+	public Node(T item) {
+		this.item = item;
+	}
+
+	public T getItem() {
+		return item;
+	}
+
+	public Node getNext() {
+		return next;
+	}
+
+	public Node getLast() {
+		return last;
+	}
+
+	public Node add(T item) {
+		//If we're at the end
+		if(next == null) {
+			//Add the new item to the end
+			next = new Node(item);
+
+			//Set it to also be the new last
+			last = next;
+
+			//Return the newly added last item
+			return last;
+		}
+
+		//If we're somewhere in the middle
+		else {
+			last = last.add(item);
+			return last;
+		}
+	}
+}
+</pre>
+
+<p>With functionality added to track the <code>last</code> item in the list, any new requests to add an item (from any node in the list) will always take at most a single traversal of the list and 1 new memory allocation. Compare this to an array where adding an item at best is 0 traversals, 1 memory allocation and at worst n + 1 traversals and n + 1 memory allocations where n is the current size of the array.</p>
+
+<p>To summarize:</p>
+<ul>
+	<li>Linked lists will always take up more memory than a similarly sized array.</li>
+	<li>Linked lists are much faster at adding/removing items from the end of the list.</li>
+	<li>Linked lists never "overflow" like arrays do when they reach their declared length.</li>
+	<li>Linked lists, being objects, can be expanded upon and customized to support only what the programmer needs. For example, it would be trivial to add another variable to the above linked list that tracks the previous node in the list.</li>
+	<li>Expanding upon the last bullet point, the implementation for a linked list sets up the natural progression to tree structures. Trees are in fact just linked lists that evolved to support more than one "next item".</li>
+</ul>
+
+{% endblock %}

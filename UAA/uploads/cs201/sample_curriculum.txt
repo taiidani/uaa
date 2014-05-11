@@ -1,0 +1,6 @@
+CRN	Name	Major	Course Number	Section	Credits
+70275	Intermediate American Sign Language I	ASL	A201	601	4.0
+32398	Calculus I	MATH	A200	001	4.0
+76540	Fundamentals of Oral Communication	COMM	A111	615	3.0
+71057	Programming Concepts I	CS	A201	602	3.0
+37228	Nonlinear Dynamics and Chaos	PHYS	456	051	3.0

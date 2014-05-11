@@ -1,0 +1,127 @@
+{% extends 'cs201/drill.twig' %}
+
+{% block subject %}Drill 3 - Academic Advisor{% endblock %}
+
+{% block summary %}
+{{parent()}}
+
+<p>Design a set of conditional statements to suggest the next course for a student, given their highest completed class in the CS, CSE, and MATH majors. After advising, your program should ask the user if the advice was helpful and respond appropriately to their answer.</p>
+
+<p>You may directly assign the student's highest courses into variables rather than inputting them from the Console, but after outputting your suggestion you will still need to retrieve a "Yes" or a "No" from the user to determine your program's response.</p>
+
+<p>The following conditions should be considered. A plus sign in the condition implies that the student may have taken the specified class <em>or</em> a higher class:</p>
+<ul>
+	<li>If the student has already taken CS241 or CSE215+, suggest CS304.</li>
+	<li>If not and the student has taken CS221 or CSE205+ and <em>also</em> has taken MATH107+, suggest CS241.</li>
+	<li>If not and the student has taken CS201+ but <em>not</em> CS202, suggest CS202.</li>
+	<li>If not and the student has taken CS201+, suggest CS221.</li>
+	<li>Otherwise, always suggest CS201.</li>
+</ul>
+
+<p>For example, if you assume that the student has already taken MATH101+ or CS110, your statement would look like this:</p>
+<pre class='brush: java; toolbar: false;'>
+if (math >= 101 || cs == 110) {
+	//...
+}
+</pre>
+
+
+<p>Your output will look similar to the following depending on the course variables and the user's response:</p>
+<blockquote>
+	<pre>Your next course should be CS304.
+Was this advice helpful? [User enters 'Yes']
+Glad to help!</pre>
+</blockquote>
+
+<p>Please note these conditions are highly fictional and should not be considered a basis for your own academic plans.</p>
+
+<p>Here is a base skeleton to get you started:</p>
+<pre class='brush: java; toolbar: false;'>
+Scanner input = new Scanner(System.in);
+
+//The highest course taken for Computer Science, Mathemematics, and 
+//Computer Systems Engineering, respectively
+int cs = 201;
+int math = 108;
+int cse = 205;
+
+//Declare this varible OUTSIDE of your if statements. Remember that an
+//if statement creates its own scope and you will need to use this variable
+//afterwards.
+int nextClass;
+
+//*** Your if-else statements should go here ***
+
+//Output the advice
+System.out.println("Your next course should be: CS" + nextClass);
+
+//Prompt the user if the advice helped them
+System.out.print("Was this advice helpful? [Yes/No] ");
+String promptResponse = input.nextLine();
+
+//*** Your if statement responding to the prompt should go here ***
+</pre>
+
+<h2>Requirements</h2>
+<p>The final program that you develop <em>must</em> contain:</p>
+<ul>
+	<li>A NetBeans project containing your code</li>
+	<li>A series of if-else statements conforming to the above conditions</li>
+	<li>A prompt to the user asking if the advice was helpful</li>
+	<li>Output to the console that is dependent on how the user responds to the prompt</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{% endblock %}
+
+{% block answer %}
+{{parent()}}
+<p><a href='/uploads/cs201/AcademicAdvisor.java'>AcademicAdvisor.java</a></p>
+
+<pre class='brush: java; toolbar: false;'>
+Scanner input = new Scanner(System.in);
+
+//The highest course taken for Computer Science, Mathemematics, and 
+//Computer Systems Engineering, respectively
+int cs = 201;
+int math = 108;
+int cse = 205;
+
+//Declare this varible OUTSIDE of your if statements. Remember that an
+//if statement creates its own scope and you will need to use this variable
+//afterwards.
+int nextClass;
+
+if(cs == 241 || cse >= 215) {
+    nextClass = 304;
+}
+else if((cs == 221 || cse >= 205) && math >= 107) {
+    nextClass = 241;
+}
+else if(cs >= 201 && cs != 202) {
+    nextClass = 202;
+}
+else if(cs >= 201) {
+    nextClass = 221;
+}
+else {
+    nextClass = 201;
+}
+
+//Output the advice
+System.out.println("Your next course should be: CS" + nextClass);
+
+//Prompt the user if the advice helped them
+System.out.print("Was this advice helpful? [Yes/No] ");
+String promptResponse = input.nextLine();
+
+if(promptResponse.equals("Yes")) {
+    System.out.println("Glad to have helped!");
+}
+else if(promptResponse.equals("No")) {
+    System.out.println("I'm sorry to hear that.");
+}
+</pre>
+
+{% endblock %}

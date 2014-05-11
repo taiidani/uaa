@@ -1,0 +1,90 @@
+{% extends 'cs201/drill.twig' %}
+
+{% block subject %}Drill 6 - Input Validation Using Try-Catch{% endblock %}
+
+{% block summary %}
+{{parent()}}
+
+<p>Construct a program that asks a user these questions three and validates the response from the user using <a href='/cs201/lectures/15'>exceptions</a>. If the user's input is invalid or otherwise not what was expected, an exception should be thrown triggering the question to be asked again. If the the user responds to the question with a question (a string ending with a question mark) then a different exception should be thrown causing the program to exclaim its confusion before exiting.</p>
+
+<p>Here are the questions and expected answers:</p>
+<ul>
+	<li>What... is your name? (User responds with a non-empty string that starts with "Sir")</li>
+	<li>What... is your quest? (User responds with a non-empty string containing the string "grail")</li>
+	<li>What... is the air-speed velocity of an unladen swallow? (User responds with a non-empty string that is <em>not</em> a question)</li>
+</ul>
+
+<h3>Sample Output</h3>
+
+<p>Example of exceptions being caught:</p>
+<pre>
+What... is your name? Ryan
+Eh? [Exception caught]
+What... is your name? Sir Arthur of Camelot
+What... is your quest? To teach programming
+Eh? [Exception caught]
+What... is your name? Sir Arthur of Camelot
+What... is your quest? To seek the holy grail
+What... is the air-speed velocity of an unladen swallow? African or European?
+Huh? I... I don't know that! [Exception caught]
+[Program exits]
+</pre>
+
+<p>Example of no exceptions being thrown:</p>
+<pre>
+What... is your name? Sir Arthur of Camelot
+What... is your quest? To seek the holy grail
+What... is the air-speed velocity of an unladen swallow? About 24 miles per hour, give or take
+You may pass!
+[Program exits]
+</pre>
+
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+<p>Hint -- As one exception causes your user input loop to repeat while the other causes your program to scream and exit, you may find the <code>InputMismatchException</code>, <code>IllegalArgumentException</code>, or base <code>Exception</code> classes useful for specifying which try-catch block handles which exception.</p>
+{% endblock %}
+
+{% block answer %}
+{{parent()}}
+
+<pre class='brush: java; toolbar: false;'>
+Scanner keyboard = new Scanner(System.in);
+String name;
+String quest;
+String velocity;
+
+try {
+	do {
+		try {
+			System.out.print("What is your name? ");
+
+			name = keyboard.nextLine();
+			if(!name.toLowerCase().startsWith("sir")) throw new InputMismatchException();
+
+			System.out.print("What is your quest? ");
+
+			quest = keyboard.nextLine();
+			if(!quest.toLowerCase().contains("grail")) throw new InputMismatchException();
+
+			System.out.print("What is the air-speed velocity of an unladen swallow? ");
+			velocity = keyboard.nextLine();
+			
+			if(velocity.endsWith("?")) throw new IllegalArgumentException();
+			
+			System.out.println("You may pass!");
+			break;
+		}
+		catch(InputMismatchException ex) {
+			System.out.println("Eh?");
+		}
+
+	} while(true);
+}
+catch(IllegalArgumentException ex) {
+	System.out.println("Wait, you confuse me, I don't know... AAARGH!");
+	System.exit(1);
+}
+</pre>
+{% endblock %}

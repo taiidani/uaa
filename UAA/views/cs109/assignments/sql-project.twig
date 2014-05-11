@@ -1,0 +1,36 @@
+{% extends 'cs109/base.twig' %}
+
+{% block content %}
+		<h1 class='title'>Assignment 8, Individual SQL Project Overview</h1>
+
+		<div id='summary'>
+			<h2>Summary</h2>
+			<p>This assignment covers the beginnings of the Individual SQL project and is worth 5 points. You may turn in the assignment in a Word document or in the body of an email. Grading will be based off of the description of your database (completeness, feasibility, etc.)</p>
+
+			<p>As the SQL project may be done in groups, you can have the entire group turn in a single assignment with your names written on it, or turn in descriptions separately. I personally would suggest a group submission to help your group members all stay on the same page.</p>
+		</div>
+
+		<h2 class='noprint'>Questions</h2>
+
+		<p><strong>Name(s):</strong> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></p>
+
+		<p style='page-break-after: always;'>Describe in 3-5 paragraphs the purpose of the database that you will be creating. Be as specific as possible as to the data it will be collecting; if you already have tables in mind you can describe them and how they relate to the other tables. You may also justify any columns or table constraints that you have chosen.</p>
+
+
+
+		<p>[Optional] Define your initial database design using the format from assignment 1 (summarized below). An example of this in use is provided for the <a href='/database/CS109.txt'>example database</a> and the <a href='/uploads/cs109/example databases.txt'>databases that were covered</a> in last week's class. If you provide this I can give you feedback and suggestions on any potential pitfalls or improvements that I spot.</p>
+
+		<blockquote>
+			<pre>* = Primary key<br/>
+@ = Foreign key (the referenced table will be inferred from the attribute's name)<br/>
+(table_name: *primary_key constraints, attribute constraints, @foreign_id constraints)
+
+Example:
+	(ct_gender: *id, name)
+	(department: *id, name NOT NULL, abbr NOT NULL)
+	(person: *id, first NOT NULL, last NOT NULL, @gender_id NOT NULL, dob)
+	(person_faculty: @*person_id, @department_id NOT NULL, bio)
+	(person_student: @*person_id, out_of_state NOT NULL DEFAULT FALSE)
+			</pre>
+		</blockquote>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'cs109/base.twig' %}
+
+{% block content %}
+		<h1 class='title'>Assignment 9, Creating Tables, Adding Keys &amp; Constraints</h1>
+
+		<div id='summary'>
+			<h2>Summary</h2>
+			<p>This assignment is worth 5 points which will be taken from 5 of the questions that you answer below. If more than 5 questions are answered, point preference will be given to the correct answers. It is in your best interest to answer as many questions as possible, both to guarantee your grade but also to prepare for the test.</p>
+
+			<p>Many of the questions below directly request CREATE TABLE statements. Below are the original SQL queries used to create the example database. You can use this database as a reference for your statements. Be sure to select the SQL file for your version of the database as there are some differences between the syntaxes.</p>
+
+			<table style='width: 100%; text-align: center;'>
+				<tr>
+					<td width="33%">
+						<a href='/database/CS109_mssql.sql'><h3>Microsoft SQL Server</h3>
+						<img width='100px' src='/images/MSSQL.png' /></a>
+					</td>
+					<td width="33%">
+						<a href='/database/CS109_mysql.sql'><h3>MySQL</h3>
+						<img width='100px' src='/images/MySQL.png' /></a>
+					</td>
+					<td>
+						<a href='/database/CS109_sqlite.sql'><h3>SQLite</h3>
+						<img width='100px' src='/images/SQLite.png' /></a>
+					</td>
+				</tr>
+			</table>
+
+			<p>It may be helpful to see the database in a more graphical layout. I have also created a <a href='/database/CS109.pdf'>diagram of the database</a> that you may use as a reference.</p>
+
+			</blockquote>
+		</div>
+
+		<h2>Questions</h2>
+		<ol class='assignment_questions'>
+
+			<li>What does C.R.U.D stand for? Why is it used?</li>
+
+			<li>What is the best data type for storing currency amounts? Why is this better than other data types for storing it?</li>
+
+			<li>What data type would you use if you had to store an email address?</li>
+
+			<li>What data type other than Int would you use if you had to store information about a radial point on a circle, such as latitude/longitude?</li>
+
+			<li>What is the name of the concept wherein SQLite allows any data to be stored in any type? Why is this a potential problem for database designs?</li>
+
+			<li>What must you use in order to have a table or column name that is already reserved by the database?</li>
+
+			<li>What is the DEFAULT constraint often seen with? Why is this pairing common?</li>
+
+			<li>Explain how a column would be affected if it had the AUTO_INCREMENT constraint applied to it.</li>
+
+			<p>
+				<img src='/images/Resultset1.png' style='width: 300px;' />
+				<img src='/images/Resultset2.png' style='width: 300px;' />
+			</p>
+
+			<p>For the following statements you may assume that columns named 'id' are identifiers for each individual row. You are also expected to determine <em>all</em> data types, constraints and foreign keys when necessary to completely define a table.</p>
+
+			<li class='long'>Write a CREATE TABLE statement for the 'student' table in the above images. Note that the 'first' &amp; 'last' columns are required.</li>
+
+			<li class='long'>Write a CREATE TABLE statement for the 'grade' table. Note that 'student_id' and 'assn_id' are foreign keys and that a student is only allowed to receive a single grade per assignment.</li>
+
+			<li class='long'>If you examine the previous question's solution you will notice that 'grade' appears to be the middle table for a M:M relationship between 'student' and 'assn'. Write a potential CREATE TABLE statement that the 'assn' table might use.</li>
+
+			<li class='long'>In this class I provide extra credit questions on my tests. If I wanted to track the extra credit points received on each test I might use a 'grade_test' table in a 1:1 relationship with the 'grade' table to achieve this. Write a CREATE TABLE statement for this hypothetical table and ensure that it has a 1:1 relationship with 'grade'.</li>
+
+			<p>The following questions require you to think up your own database tables before writing the SQL for them. You do not need to record any designs in your answers, only the final SQL. Keep in mind that the SQL statements will be performed in a transaction and must be separated by semicolons in order to execute correctly.</li>
+
+			<li class='long'>An employer is required to manage timesheets for each of their employee's work schedules. Design and write the CREATE TABLE statements necessary (employee &amp; schedule at the least) to track this information. You may assume that the employers' work schedules do not vary from week to week.</li>
+
+			<li class='long'>A municipality has sensors set up to determine traffic rates for individual city intersections. Design and write the CREATE TABLE statements necessary to track the flow of vehicles at each intersection in the city. You may decide how specific this information is. For example, you can use aggregate vehicle counts on an hourly basis or focus on each individual vehicle as it passes through the intersection.</li>
+
+			<li class='long'>A local non-profit dance company (shameless plug for <a href='http://momentumdance.org'>Momentum Dance Collective</a>) holds fundraisers for their upcoming dance performances. Write the CREATE TABLE statements necessary to track the date, time, theme and money raised at each event.</li>
+		</ol>
+{% endblock %}

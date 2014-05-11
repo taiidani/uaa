@@ -1,0 +1,179 @@
+{% extends 'cs201/base.twig' %}
+
+{% block scripts %}
+
+<script src='http://code.jquery.com/jquery-1.8.3.min.js'></script>
+<script>
+
+$(function() {
+
+	$(".toc span").click(function() {
+		isDisabled = $(this).toggleClass('disabled').hasClass('disabled');
+		
+		//Toggle the class in the schedule as well
+		type = this.className.replace('disabled', '');
+		$('dd.' + type).toggleClass('disabled', isDisabled);
+
+		//Remove empty days
+		$('dt').each(function() {
+			if($(this).nextUntil('dt, br').filter(':visible').length == 0)
+				$(this).hide();
+			else $(this).show();
+		});
+	});
+
+	currentDate = new Date();
+	currentDate = currentDate.getDate() + "/" + (currentDate.getMonth() + 1);
+
+	$("dt:contains('" + currentDate + " ')").addClass('today');
+
+});
+
+</script>
+
+{% endblock %}
+
+
+{% block content %}
+		<h1 class='title'>Schedule</h1>
+
+		<p>The schedule below displays the current curriculum for this course. Lecture material, daily drills and assignments will all be posted on the schedule. This is a living page and is subject to change, so please check it often.</p>
+
+		<p>You may also filter the schedule by type using the box below. Simply click which type you would like to toggle visibility for.</li>
+
+		<div class='toc'>
+			<span class='lecture'>Lecture</span> <span class='assignment'>Assignment</span> <span class='test'>Test</span> <span class='holiday'>Holiday</span>
+		</div>
+				
+		<h2>January</h2>
+		<dl>
+			<dt>1/15 Tuesday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/1'>Syllabus, Introduction to Programming Concepts</a>.</dd>
+
+			<dt>1/17 Thursday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/2'>Data Types, Vars &amp; Arithmetic</a>.</dd>
+
+			<dt>1/22 Tuesday</dt>
+			<dd class='assignment'><a href='/cs201/drills/1'>Daily Drill</a>.</dd>
+			<dd class='lecture'><a href='/cs201/lectures/3'>Continuing Data Types, Strings</a>.</dd>
+
+			<dt>1/24 Thursday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/4'>Console Input/Output, Programming in IDEs</a>.</dd>
+
+			<dt>1/29 Tuesday</dt>
+			<dd class='assignment'><a href='/cs201/drills/2'>Daily Drill</a>.</dd>
+			<dd class='lecture'><a href='/cs201/lectures/5'>Conditional Statements, Evaluating Boolean Expressions</a>.</dd>
+			
+			<dt>1/31 Thursday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/6'>Looping/Iterative Structures</a>.</dd>
+			<dd class='assignment'><a href='/cs201/assignments/1'>Assignment 1</a>.</dd>
+		</dl>
+
+		<h2>February</h2>
+		<dl>
+			<dt>2/5 Tuesday</dt>
+			<dd class='assignment'><a href='/cs201/drills/3'>Daily Drill</a>.</dd>
+			<dd class='lecture'><a href='/cs201/lectures/7'>Documentation and Variable Naming</a>.</dd>
+
+			<dt>2/7 Thursday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/8'>Debugging a Running Program, Methods, Scope</a>.</dd>
+
+			<dt>2/12 Tuesday</dt>
+			<dd class='assignment'><a href='/cs201/drills/4'>Daily Drill</a>.</dd>
+			<dd class='lecture'><a href='/cs201/lectures/9'>Continuing Methods, Scope</a>.</dd>
+
+			<dt>2/14 Thursday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/10'>Arrays</a>.</dd>
+			<dd class='assignment'><a href='/cs201/assignments/2'>Assignment 2</a>.</dd>
+			
+			<dt>2/19 Tuesday</dt>
+			<dd class='assignment'><a href='/cs201/drills/5'>Daily Drill</a>.</dd>
+			<dd class='lecture'><a href='/cs201/lectures/11'>Continuing Arrays. Lists, Dictionaries</a>.</dd>
+
+			<dt>2/21 Thursday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/12'>File Input/Output, Serialization</a>.</dd>
+			<dd class='assignment'>Assignment 1 due.</dd>
+			
+			<dt>2/26 Tuesday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/midtermReview'>Review</a>.</dd>
+			
+			<dt>2/28 Thursday</dt>
+			<dd class='test'>Midterm.</dd>
+			
+		</dl>
+
+
+		<h2>March</h2>
+		<dl>
+			<dt>3/5 Tuesday</dt>
+			<dd class='lecture'><a href="/cs201/lectures/13">Object-Oriented Programming, Classes</a>.</dd>
+			
+			<dt>3/7 Thursday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/14'>Continuing Object-Oriented Programming, Classes</a>.</dd>
+			<dd class='assignment'>Assignment 2 due.</dd>
+
+			<dt>3/12 Tuesday</dt>
+			<dd class='holiday'>**Spring Break**.</dd>
+
+			<dt>3/14 Thursday</dt>
+			<dd class='holiday'>**Spring Break**.</dd>
+
+			<dt>3/19 Tuesday</dt>
+			<dd class='holiday'>**Class cancelled**.</dd>
+			
+			<dt>3/21 Thursday</dt>
+			<dd class='holiday'>**Class cancelled**.</dd>
+			
+			<dt>3/26 Tuesday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/15'>Exceptions, Exception Handling</a>.</dd>
+
+			<dt>3/28 Thursday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/16'>Class Inheritance</a>.</dd>
+			<dd class='assignment'><a href='/cs201/assignments/3'>Assignment 3</a>.</dd>
+		</dl>
+
+
+		<h2>April</h2>
+		<dl>
+			<dt>4/2 Tuesday</dt>
+			<dd class='assignment'><a href='/cs201/drills/6'>Daily Drill</a>.</dd>
+			<dd class='lecture'><a href='/cs201/lectures/17'>Polymorphism</a>.</dd>
+			
+			<dt>4/4 Thursday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/18'>Continuing Polymorphism, Abstract Classes</a>.</dd>
+
+			<dt>4/9 Tuesday</dt>
+			<dd class='assignment'><a href='/cs201/drills/7'>Daily Drill</a>.</dd>
+			<dd class='lecture'><a>Assignment 3 Example</a>.</dd>
+
+			<dt>4/11 Thursday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/19'>Recursion</a>.</dd>
+			<dd class='assignment'><a href='/cs201/assignments/4'>Assignment 4</a>.</dd>
+
+			<dt>4/16 Tuesday</dt>
+			<dd class='assignment'><a href='/cs201/drills/8'>Daily Drill</a>.</dd>
+			<dd class='lecture'><a href='/cs201/lectures/20'>Continuing Recursion</a>.</dd>
+			
+			<dt>4/18 Thursday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/21'>Generics, LinkedList</a>.</dd>
+			<dd class='assignment'>Assignment 3 due.</dd>
+
+			<dt>4/23 Tuesday</dt>
+			<dd class='assignment'><a href='/cs201/drills/9'>Daily Drill</a>.</dd>
+			<dd class='lecture'><a href='/cs201/lectures/22'>Review 1</a>.</dd>
+
+			<dt>4/25 Thursday</dt>
+			<dd class='lecture'><a href='/cs201/lectures/23'>Review 2</a>.</dd>
+
+			<dt>5/2 Thursday</dt>
+			<dd class='test'>
+				Final Exam (10:00am - 12:45pm).
+				<p><strong>NOTE:</strong> If you cannot make the final exam you must inform me earlier in the week. I will be out of town starting on the 3rd and will not be able to proctor the final exam after the scheduled period. I will still be accessible by email while I am gone.</p>
+			</dd>
+
+
+			<dt>5/4 Saturday</dt>
+			<dd class='assignment'>Assignment 4 due.</dd>
+		</dl>
+
+{% endblock %}

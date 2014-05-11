@@ -1,0 +1,66 @@
+{% extends 'cs109/base.twig' %}
+
+{% block content %}
+		<h1 class='title'>Assignment 6, Views and Temporary Tables</h1>
+
+		{% include 'cs109/assignments/tile_summary.twig' %}
+
+		<h2>Questions</h2>
+		<ol class='assignment_questions'>
+
+			<li>Briefly define and describe how a temporary table works.</li>
+
+			<li>Explain a scenario where you might want to use a temporary table in your typical workflow.</li>
+
+			<li>If new rows were inserted into the table or tables that a temporary table is based off of, what would happen to the temporary table as a result?</li>
+
+			<li>What is the difference between a temporary table and a resultset?</li>
+
+			<li>After creating a temporary table, how long will it be available in the database for your queries?</li>
+
+			<li>Briefly define and describe how a view works.</li>
+
+			<li>Explain a scenario where you might want to use a view in your typical workflow.</li>
+
+			<li>If new rows were inserted into the table or tables that a view is based off of, what would happen to the view as a result?</li>
+
+			<li>If you need to add/update a temporary table or view but that item is already present, what must you do before you can continue?</li>
+
+			<li>What is another name for an inline view? How is it different from a normal view?</li>
+
+			<p>
+				<img src='/images/Resultset3.png' style='width: 300px;' />
+				<img src='/images/Resultset2.png' style='width: 300px;' />
+			</p>
+
+			<p>For the next few questions, reference the tables above for your queries. (Note that grade.student_id is a foreign key for the person table in this example)</p>
+
+			<li>Write a query that creates a view containing the first and last names of each person in the person table as well as a third column that contains their average score from all assignments in the grade table. The view should have an appropriate name that follows best practices.</li>
+
+			<li>Using the view in the previous question, write a query listing the person with the highest average score.
+				<br/>Hint: You will need neither MAX, AVG nor GROUP BY for this query.
+			</li>
+
+			<li>Write a query that creates a temporary table containing all columns in the person table and all columns in the grade table, joined through the student_id foreign key.</li>
+
+			<li>Using the temporary table in the previous question, write a query listing all grades that were given to a member of the Tam family.</li>
+
+			<li>Write a query to drop the temporary table used in the previous question.</li>
+
+			<p>All subsequent questions use the example database linked to at the top of this page. The questions expect only the information already present in the database; no additional information needs to be inserted to provide an answer.</p>
+
+			<li>Write a query that creates a view joining the major, class, class_registration, and person tables. There should be no WHERE filters on the view. The view should also have an appropriate name that follows best practices.</li>
+
+			<li>Write a query to create a temporary table using the view in the previous question. This table should contain all students registered for a course including all other information from the course, course_registration and major tables.</li>
+
+			<li>Write a query to create another temporary table using the same view from the prior question. This table should contain all faculty registered for a course including all other information from the course, course_registration and major tables.</li>
+
+			<li>Write a query using the two temporary tables from the last questions. This query should display all class, major, registration and person information for registered faculty who are also registered as students.</li>
+
+			<li>Write a query that creates a view containing the number of registered out-of-state students in each class.</li>
+
+			<li>Using the view in the previous question, write a query displaying the average course credits for all classes that foreign students are taking.</li>
+
+			<li>Write a query that drops all views and temporary tables in the previous questions. This query should be capable of being run in a single transaction.</li>
+		</ol>
+{% endblock %}

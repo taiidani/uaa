@@ -1,0 +1,217 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Polymorphism / Abstract Classes{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>Polymorphism Continued</li>
+	<li>Abstract Classes</li>
+	<li>Interfaces</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+
+<div class='example'>
+	Examples:
+	<blockquote>
+		<a href='/uploads/cs201/AbstractExamples.zip'>AbstractExamples.zip</a><br/>
+	</blockquote>
+</div>
+
+
+<h3>Polymorphism Continued</h3>
+
+<p>From the examples in class last lecture and assignment 3 you may have noticed a trend in how the inheritance hierarchy works:</p>
+
+<ul>
+	<li>Start as vague as possible at the top, then become more specific as you descend (Animalia => Mammal =>Lion)</li>
+	<li>Declare variables as high up in the hierarchy as you are able, so if you know you are working with Wolves but only need the attributes &amp; methods from Mammals, declare your variable to be Mammal and allow late binding to trigger the animal-specific behaviors.</li>
+	<li>Instantiate variables as specific as possible. When creating new objects, try to go as low in the inheritance hierarchy as you can, increasing the likelihood that your object will behave the way you expect it to.</li>
+</ul>
+
+<p>Take the Penguin for example. If you declare your animals as Avian objects then you can work with Hawks, Ducks, Geese and Penguins. Had you declared it to be a Penguin object then all it could ever be is a Penguin. You do however want to instantiate your object as a Penguin, since Penguins may not fly and if your program attempts to make it fly an error should be raised:</p>
+
+<pre class='brush: java; toolbar: false;'>
+List&lt;Avian> birds = new List&lt;Avian>();
+birds.add(new Hawk()); //Can fly()
+birds.add(new Cockatoo()); //Can fly()
+birds.add(new Penguin()); //Flying throws an Exception
+birds.add(new Albatross()); //Can fly()
+
+for(Avian bird : birds) {
+	try {
+		bird.fly();
+	}
+	catch(Exception e) {
+		System.out.println(e.getMessage());
+	}
+}
+</pre>
+
+<p>With a little error handling, you can have all of your birds in the air and not worry that the Penguin didn't make it.</p>
+
+<p>You should also note that I did not declare my variable for Animals. Had I done that, I wouldn't have been able to call <code>fly()</code> since that method first appears in the Avian class. I also wouldn't want to declare the variable for FlightlessAvian since that Hawks, Albatrosses etc. do not subclass it, which means I wouldn't be allowed to add them to the List.</p>
+
+<h3 id='abstractClasses'>Abstract Classes</h3>
+
+<p>With all of the specific classes such as Hawk, Lion &amp; Dog, would you ever want to declare an object of type Animal? Or Mammal? Not really; in a fully realized inheritance hierarchy you will very likely find what you are looking for at the very bottom of the tree. The classes in the middle of the tree are generally present for cases above, separating out the Avians from the FlightlessAvians. You would never actually instantiate an Avian class when you are actually dealing with a Hawk.</p>
+
+<p>So turn the class <strong>abstract</strong>. This makes the class unable to be instantiated, and forces methods using the class to store more specific objects to replace it. In other words specifying a class as abstract marks it as "available for polymorphism/declaration, but closed for instantiation/<code>new</code>".</p>
+
+<p>Let's say I make Avian abstract:</p>
+
+<pre class='brush: java; toolbar: false;'>
+List&lt;Avian> birds = new List&lt;Avian>(); //Still allowed
+birds.add(new Hawk()); //Still allowed
+
+//Now I've got a parrot, but no class is defined for it, so I try to
+//cheat and instantiate a generic Avian
+birds.add(new Avian()); //NOT ALLOWED
+</pre>
+
+<p>With abstraction you can lock down the usable classes to only the ones that you have defined behavior for. And it's very easy to specify, in the class definition:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public abstract class Avian extends Animalia {
+	
+	public int flap(int currentDistance) {
+		throw new Exception("All Avians fly differently!");
+	}
+}
+
+public class Hawk extends Avian {
+
+	//Overrides superclass' flap method
+	public int flap(int currentDistance) {
+		return currentDistance + 9;
+	}
+}
+
+public class Parrot extends Avian {
+
+	//Overrides superclass' flap method
+	public int flap(int currentDistance) {
+		return currentDisance + 5;
+	}
+}
+</pre>
+
+<p>By putting <code>abstract</code> after your visibility (<code>public</code>) and before the term <code>class</code>, you enforce the rule that no method may ever instantiate Avian directly and must instantiate a Hawk or Parrot object. But now, what about the <code>flap</code> method? It's rather useless now; it can't be called directly and both of the subclasses override it. It also can't be removed because then when using polymorphism classes declared Avian would no longer be able to flap.</p>
+
+<p>Fortunately, abstract classes cleanly get around this. No exceptions need to be thrown or empty methods that do nothing...simply declare <code>flap()</code> as abstract as well and don't give it a method body. Without a method body, there is nothing to call, but there <em>is</em> still something to override. In fact because of that, the first non-abstract class that comes along <em>must</em> override <code>flap()</code>. Let's see how this is done:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public abstract class Avian extends Animalia {
+	
+	public abstract int flap(int currentDistance);
+}
+
+public class Hawk extends Avian {
+	
+	//MUST override flap. This is a real class and so can be instantiated
+	//and called, meaning the method must be able to perform an action
+	public int flap(int currentDistance) {
+		return currentDistance + 9;
+	}
+}
+</pre>
+
+<p>This functionality allows you as a programmer to create a very rich and diverse inheritance hierarchy without having to worry about creating logic for every method of every class. Simply define it at the class where you want the implementation to cascade down.</p>
+
+<p>To summarize abstract classes:</p>
+<ul>
+	<li>May not be instantiated.</li>
+	<li>Can contain typical methods and abstract methods. Abstract methods are defined by using the term <code>abstract</code> and may not have a method body.</li>
+	<li>Abstract methods in the class must be implemented by any non-abstract derived classes.</li>
+	<li>Act like any other class in that they may only extend one super class.</li>
+</ul>
+
+
+<h3>Interfaces</h3>
+
+<p>A special type of abstract class is known as the <strong>interface</strong>. This type is very similar, but has the added requirement that all methods be declared abstract.  While abstract classes allow some methods to be implemented and others to be left abstract, interfaces are meant more for ensuring that a class conforms to a specific set of rules.</p>
+
+<p>Interfaces are also defined and specified differently than abstract classes:</p>
+
+<pre class='brush: java; toolbar: false;'>
+//Defining an interface
+public interface Predatory {
+	
+	//All methods must be declared abstract
+	void attack(Animal victim);
+
+	//They also never have visibility, always defaulting to public
+	boolean isNocturnal();
+}
+</pre>
+
+<p>This interface defines 2 abstract methods. Just like abstract classes, these methods <em>must</em> be implemented in the classes that specify this interface. Unlike abstract classes though you can apply as many interfaces as you like:</p>
+
+<pre class='brush: java; toolbar: false;'>
+
+public class Hawk extends Avian implements Predatory {
+	
+	//Must override flap from the abstract Avian class
+	public int flap(int currentDistance) {
+		return currentDistance + 9;
+	}
+
+	//Also must define attack from the Predatory class
+	public void attack(Animal victim) {
+		victim.die();
+	}
+
+	//And must define isNocturnal from Predatory
+	public boolean isNocturnal() {
+		return false;
+	}
+}
+</pre>
+
+<p>Interfaces can be useful tools. Since multiple interfaces can be applied to a single class, they don't necessarily have to be worked into your inheritance hierarchy. Polymorphism still applies to them though; you might use the class above to define a <code>List&lt;Predatory></code> variable...but remember that if you do you will only have access to the methods defined in the Predatory class.</p>
+
+<p>To summarize, here are the differences between a class and an interface:</p>
+<ul>
+	<li>All methods must be defined in the implementing class.</li>
+	<li>Interface methods are always public &amp; abstract; these do not need to be defined for them.</li>
+	<li>Interfaces may extend other interfaces, but may not implement any.</li>
+	<li>Multiple interfaces may be implemented by a single class. This allows for a form of multiple inheritance, causing all interface's methods to cascade to the implementing class and all subclasses.</li>
+</ul>
+
+<p id="comparable">One popular interface is the Comparable interface. It enforces the requirement that classes are "comparable", i.e. they can be less-than, greater-than or equal to other classes of the same type. If Comparable is implemented by a class then it must define a <code>compareTo</code> method, as seen below:</p>
+
+
+<pre class='brush: java; toolbar: false;'>
+
+public class Hawk extends Avian implements Predatory, Comparable {
+	protected int altitude = 0;
+	
+	//Must override flap from the abstract Avian class
+	public int flap(int currentDistance) {
+		return currentDistance + 9;
+	}
+
+	//Also must define attack from the Predatory interface
+	public void attack(Animal victim) {
+		victim.die();
+	}
+
+	//And must define isNocturnal from the Predatory interface
+	public boolean isNocturnal() {
+		return false;
+	}
+
+	//And must define compareTo from the Comparable interface
+	public int compareTo(Object other) {
+		if(this.altitude == ((Hawk)other).altitude) return 0;
+		else return this.altitude - ((Hawk)other).altitude;
+	}
+}
+</pre>
+
+<p>The required <code>compareTo</code> method by definition specifies that 0 is returned if the current object and object parameter are equal, otherwise a negative integer or positive integer are returned depending on if the current object is less than or greater than the other object. In the example above, the comparison is performed based off of the Hawk's altitude.</p>
+
+{% endblock %}

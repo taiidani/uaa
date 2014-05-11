@@ -1,0 +1,324 @@
+{% extends 'cs201/assignment.twig' %}
+
+{% block subject %}Assignment 3 - Video Game Simulation (Due 4/18){% endblock %}
+
+{% block summary %}
+{{parent()}}
+<p>This assignment will make use of <a href='/cs201/lectures/16'>class inheritance</a> and <a href='/cs201/lectures/15'>exceptions</a> to create a basic simulation of unit relationships in the popular video game StarCraft. Each object created, inheriting from the top-level Unit class, has its own attributes and/or methods that add to the abilities of the classes that derive from it.</p>
+
+<p>As mentioned in the Class Inheritance lecture, implementation of a program that employs many objects is best started at the top of the inheritance structure. In this assignment that top will be the Unit class. <a href='#descriptions'>Descriptions</a> have been provided below to assist with the implementation.</p>
+
+<p>This assignment will be graded slightly differently than prior assignments. I will be using the main method to construct a valid set of Units from the hierarchy and execute their available actions. If I am able to cause an invalid state within the program without an exception being thrown to stop me, I will grade down appropriately. Ensure that you <em>test many different scenarios as thoroughly as possible</em>. Some potential situations I may try:</p>
+
+<ul>
+	<li>Construct 10 Zerglings &amp; 10 Marines. Tell the units to attack each other until dead, then continue attacking.</li>
+	<li>Construct a Drone. Have it collect resources until enough are collected to build a Hatchery. Attempt to construct a CommandCenter instead.</li>
+	<li>Construct a CommandCenter. Tell it to spawn a Zergling.</li>
+	<li>Construct a Hatchery. Tell it to spawn 10 Zerglings without the presence of an Overlord to increase the unit cap.</li>
+	<li>Construct a Zergling &amp; Mutalisk. Have the Zergling attack the mutalisk.</li>
+</ul>
+
+<p>As I will be designing the <code>main()</code> method for testing, <strong>I do not require any <code>main()</code> method</strong> in your program. Instead, only the set of classes defining the behavior and rules for the simulation. I would however still highly advise you to make effective use of your own <code>main()</code> method code and try-catch blocks to test your program before submitting it to me. If you can make your program crash then I can make it crash as well.</p>
+
+<h3>Example</h3>
+
+<p>Here is an example of what may happen when you turn in your assignment.</p>
+
+<p>Say you have designed your Unit object to have a constructor whose first parameter sets its health and a damage method that lowers its health:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public class Unit {
+	protected int health;
+
+	public Unit(int startingHealth) {
+		this.health = startingHealth;
+	}
+
+	public void damage(int amount) throws UnitHealthException {
+		if(isDead() &amp;&amp; amount > 0) throw new UnitHealthException("A unit may not be damaged when they are already dead.");
+
+		health -= amount;
+	}
+
+	public boolean isDead() {
+		return health &lt;= 0;
+	}
+}
+
+</pre>
+
+<p>I, when testing, may construct my code to ensure that you do not allow a dead unit to be damaged:</p>
+
+<pre class='brush: java; toolbar: false;'>
+public static void main(String[] args) {
+	
+	Unit u = new Unit(30); //Use the constructor to set initial health = 30
+	u.damage(35); //Kill the unit
+
+	try {
+		u.damage(1); //Attempt to kill the unit again
+		System.out.println("A dead unit was successfully attacked. This should not be possible");
+	}
+	catch(UnitHealthException ex) {
+		System.out.println("The program correctly prevented me from damaging an already dead unit.");
+	}
+}
+</pre>
+
+<h3 id='descriptions'>Objects</h3>
+
+<p>There are many classes that will need to be implemented for this assignment. Please use this <a href='/uploads/cs201/scReference.pdf'>reference PDF</a> for the inheritance hierarchy and the list below for the intended attributes and behaviors of each object.</p>
+
+<dl>
+	<dt>Unit</dt>
+	<dd>
+		<p>All units must have both a current and maximum number of hit points and upon creation start with full health. They also must be able to take damage causing these hit points to lower, or be healed causing the hit points to raise.</p>
+
+		<p>All Unit objects also have a build cost and, when built, reduce the number of available resources by that amount.</p>
+	</dd>
+
+	<dt>Army</dt>
+	<dd>
+		<p>All Army objects have the ability to attack. They need to track their weapon's damage and number of strikes per second (fire rate) with that weapon. From this a number known as Damage Per Second should be capable of being calculated by multiplying the damage by the number of strikes per second.</p>
+
+		<p>Army objects also effect the number of available units (unit cap). Upon construction they should alter the number of units to reflect the amount relative to the total unit cap.</p>
+	</dd>
+
+	<dt>Building</dt>
+	<dd>This class is only present to appropriately set up inheritance.</dd>
+
+	<dt>GroundArmy</dt>
+	<dd>This class is only present to appropriately set up inheritance.</dd>
+
+	<dt>FlyingArmy</dt>
+	<dd>This class is only present to appropriately set up inheritance.</dd>
+
+	<dt>SupportBuilding</dt>
+	<dd>All SupportBuilding objects increase the number of available army units (unit cap) by 5. This amount should take effect immediately upon construction.</dd>
+
+	<dt>GeneratorBuilding</dt>
+	<dd>All GeneratorBuilding objects may produce Army objects. They must appropriately handle the creation of Army objects and the resulting subtraction of resources.</dd>
+
+	<dt>GeneratorArmy</dt>
+	<dd>
+		<p>All GeneratorArmy objects are capable of creating Building objects. They must appropriately handle the creation of Building objects and the resulting subtraction of resources.</p>
+
+		<p>GeneratorArmy objects are also able to collect resources. When they do, 10 resources should be added to the available resources for the player.</p>
+	</dd>
+
+	<dt>SupportArmy</dt>
+	<dd>All SupportArmy objects increase the number of available army units (unit cap) by 5. This amount should take effect immediately upon creation.</dd>
+
+	<dt>FlyingBuilding</dt>
+	<dd>FlyingBuilding objects should have the ability to Liftoff and Land, which will alter whether they are considered "flying". When in flight, the objects will not be able to construct units.</dd>
+
+	<dt>Marine</dt>
+	<dd>
+		<p>
+			Health: 40<br/>
+			Damage: 6<br/>
+			Fire Rate: 1.0<br/>
+			Build Cost: 50<br/>
+			Army Units: 1
+		</p>
+
+		<p>Marines may attack FlyingArmy, GroundArmy and Building objects.</p>
+	</dd>
+
+	<dt>Zergling</dt>
+	<dd>
+		<p>
+			Health: 35<br/>
+			Damage: 5<br/>
+			Fire Rate: 1.8<br/>
+			Build Cost: 25<br/>
+			Army Units: 0.5
+		</p>
+
+		<p>Zerglings may only attack GroundArmy objects and Building objects that are not FlyingBuilding objects currently in flight.</p>
+	</dd>
+
+	<dt>Mutalisk</dt>
+	<dd>
+		<p>
+			Health: 120<br/>
+			Damage: 9<br/>
+			Fire Rate: 0.5<br/>
+			Build Cost: 100<br/>
+			Army Units: 2
+		</p>
+
+		<p>Mutalisks may attack FlyingArmy, GroundArmy and Building objects.</p>
+	</dd>
+
+	<dt>Wraith</dt>
+	<dd>
+		<p>
+			Health: 120<br/>
+			Damage: 8<br/>
+			Fire Rate: 0.5<br/>
+			Build Cost: 150<br/>
+			Army Units: 2
+		</p>
+
+		<p>Wraith may attack FlyingArmy, GroundArmy and Building objects.</p>
+	</dd>
+
+	<dt>SCV</dt>
+	<dd>
+		<p>
+			Health: 60<br/>
+			Damage: 5<br/>
+			Fire Rate: 1.0<br/>
+			Build Cost: 50<br/>
+			Army Units: 0
+		</p>
+
+		<p>SCV may only attack GroundArmy objects and Building objects that are not FlyingBuilding objects currently in flight.</p>
+
+		<p>SCV may instantiate CommandCenter, Barracks, Supply Depot &amp; Starport objects.</p>
+	</dd>
+
+	<dt>Drone</dt>
+	<dd>
+		<p>
+			Health: 40<br/>
+			Damage: 5<br/>
+			Fire Rate: 0.68<br/>
+			Build Cost: 50<br/>
+			Army Units: 0
+		</p>
+
+		<p>Drones may only attack GroundArmy objects and Building objects that are not FlyingBuilding objects currently in flight.</p>
+
+		<p>Drones may instantiate Hatchery objects, but will die if they do.</p>
+	</dd>
+
+	<dt>Overlord</dt>
+	<dd>
+		<p>
+			Health: 200<br/>
+			Damage: N/A<br/>
+			Fire Rate: N/A <br/>
+			Build Cost: 100<br/>
+			Army Units: 0
+		</p>
+
+		<p>Overlords may not attack.</p>
+	</dd>
+
+	<dt>SupplyDepot</dt>
+	<dd>
+		<p>
+			Health: 500<br/>
+			Build Cost: 100
+		</p>
+	</dd>
+
+	<dt>Hatchery</dt>
+	<dd>
+		<p>
+			Health: 1250<br/>
+			Build Cost: 300
+		</p>
+
+		<p>Hatcheries may instantiate Drone, Zergling &amp; Mutalisk objects.</p>
+	</dd>
+
+	<dt>CommandCenter</dt>
+	<dd>
+		<p>
+			Health: 1500<br/>
+			Build Cost: 400
+		</p>
+
+		<p>CommandCenters may instantiate SCV objects.</p>
+	</dd>
+
+	<dt>Barracks</dt>
+	<dd>
+		<p>
+			Health: 1000<br/>
+			Build Cost: 150
+		</p>
+
+		<p>Barracks may instantiate Marine objects.</p>
+	</dd>
+
+	<dt>Starport</dt>
+	<dd>
+		<p>
+			Health: 1300<br/>
+			Build Cost: 150
+		</p>
+
+		<p>Starports may instantiate Wraith objects.</p>
+	</dd>
+</dl>
+
+<h3>Exceptions:</h3>
+
+<p>There are many actions that will be prevented due to the attributes of each object. If any of these actions err, the below <a href='/cs201/lectures/16#exceptionsRevisited'>Exception objects</a> should be raised to notify the program of such errors. These exceptions are only suggestions; alternate or additional exceptions may be defined to support your implementation.</p>
+
+<dl>
+	<dt>UnitHealthException</dt>
+	<dd>This exception is thrown in the situation where a unit takes damage but they are already dead (health &lt;= 0). It also may be thrown if a unit's health exceeds their maximum health.</dd>
+
+	<dt>UnitAbilityException</dt>
+	<dd>This exception is thrown when a unit attempts to do something they are unable to do, such as an Overlord performing an attack or a CommandCenter building Marines.</dd>
+
+	<dt>AttackException</dt>
+	<dd>This exception is thrown when an illegal attack occurs, such as when a Zergling who cannot strike flying creatures attacks a Mutalisk or when an attack is made against a burrowed creature.</dd>
+
+	<dt>ResourceException</dt>
+	<dd>This exception is thrown when there are not enough resources to construct a new Unit.</dd>
+
+	<dt>UnitCapException</dt>
+	<dd>This exception is thrown when a new unit would raise the current unit amount beyond the current unit cap.</dd>
+</dl>
+
+<h3>Requirements</h3>
+
+<ul>
+	<li>Use class inheritance to define a number of classes able to interact with each other.</li>
+	<li>Implement all functionality defined above for each class; how you implement the behavior is up to you.</li>
+	<li>Ensure using Exceptions that any valid game state may not be invalidated.</li>
+</ul>
+
+<p>Note - <strong>There is no required <code>main()</code> method</strong> for this assignment. You may design a <code>main()</code> method for your own internal testing but I will not be grading the contents of the method.</p>
+
+<p>Hint - When working on unit caps, resource amounts and any other variables that must be shared by all classes, I would advise you to create public static variables in the class containing your <code>main()</code> method (or some other object). This will allow you at all times to access and manipulate these numbers as necessary.</p>
+
+<p>Hint - Use inheritance to your advantage! Read the class descriptions above and try to implement behavior as high in the hierarchy as possible. This will save you from copying your code repeatedly. For example:</p>
+<ul>
+	<li>Overlords are the only unit unable to attack. Define your attack() method in the Army class, then use overriding to replace the attack() for Overlords so that it throws a UnitAbilityException.</li>
+	<li>Use constructors and <code>super</code> effectively! Define your health at the very top in the Unit class, and make the Unit class' constructor require that unit's maximum health be specified upon construction.</li>
+</ul>
+
+{% endblock %}
+
+{% block answer %}
+{% endblock %}
+
+{% block extra %}
+{{parent()}}
+
+<p>Potential extra credit for this assignment:</p>
+<ul>
+	<li><strong>Make the game playable (5 points)</strong> - Provide a starting army &amp; resources, and implement the <code>main()</code> method so that the user can control the game state (building units, triggering attacks, etc.)</li>
+
+	<li><strong>Use abstract classes (5 points)</strong> - Redesign the assignment's class hierarchy so that abstract classes &amp; interfaces are used. For example, you should either have an abstract FlyingArmy class, or individual Army classes that implement a Flying interface. Points will be attributed according to how complete your implementation is.</li>
+
+	<li><strong>Add Protoss (5 points)</strong> - Add the minimum units required for the Protoss race to be added. This must include but is not limited to:
+		<ul>
+			<li><a href="http://starcraft.wikia.com/wiki/Zealot_%28StarCraft%29">Zealot</a></li>
+			<li><a href='http://starcraft.wikia.com/wiki/Probe#StarCraft'>Probe</a></li>
+			<li><a href="http://starcraft.wikia.com/wiki/Scout">Scout</a></li>
+			<li><a href="http://starcraft.wikia.com/wiki/Nexus#StarCraft">Nexus</a></li>
+			<li><a href="http://starcraft.wikia.com/wiki/Gateway#StarCraft">Gateway</a></li>
+			<li><a href="http://starcraft.wikia.com/wiki/Stargate#StarCraft">Stargate</a></li>
+			<li><a href="http://starcraft.wikia.com/wiki/Pylon#StarCraft">Pylon</a></li>
+		</ul>
+	</li>
+
+{% endblock %}

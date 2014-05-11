@@ -1,0 +1,57 @@
+{% extends 'cs201/lecture.twig' %}
+
+{% block subject %}Documentation and Variable Naming{% endblock %}
+
+{% block summary %}
+{{parent()}}
+<ul>
+	<li>Line comments</li>
+	<li>Block comments</li>
+	<li>JavaDoc</li>
+	<li>Naming conventions</li>
+</ul>
+{% endblock %}
+
+{% block notes %}
+{{parent()}}
+<p>This lecture was shortened in favor of finishing off the looping discussion. Instead I will briefly cover it during the looping examples and the methods/scope lecture.</p>
+
+<p>Line comments:</p>
+<pre class='brush: java; toolbar: false;'>
+	//This is a line comment. It comments out all characters following the double forward
+	//slash. Line comments are good for very brief explanations in your program, such as
+	// critical lines of code that may be unintuitive to another programmer.
+</pre>
+
+<p>Block comments:</p>
+<pre class='brush: java; toolbar: false;'>
+	/*
+	 This is a block comment. Note that it starts with a forward-slash followed by an
+	 asterisk, and ends with an asterisk followed by a forward-slash. Block comments work
+	 well where there is a large section of code that needs to be explained in detail. They
+	 allow for multiple lines to be written and can also contain code samples or comment
+	 out existing code in your program.
+	 */
+</pre>
+
+<p>JavaDoc comments:</p>
+<pre class='brush: java; toolbar: false;'>
+	/**
+	 * JavaDoc (or PHPDoc, XML Comments, etc.) are special block comments used to define
+	 * official documentation for your program. Most languages support an automated method
+	 * of generating help docs from the JavaDoc lines.
+	 * 
+	 * Note the double asterisk opening the comment. This implies that you are writing
+	 * JavaDoc.
+	 * 
+	 * JavaDoc generally should only be written at the definition level, not at the code
+	 * level. Place it before your class, class variable &amp; method declarations.
+	 * 
+	 * JavaDoc also supports special hints specific to each definition that enhance the
+	 * generated documentation, such as below.
+	 *
+	 * @author Ryan Nixon
+	 * @version 1.0.0
+	 */
+</pre>
+{% endblock %}

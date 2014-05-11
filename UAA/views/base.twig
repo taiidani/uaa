@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<meta charset='utf-8' />
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+	
+	<link rel='stylesheet' href='/styles/index.css' />
+	<link rel='stylesheet' media='screen and (max-width: 1024px)' href='/styles/tablet.css' />
+	<link rel='stylesheet' media='screen and (max-device-width: 568px)' href='/styles/mobile.css' />
+
+	{% block styles %}
+
+	{% endblock %}
+
+	{% block scripts %}
+
+	{% endblock %}
+</head>
+<body>
+	<div class='frame'>
+		{% block body %}{% endblock %}
+	</div>
+</body>
+</html>

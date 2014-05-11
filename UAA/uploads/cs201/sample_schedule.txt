@@ -1,0 +1,91 @@
+CRN	Day	From	To	Building	Room
+32398	Tue	08:00:00	09:45:00	Beatrice McDonald Hall	119
+32398	Thu	08:00:00	09:45:00	Beatrice McDonald Hall	119
+37228	Tue	16:00:00	17:15:00	Science Building	103
+37228	Thu	16:00:00	17:15:00	Science Building	103
+70019	Thu	09:00:00	10:15:00	Eagle River Center	122
+70019	Tue	09:00:00	10:15:00	Eagle River Center	122
+70028	Thu	15:15:00	16:30:00	Admin/Humanities Bldg	210
+70028	Tue	15:15:00	16:30:00	Admin/Humanities Bldg	210
+70033	Mon	17:00:00	18:15:00	Aviation Technology Complex	127
+70034	Thu	09:00:00	10:15:00	Eugene Short Hall	119
+70034	Tue	09:00:00	10:15:00	Eugene Short Hall	119
+70033	Wed	17:00:00	18:15:00	Aviation Technology Complex	127
+70030	Thu	10:30:00	11:45:00	Fort Richardson Army Post	219
+70030	Tue	10:30:00	11:45:00	Fort Richardson Army Post	219
+70032	Thu	16:00:00	17:15:00	Beatrice McDonald Hall	113
+70032	Tue	16:00:00	17:15:00	Beatrice McDonald Hall	113
+70007	Fri	14:00:00	14:15:00	Gordon Hartlieb Hall	123
+70007	Wed	14:00:00	14:15:00	Gordon Hartlieb Hall	123
+70007	Mon	14:00:00	14:15:00	Gordon Hartlieb Hall	123
+70105	Thu	15:00:00	16:15:00	Beatrice McDonald Hall	113
+70105	Tue	15:00:00	16:15:00	Beatrice McDonald Hall	113
+70022	Wed	12:30:00	13:15:00	Eagle River Center	128
+70022	Mon	12:30:00	13:15:00	Eagle River Center	128
+70084	Wed	16:00:00	17:15:00	Science Building	217
+70084	Mon	16:00:00	17:15:00	Science Building	217
+70091	Mon	08:00:00	09:15:00	Eugene Short Hall	110
+70093	Wed	16:00:00	17:15:00	Rasmuson Hall	223
+70093	Mon	16:00:00	17:15:00	Rasmuson Hall	223
+70092	Thu	18:00:00	19:15:00	Rasmuson Hall	207
+70092	Tue	18:00:00	19:15:00	Rasmuson Hall	207
+70091	Wed	08:00:00	09:15:00	Eugene Short Hall	110
+70506	Fri	15:00:00	16:15:00	Gordon Hartlieb Hall	125
+70506	Wed	15:00:00	16:15:00	Gordon Hartlieb Hall	125
+70506	Mon	15:00:00	16:15:00	Gordon Hartlieb Hall	125
+70031	Wed	10:30:00	11:45:00	Sally Monserud Hall	218
+70031	Mon	10:30:00	11:45:00	Sally Monserud Hall	218
+70026	Wed	16:00:00	17:15:00	Lucy Cuddy Hall	200
+70026	Mon	16:00:00	17:15:00	Lucy Cuddy Hall	200
+76540	Mon	16:15:00	17:30:00	Eagle River Center	122
+70023	Thu	16:00:00	17:15:00	Eagle River Center	128
+70023	Tue	16:00:00	17:15:00	Eagle River Center	128
+76540	Wed	16:15:00	17:30:00	Eagle River Center	122
+70025	Wed	15:00:00	16:15:00	Eagle River Center	122
+70025	Mon	15:00:00	16:15:00	Eagle River Center	122
+70020	Wed	11:00:00	12:15:00	Eagle River Center	128
+70020	Mon	11:00:00	12:15:00	Eagle River Center	128
+70029	Mon	17:00:00	18:15:00	Rasmuson Hall	205
+70029	Wed	17:00:00	18:15:00	Rasmuson Hall	205
+71057	Mon	13:00:00	14:15:00	Engineering Bldg	112
+71057	Wed	13:00:00	14:15:00	Engineering Bldg	112
+70100	Tue	14:00:00	15:15:00	Eugene Short Hall	119
+70099	Wed	14:00:00	15:15:00	Auto/Diesel Technology Center	101
+70099	Mon	14:00:00	15:15:00	Auto/Diesel Technology Center	101
+70101	Wed	12:00:00	13:15:00	Elmendorf Air Force Base	105
+70101	Mon	12:00:00	13:15:00	Elmendorf Air Force Base	105
+70100	Thu	14:00:00	15:15:00	Eugene Short Hall	119
+70085	Thu	15:00:00	16:15:00	Sally Monserud Hall	218
+70085	Tue	15:00:00	16:15:00	Sally Monserud Hall	218
+70009	Thu	13:00:00	14:15:00	Rasmuson Hall	205
+70014	Thu	15:00:00	16:15:00	Lucy Cuddy Hall	205
+70009	Tue	13:00:00	14:15:00	Rasmuson Hall	205
+70014	Tue	15:00:00	16:15:00	Lucy Cuddy Hall	205
+70008	Wed	14:15:00	15:30:00	Fort Richardson Army Post	114
+70012	Wed	17:00:00	18:15:00	Elmendorf Air Force Base	101
+70008	Mon	14:15:00	15:30:00	Fort Richardson Army Post	114
+70012	Mon	17:00:00	18:15:00	Elmendorf Air Force Base	101
+70011	Thu	15:00:00	16:15:00	University Center	228
+70011	Tue	15:00:00	16:15:00	University Center	228
+70010	Wed	13:00:00	14:15:00	University Center	228
+70010	Mon	13:00:00	14:15:00	University Center	228
+70003	Wed	12:00:00	13:15:00	Sally Monserud Hall	204
+70275	Thu	14:30:00	16:00:00	Beatrice McDonald Hall	201
+70275	Tue	14:30:00	16:00:00	Beatrice McDonald Hall	201
+70004	Thu	13:00:00	14:15:00	Beatrice McDonald Hall	203
+70004	Tue	13:00:00	14:15:00	Beatrice McDonald Hall	203
+70002	Wed	16:00:00	17:15:00	Eugene Short Hall	119
+70002	Mon	16:00:00	17:15:00	Eugene Short Hall	119
+70003	Mon	12:00:00	13:15:00	Sally Monserud Hall	204
+70006	Tue	11:00:00	12:15:00	Professional Studies Bldg	207
+70005	Thu	15:00:00	16:15:00	Eagle River Center	122
+70005	Tue	15:00:00	16:15:00	Eagle River Center	122
+70006	Thu	11:00:00	12:15:00	Professional Studies Bldg	207
+70016	Wed	18:00:00	19:15:00	Beatrice McDonald Hall	113
+70016	Mon	18:00:00	19:15:00	Beatrice McDonald Hall	113
+70015	Thu	08:00:00	09:15:00	Social Sciences Building	108
+70015	Tue	08:00:00	09:15:00	Social Sciences Building	108
+76605	Mon	16:00:00	17:15:00	Eugene Short Hall	202
+76605	Wed	16:00:00	17:15:00	Eugene Short Hall	202
+70107	Wed	13:00:00	14:15:00	Sally Monserud Hall	218
+70107	Mon	13:00:00	14:15:00	Sally Monserud Hall	218
