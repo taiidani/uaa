@@ -1,5 +1,4 @@
 <?php
-namespace RND\UAA;
 
 require_once(__DIR__ . "/vendor/autoload.php");
 
@@ -15,6 +14,3 @@ spl_autoload_register(function($className) {
 		include($path);
 	}
 });
-
-define("FCPATH", __dir__);
-libs\Routes::handle($_SERVER['REQUEST_URI']);
