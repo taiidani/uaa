@@ -1,30 +1,31 @@
 <?php
+namespace RND\UAA\controllers;
 
-class Cs201 extends C {
+class Cs201 extends \RND\UAA\libs\Controller {
 
 	public function index() {
-		$this->render('cs201/index.twig');
+		$this->render('cs201/index');
 	}
 
 	public function schedule() {
-		$this->render('cs201/schedule.twig');
+		$this->render('cs201/schedule');
 	}
 
 	public function jobs() {
-		$this->render('cs201/jobs.twig');
+		$this->render('cs201/jobs');
 	}
 
 	public function examples() {
-		$this->render('cs201/examples.twig');
+		$this->render('cs201/examples');
 	}
 
 	public function assignments($assn = null) {
-		if(empty($assn)) $this->render('cs201/assignments.twig');	
-		else $this->render("cs201/assignments/$assn.twig");
+		if(empty($assn)) $this->render('cs201/assignments');	
+		else $this->render("cs201/assignments/$assn");
 	}
 
 	public function drills($num) {
-		$this->render("cs201/drills/$num.twig");
+		$this->render("cs201/drills/$num");
 	}
 
 	public function lectures($lecture, $format = null) {
@@ -52,7 +53,7 @@ class Cs201 extends C {
 				
 				//= is_file(FCPATH . "/views/cs201/lectures/$lecture.ogv");
 
-				$this->render("cs201/lectures/$lecture.twig", $params);
+				$this->render("cs201/lectures/$lecture", $params);
 		}
 	}
 
