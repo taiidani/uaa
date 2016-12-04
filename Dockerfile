@@ -16,9 +16,14 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && composer -V
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
+# And install the project packages
 COPY src/composer.json src/composer.lock /tmp/
 RUN cd /tmp && composer --ansi install -o
 
+# Environment variables
+ENV SENTRY_DSN=https://a115369e208847449cc6c05f4d332672:0ad536e676074277a1a9c2d6dfba6da6@sentry.io/119540
+
+# Install the codebase
 COPY build/nginx.conf /etc/nginx/nginx.conf
 COPY src /var/www
 RUN mv -f /tmp/vendor /var/www/vendor
