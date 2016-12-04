@@ -1,7 +1,0 @@
-<?php
-namespace RND\UAA;
-
-require_once(__DIR__ . "/../autoload.php");
-
-define("FCPATH", __dir__);
-libs\Routes::handle($_SERVER['REQUEST_URI']);

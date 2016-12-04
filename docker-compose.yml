@@ -1,15 +1,18 @@
 version: '2'
 
 services:
-  apache:
-    image: php:5.6.20-apache
+  web:
+    image: taiidani/uaa:latest
+    command: nginx -g "daemon off;"
+    depends_on: [php]
     ports:
       - "80:80"
     volumes:
-      - .:/var/www
+      - ./src/html:/var/www/html
 
-  composer:
-    image: composer/composer:latest
-    command: install
+  php:
+    build:
+      context: .
+    image: taiidani/uaa:latest
     volumes:
-      - .:/app
+      - ./src:/var/www
