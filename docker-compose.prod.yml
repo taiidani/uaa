@@ -1,0 +1,12 @@
+version: '3.1'
+
+services:
+  web:
+    image: taiidani/uaa:latest
+    command: nginx -g "daemon off;"
+    depends_on: [php]
+    ports:
+      - 10001:80
+
+  php:
+    image: taiidani/uaa:latest
