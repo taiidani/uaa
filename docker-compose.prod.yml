@@ -1,12 +1,23 @@
-version: '3.1'
+version: '3.3'
 
 services:
   web:
     image: taiidani/uaa:latest
     command: nginx -g "daemon off;"
     depends_on: [php]
-    ports:
-      - 10001:80
+    networks:
+      - default
+      - public
+    deploy:
+      labels:
+        - "traefik.frontend.rule=Host: uaa.ryannixon.com"
+        - "traefik.port=80"
+        - "traefik.docker.network=public"
 
   php:
     image: taiidani/uaa:latest
+
+networks:
+  public:
+    external:
+      name: traefik_default
