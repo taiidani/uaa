@@ -7,17 +7,16 @@ services:
     depends_on: [php]
     networks:
       - default
-      - public
+      - traefik_default
     deploy:
       labels:
         - "traefik.frontend.rule=Host: uaa.ryannixon.com"
         - "traefik.port=80"
-        - "traefik.docker.network=public"
+        - "traefik.docker.network=traefik_default"
 
   php:
     image: taiidani/uaa:latest
 
 networks:
-  public:
-    external:
-      name: traefik_default
+  traefik_default:
+    external: true
