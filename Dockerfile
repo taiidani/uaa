@@ -1,36 +1,34 @@
-FROM php:5.6-fpm-alpine
+FROM composer:latest AS composer
 
-RUN apk add --no-cache bash nginx \
+# Install the project packages
+WORKDIR /tmp
+COPY composer.json /tmp/
+RUN composer --ansi install
+
+FROM alpine:3.6 AS dist
+
+RUN apk add --no-cache bash curl tini nginx \
+        php7-fpm php7-json php7-ctype php7-mbstring php7-curl \
 	&& mkdir -p /run/nginx \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
-EXPOSE 80 443
+EXPOSE 80
 
-# Install confd for Nginx template rendering and Composer for PHP package dependencies
-ENV CONFD_VERSION=0.11.0 \
-    COMPOSER_ALLOW_SUPERUSER=1 \
-    COMPOSER_VERSION=1.3.0
-RUN curl -fSL -o /usr/local/bin/confd https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64 \
-    && chmod +x /usr/local/bin/confd \
-    && confd -version \
-    && curl -fSL -o /tmp/composer-setup.php https://getcomposer.org/installer \
-    && curl -fSL -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
-    && php -r "if (hash('SHA384', file_get_contents('/tmp/composer-setup.php')) !== trim(file_get_contents('/tmp/composer-setup.sig'))) { unlink('/tmp/composer-setup.php'); echo 'Invalid installer' . PHP_EOL; exit(1); }" \
-    && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION} \
-    && rm -rf /tmp/composer-setup.php \
-    && composer -V
-
-# And install the project packages
-COPY src/composer.json src/composer.lock /tmp/
-RUN cd /tmp && composer --ansi install -o
+# Healthcheck
+HEALTHCHECK --timeout=3s \
+    CMD curl http://localhost || exit 1
 
 # Environment variables
 ENV SENTRY_DSN=https://a115369e208847449cc6c05f4d332672:0ad536e676074277a1a9c2d6dfba6da6@sentry.io/119540
 
 # Install the codebase
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY build/nginx.conf /etc/nginx/nginx.conf
+COPY build/php-fpm.conf /etc/php7/php-fpm.d/zz-docker.conf
 COPY src /var/www
-RUN mv -f /tmp/vendor /var/www/vendor
+COPY --from=composer /tmp/vendor /var/www/vendor
 
 WORKDIR /var/www
+ENTRYPOINT [ "/sbin/tini" ]
+CMD [ "/docker-entrypoint.sh" ]

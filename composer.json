@@ -4,15 +4,15 @@
     "license": "proprietary",
     "autoload": {
         "psr-4": {
-            "RND\\UAA\\": "./"
+            "RND\\UAA\\": "/var/www/"
         }
     },
     "config": {
         "discard-changes": true
     },
 	"require": {
-		"twig/twig": "~1.12",
-		"nikic/fast-route": "~0.8",
-		"sentry/sentry": "^1.5"
+		"twig/twig": "^2.4",
+		"nikic/fast-route": "^1.2",
+		"sentry/sentry": "^1.7"
 	}
 }

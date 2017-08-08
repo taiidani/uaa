@@ -1,10 +1,8 @@
 version: '3.3'
 
 services:
-  web:
+  app:
     image: taiidani/uaa:latest
-    command: nginx -g "daemon off;"
-    depends_on: [php]
     networks:
       - default
       - traefik_default
@@ -13,9 +11,6 @@ services:
         - "traefik.frontend.rule=Host: uaa.ryannixon.com"
         - "traefik.port=80"
         - "traefik.docker.network=traefik_default"
-
-  php:
-    image: taiidani/uaa:latest
 
 networks:
   traefik_default:

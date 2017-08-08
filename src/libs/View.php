@@ -4,8 +4,6 @@ namespace RND\UAA\libs;
 class View {
 
 	public static function render($file, ViewBag $params) {
-		\Twig_Autoloader::register();
-
         $loader = new \Twig_Loader_Filesystem(__DIR__ . '/../views');
         $twig = new \Twig_Environment($loader, array(
             //'cache' => 'cache',

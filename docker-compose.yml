@@ -1,18 +1,8 @@
-version: '2'
+version: '3.3'
 
 services:
-  web:
+  app:
+    build: .
     image: taiidani/uaa:latest
-    command: nginx -g "daemon off;"
-    depends_on: [php]
     ports:
-      - "80:80"
-    volumes:
-      - ./src/html:/var/www/html
-
-  php:
-    build:
-      context: .
-    image: taiidani/uaa:latest
-    volumes:
-      - ./src:/var/www
+      - 80:80
