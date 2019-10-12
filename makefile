@@ -7,4 +7,4 @@ push: build
 	docker-compose push php
 
 deploy:
-	docker stack deploy --compose-file=docker-compose.prod.yml --with-registry-auth uaa
+	nomad job plan -address="http://157.245.181.195:4646" nomad.hcl
