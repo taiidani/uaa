@@ -18,7 +18,12 @@ job "uaa" {
         port = "http"
         tags = [
           "traefik.enable=true",
-          "traefik.frontend.rule=Host: uaa.ryannixon.com",
+          "traefik.http.routers.http.rule=Host(`uaa.ryannixon.com`)",
+          "traefik.http.routers.http.middlewares=redirect@consulcatalog",
+          "traefik.http.routers.site.rule=Host(`uaa.ryannixon.com`)",
+          "traefik.http.routers.site.tls=true",
+          "traefik.http.routers.site.tls.certresolver=le",
+          "traefik.http.middlewares.redirect.redirectscheme.scheme=https",
         ]
       }
 
