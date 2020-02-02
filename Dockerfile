@@ -5,7 +5,7 @@ WORKDIR /tmp
 COPY composer.json /tmp/
 RUN composer --ansi install
 
-FROM arm32v7/alpine:3.10 AS dist
+FROM alpine:3.10 AS dist
 
 RUN apk add --no-cache bash curl tini nginx \
     php7-fpm php7-json php7-ctype php7-mbstring php7-curl \
