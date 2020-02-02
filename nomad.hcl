@@ -1,5 +1,5 @@
 job "uaa" {
-  datacenters = ["do-sfo2"]
+  datacenters = ["pi"]
   type = "service"
 
   group "uaa" {

@@ -1,10 +1,10 @@
 .PHONY: build push deploy
 
 build:
-	docker-compose build
+	docker build -t taiidani/uaa:latest .
 
 push: build
-	docker-compose push php
+	docker push taiidani/uaa:latest
 
 deploy:
-	nomad job plan -address="http://157.245.181.195:4646" nomad.hcl
+	nomad job plan -address="http://10.0.1.2:4646" nomad.hcl
