@@ -20,9 +20,9 @@ job "uaa" {
           "traefik.enable=true",
           "traefik.http.routers.uaa.rule=Host(`uaa.ryannixon.com`)",
           "traefik.http.routers.uaa.middlewares=uaa@consulcatalog",
-          "traefik.http.routers.uaa.rule=Host(`uaa.ryannixon.com`)",
-          "traefik.http.routers.uaa.tls=true",
-          "traefik.http.routers.uaa.tls.certresolver=le",
+          "traefik.http.routers.uaasecure.rule=Host(`uaa.ryannixon.com`)",
+          "traefik.http.routers.uaasecure.tls=true",
+          "traefik.http.routers.uaasecure.tls.certresolver=le",
           "traefik.http.middlewares.uaa.redirectscheme.scheme=https",
         ]
       }
