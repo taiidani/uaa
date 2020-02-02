@@ -18,12 +18,12 @@ job "uaa" {
         port = "http"
         tags = [
           "traefik.enable=true",
-          "traefik.http.routers.http.rule=Host(`uaa.ryannixon.com`)",
-          "traefik.http.routers.http.middlewares=redirect@consulcatalog",
-          "traefik.http.routers.site.rule=Host(`uaa.ryannixon.com`)",
-          "traefik.http.routers.site.tls=true",
-          "traefik.http.routers.site.tls.certresolver=le",
-          "traefik.http.middlewares.redirect.redirectscheme.scheme=https",
+          "traefik.http.routers.uaa.rule=Host(`uaa.ryannixon.com`)",
+          "traefik.http.routers.uaa.middlewares=uaa@consulcatalog",
+          "traefik.http.routers.uaa.rule=Host(`uaa.ryannixon.com`)",
+          "traefik.http.routers.uaa.tls=true",
+          "traefik.http.routers.uaa.tls.certresolver=le",
+          "traefik.http.middlewares.uaa.redirectscheme.scheme=https",
         ]
       }
 
